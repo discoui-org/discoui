@@ -1,12 +1,29 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useMemo, useEffect } from 'react';
 import { createComponent } from '@lit/react';
 import * as DiscoCore from '@discoui/core';
 
 // --- DiscoApp Context ---
 const DiscoContext = createContext<any>(null);
 
-export const DiscoProvider: React.FC<{ config?: any; children: React.ReactNode }> = ({ config, children }) => {
+export const DiscoProvider: React.FC<{ 
+  config?: any; 
+  useCapacitor?: boolean;
+  children: React.ReactNode 
+}> = ({ config, useCapacitor, children }) => {
   const app = useMemo(() => new DiscoCore.DiscoApp(config), [config]);
+
+  useEffect(() => {
+    if (useCapacitor) {
+      // Theoretical integration with @discoui/capacitor
+      // In a real scenario, we would import { DiscoUI } from '@discoui/capacitor'
+      // and call DiscoUI.initialize() or set up listeners.
+      console.log('[DiscoUI/React] Capacitor integration enabled.');
+      
+      // Example: Handle back button if the plugin is available
+      // DiscoUI.addListener('backButton', () => { ... })
+    }
+  }, [useCapacitor]);
+
   return React.createElement(DiscoContext.Provider, { value: app }, children);
 };
 

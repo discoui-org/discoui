@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@discoui/capacitor": "*",
     "@discoui/core": "*",
     "@discoui/react": "*",
     "react": "^18.3.1",

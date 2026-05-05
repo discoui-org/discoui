@@ -1,0 +1,58 @@
+{
+  "name": "@discoui/core",
+  "version": "0.9.0",
+  "description": "Custom elements with vanilla JS, Shadow DOM, and SCSS",
+  "main": "dist/discoui.mjs",
+  "types": "src/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "assets/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "npx vite --host",
+    "build": "npx vite build",
+    "watch": "npx vite",
+    "types": "npx tsc -p tsconfig.types.json",
+    "start": "npm run dev",
+    "prepublishOnly": "npm run build",
+    "test": "npm run test:unit",
+    "test:unit": "npx vitest run",
+    "test:unit:watch": "npx vitest",
+    "test:e2e": "npx playwright test",
+    "version:patch": "npm version patch -m 'chore: release v%s'",
+    "version:minor": "npm version minor -m 'chore: release v%s'",
+    "version:major": "npm version major -m 'chore: release v%s'",
+    "release:patch": "npm run version:patch && git push && git push --tags",
+    "release:minor": "npm run version:minor && git push && git push --tags",
+    "release:major": "npm run version:major && git push && git push --tags"
+  },
+  "keywords": [
+    "web-components",
+    "shadow-dom",
+    "scss",
+    "webpack"
+  ],
+  "author": "discoui-org",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/discoui-org/discoui.git"
+  },
+  "dependencies": {
+    "@fontsource/open-sans": "^5.2.7",
+    "@olton/metroui": "^5.1.20",
+    "b-spline": "^2.0.2",
+    "sass": "^1.97.3",
+    "vite": "^7.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.1",
+    "jsdom": "^28.0.0",
+    "less": "^4.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowUnreachableCode": false,
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": false,
+    "esModuleInterop": true,
+    "inlineSources": true,
+    "lib": ["dom", "es2017"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "dist/esm",
+    "pretty": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017"
+  },
+  "files": ["src/index.js", "src/web.js", "src/types.js", "src/discoui-ambient.d.ts"]
+}

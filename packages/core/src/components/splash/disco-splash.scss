@@ -1,0 +1,21 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: var(--disco-accent, #d80073);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.splash-progress {
+  position: absolute;
+  top: var(--disco-inset-top, 0);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 4px;
+  display: block;
+}

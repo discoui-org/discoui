@@ -1,0 +1,52 @@
+@use '../ui-elements/disco-ui-element.scss' as ui;
+
+:host {
+  display: inline-block;
+}
+
+.button {
+  @include ui.disco-tilt;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  min-height: 40px;
+  border: 3px solid var(--disco-foreground);
+  background-color: var(--disco-background);
+  color: var(--disco-foreground);
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  box-sizing: border-box;
+  outline: none;
+  width: max-content;
+  height: min-content;
+
+  &[data-pressed] {
+    background-color: var(--disco-accent);
+    color: white;
+  }
+}
+
+:host([flat]) .button {
+  background-color: transparent;
+
+  &[data-pressed] {
+    background-color: var(--disco-accent);
+    color: #fff;
+  }
+}
+
+:host([block]) {
+  display: block;
+  width: 100%;
+}
+
+:host([block]) .button {
+  width: 100%;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--disco-foreground);
+  outline-offset: 2px;
+}

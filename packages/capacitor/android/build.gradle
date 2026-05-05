@@ -1,0 +1,160 @@
+ext {
+    junitVersion = project.hasProperty('junitVersion') ? rootProject.ext.junitVersion : '4.13.2'
+    androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.7.1'
+    androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.3.0'
+    androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.7.0'
+}
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.13.0'
+    }
+}
+
+apply plugin: 'com.android.library'
+
+import groovy.json.JsonSlurper
+
+android {
+    namespace = "io.github.cherryhoax.discoui.capacitor"
+    compileSdk = project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 36
+    defaultConfig {
+        minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 24
+        targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 36
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError = false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+
+    def generatedResDir = "$buildDir/generated/res/discoTheme"
+    sourceSets {
+        main {
+            res.srcDirs += [generatedResDir]
+        }
+    }
+
+    def discoConfigFile = new File(rootProject.projectDir, 'disco.config.json')
+    if (!discoConfigFile.exists() && rootProject.projectDir.parentFile != null) {
+        discoConfigFile = new File(rootProject.projectDir.parentFile, 'disco.config.json')
+    }
+    def discoTheme = 'auto'
+    if (discoConfigFile.exists()) {
+        try {
+            def parsed = new JsonSlurper().parse(discoConfigFile)
+            if (parsed?.theme instanceof String) {
+                discoTheme = parsed.theme
+            }
+        } catch (Exception ignored) {
+            // fall back to auto
+        }
+    }
+
+    def lightColor = '#FFFFFF'
+    def darkColor = '#000000'
+    def valuesColor = discoTheme == 'dark' ? darkColor : lightColor
+    def nightColor = discoTheme == 'light' ? lightColor : darkColor
+
+    def copyDiscoConfigToAssets = tasks.register('copyDiscoConfigToAssets') {
+        doLast {
+            if (!discoConfigFile.exists()) return
+            def appAssetsDir = new File(rootProject.projectDir, 'app/src/main/assets/public')
+            if (!appAssetsDir.exists()) appAssetsDir.mkdirs()
+            def target = new File(appAssetsDir, 'disco.config.json')
+            target.text = discoConfigFile.text
+
+            try {
+                def parsed = new JsonSlurper().parse(discoConfigFile)
+                def iconPaths = []
+                if (parsed?.icon instanceof String) iconPaths.add(parsed.icon)
+                if (parsed?.splash?.icon instanceof String) iconPaths.add(parsed.splash.icon)
+
+                iconPaths.findAll { it != null && it.toString().trim().length() > 0 }.each { rawPath ->
+                    def relPath = rawPath.toString().trim()
+                    if (relPath.startsWith('/')) relPath = relPath.substring(1)
+
+                    def appRoot = rootProject.projectDir.parentFile
+                    def publicPath = new File(appRoot, 'public/' + relPath)
+                    def directPath = new File(appRoot, relPath)
+                    def sourceFile = publicPath.exists() ? publicPath : directPath
+                    if (!sourceFile.exists()) return
+
+                    def destFile = new File(appAssetsDir, relPath)
+                    if (destFile.parentFile != null && !destFile.parentFile.exists()) {
+                        destFile.parentFile.mkdirs()
+                    }
+                    destFile.bytes = sourceFile.bytes
+                }
+            } catch (Exception ignored) {
+                // ignore asset copy failures
+            }
+        }
+    }
+
+    def generateDiscoColors = tasks.register('generateDiscoColors') {
+        doLast {
+            def staticValues = new File(project.projectDir, 'src/main/res/values/colors.xml')
+            def staticValuesNight = new File(project.projectDir, 'src/main/res/values-night/colors.xml')
+            if (staticValues.exists()) staticValues.delete()
+            if (staticValuesNight.exists()) staticValuesNight.delete()
+
+            def valuesDir = new File(generatedResDir + '/values')
+            def valuesNightDir = new File(generatedResDir + '/values-night')
+            valuesDir.mkdirs()
+            valuesNightDir.mkdirs()
+
+            def valuesXml = """<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<resources>
+    <color name=\"colorPrimary\">${valuesColor}</color>
+    <color name=\"colorPrimaryDark\">${valuesColor}</color>
+    <color name=\"colorAccent\">#D80073</color>
+</resources>
+"""
+            def valuesNightXml = """<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<resources>
+    <color name=\"colorPrimary\">${nightColor}</color>
+    <color name=\"colorPrimaryDark\">${nightColor}</color>
+    <color name=\"colorAccent\">#D80073</color>
+</resources>
+"""
+
+            new File(valuesDir, 'colors.xml').text = valuesXml
+            new File(valuesNightDir, 'colors.xml').text = valuesNightXml
+        }
+    }
+
+    preBuild.dependsOn(copyDiscoConfigToAssets)
+    preBuild.dependsOn(generateDiscoColors)
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':capacitor-android')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.core:core-splashscreen:1.0.1"
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+}

@@ -1,0 +1,43 @@
+$disco-color-lime: #A4C400;
+$disco-color-green: #60A917;
+$disco-color-emerald: #008A00;
+$disco-color-teal: #00ABA9;
+$disco-color-cyan: #1BA1E2;
+$disco-color-cobalt: #3E65FF;
+$disco-color-indigo: #6A00FF;
+$disco-color-violet: #AA00FF;
+$disco-color-pink: #F472D0;
+$disco-color-magenta: #D80073;
+$disco-color-crimson: #A20025;
+$disco-color-red: #E51400;
+$disco-color-orange: #FA6800;
+$disco-color-amber: #F0A30A;
+$disco-color-yellow: #E3C800;
+$disco-color-brown: #825A2C;
+$disco-color-olive: #6D8764;
+$disco-color-steel: #647687;
+$disco-color-mauve: #76608A;
+$disco-color-taupe: #87794E;
+
+:root {
+  --disco-color-lime: #{$disco-color-lime};
+  --disco-color-green: #{$disco-color-green};
+  --disco-color-emerald: #{$disco-color-emerald};
+  --disco-color-teal: #{$disco-color-teal};
+  --disco-color-cyan: #{$disco-color-cyan};
+  --disco-color-cobalt: #{$disco-color-cobalt};
+  --disco-color-indigo: #{$disco-color-indigo};
+  --disco-color-violet: #{$disco-color-violet};
+  --disco-color-pink: #{$disco-color-pink};
+  --disco-color-magenta: #{$disco-color-magenta};
+  --disco-color-crimson: #{$disco-color-crimson};
+  --disco-color-red: #{$disco-color-red};
+  --disco-color-orange: #{$disco-color-orange};
+  --disco-color-amber: #{$disco-color-amber};
+  --disco-color-yellow: #{$disco-color-yellow};
+  --disco-color-brown: #{$disco-color-brown};
+  --disco-color-olive: #{$disco-color-olive};
+  --disco-color-steel: #{$disco-color-steel};
+  --disco-color-mauve: #{$disco-color-mauve};
+  --disco-color-taupe: #{$disco-color-taupe};
+}

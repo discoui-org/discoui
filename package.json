@@ -1,0 +1,22 @@
+{
+  "name": "discoui-monorepo",
+  "private": true,
+  "description": "Monorepo for DiscoUI ecosystem",
+  "author": "discoui-org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/discoui-org/discoui.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "npm run dev --workspaces",
+    "test": "npm run test --workspaces"
+  },
+  "devDependencies": {
+    "rimraf": "^6.1.0"
+  }
+}

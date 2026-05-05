@@ -1,0 +1,27 @@
+@use '../ui-elements/disco-ui-element.scss' as ui;
+
+:host {
+  display: block;
+}
+
+.item {
+  @include ui.disco-tilt;
+  display: block;
+  padding: 24px 0px;
+  padding-top: 4px;
+  font-size: 34px;
+  font-weight: 300;
+}
+
+.item ::slotted(div.item-title) {
+  //font-size: 26px;
+  //line-height: 1.2;
+}
+
+.item ::slotted(div.item-description) {
+  //font-size: 18px;
+  opacity: 0.5;
+  //line-height: 1.2;
+  font-size: 20px;
+  margin-top: -5px;
+}

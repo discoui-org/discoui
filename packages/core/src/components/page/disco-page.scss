@@ -1,0 +1,19 @@
+@mixin disco-page-base {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: var(--disco-inset-top);
+  &[hidden] {
+    visibility: hidden !important;
+  }
+}
+
+disco-page {
+  @include disco-page-base;
+}

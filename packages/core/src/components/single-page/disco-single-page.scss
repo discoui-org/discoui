@@ -1,0 +1,94 @@
+@use '../ui-elements/disco-ui-element.scss' as ui;
+@use '../page/disco-page.scss' as page;
+
+:host {
+    @include page.disco-page-base;
+    background-color: var(--disco-background);
+    color: var(--disco-foreground);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    perspective: var(--disco-perspective);
+
+    * {
+        transform-style: preserve-3d;
+    }
+}
+
+.single-shell {
+    height: 100%;
+}
+
+.single-root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.app-title {
+    font-size: 22px;
+    text-transform: uppercase;
+    padding: 18px 24px 0;
+    letter-spacing: 0.05em;
+    opacity: 1;
+}
+
+.header-strip {
+    display: flex;
+    gap: 25px;
+    padding: 0px 24px 24px;
+    overflow: hidden;
+    scrollbar-width: none;
+}
+
+.header-strip::-webkit-scrollbar {
+    display: none;
+}
+
+.header-item {
+    font-size: 67px;
+    font-weight: 100;
+    white-space: nowrap;
+    text-transform: lowercase;
+}
+
+.content-viewport {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+    perspective: var(--disco-perspective);
+    perspective-origin: center;
+
+    @include ui.disco-fill-slotted-scrollables;
+}
+
+.content-viewport ::slotted(*) {
+    transform-style: preserve-3d;
+}
+
+.content-viewport::-webkit-scrollbar {
+    display: none;
+}
+
+.single-page-scrollview,
+.single-page-plain-content {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.single-page-plain-content {
+    box-sizing: border-box;
+    padding: 0 24px;
+}
+
+.single-page-scroll-content {
+    box-sizing: border-box;
+    min-height: 100%;
+    padding: 0 24px calc(120px + var(--disco-inset-bottom) + var(--disco-inset-top));
+}

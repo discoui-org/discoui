@@ -1,0 +1,92 @@
+{
+  "name": "@discoui/capacitor",
+  "version": "0.8.1",
+  "description": "well its disco ui. in android",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "types": "src/index.d.ts",
+  "unpkg": "src/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "bin": {
+    "dui": "scripts/dui.js",
+    "discouicapacitor": "scripts/dui.js"
+  },
+  "files": [
+    "android/src/main/",
+    "android/build.gradle",
+    "dist/",
+    "src/",
+    "scripts/"
+  ],
+  "author": "discoui-org",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/discoui-org/discouicapacitor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/discoui-org/discouicapacitor/issues"
+  },
+  "keywords": [
+    "capacitor",
+    "plugin",
+    "native"
+  ],
+  "scripts": {
+    "verify": "npm run verify:android && npm run verify:web",
+    "verify:android": "cd android && ./gradlew clean build test && cd ..",
+    "verify:web": "npm run build",
+    "lint": "npm run eslint && npm run prettier -- --check",
+    "fmt": "npm run eslint -- --fix && npm run prettier -- --write",
+    "eslint": "eslint . --ext js",
+    "prettier": "prettier \"**/*.{css,html,js,java,json}\" --plugin=prettier-plugin-java",
+    "docgen": "docgen --api DiscoUIPlugin --output-readme README.md --output-json dist/docs.json",
+    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
+    "build:android": "npm run build && cd example-app && npm ci && npm run build && npx cap sync android && cd android && ./gradlew assembleDebug",
+    "install:android": "npm run build:android && adb wait-for-device && adb install -r example-app/android/app/build/outputs/apk/debug/app-debug.apk",
+    "dev": "npm run watch",
+    "sync:local": "echo '✓ Synchronized via workspaces'",
+    "clean": "rimraf ./dist",
+    "watch": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "version:patch": "npm version patch -m 'chore: release v%s'",
+    "version:minor": "npm version minor -m 'chore: release v%s'",
+    "version:major": "npm version major -m 'chore: release v%s'",
+    "release:patch": "npm run version:patch && git push && git push --tags",
+    "release:minor": "npm run version:minor && git push && git push --tags",
+    "release:major": "npm run version:major && git push && git push --tags"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/docgen": "^0.3.1",
+    "@ionic/eslint-config": "^0.4.0",
+    "@ionic/prettier-config": "^4.0.0",
+    "eslint": "^8.57.1",
+    "prettier": "^3.6.2",
+    "prettier-plugin-java": "^2.7.7",
+    "rimraf": "^6.1.0",
+    "rollup": "^4.53.2",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@capacitor/core": ">=8.0.0"
+  },
+  "prettier": "@ionic/prettier-config",
+  "eslintConfig": {
+    "extends": "@ionic/eslint-config/recommended"
+  },
+  "capacitor": {
+    "android": {
+      "src": "android"
+    }
+  },
+  "dependencies": {
+    "@discoui/core": "*"
+  }
+}

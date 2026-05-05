@@ -1,0 +1,31 @@
+{
+  "name": "@discoui/vue",
+  "version": "0.1.0",
+  "description": "Vue 3 integration for DiscoUI",
+  "author": "discoui-org",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/discoui-org/discoui-vue.git"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npx vite build",
+    "dev": "npx vite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "dependencies": {
+    "@discoui/core": "*"
+  },
+  "devDependencies": {
+    "vue": "^3.4.0",
+    "vite": "^6.0.0",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "typescript": "^5.9.3"
+  }
+}

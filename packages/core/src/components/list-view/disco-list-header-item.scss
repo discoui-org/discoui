@@ -1,0 +1,58 @@
+@use '../ui-elements/disco-ui-element.scss' as ui;
+
+:host {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 12;
+    width: 100%;
+    border: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-align: left;
+    color: var(--disco-foreground);
+    background: var(--disco-background);
+    isolation: isolate;
+    perspective: var(--disco-perspective);
+    transform-style: preserve-3d;
+}
+
+:host .item {
+    padding: 10px 0;
+    font-size: 30px;
+    font-weight: 400;
+    background: var(--disco-background);
+
+}
+
+:host .item ::slotted(.group-header-label) {
+    pointer-events: none;
+}
+
+:host([data-group-style='custom']) .item {
+    text-transform: lowercase;
+    font-size: 25px;
+    font-weight: 300;
+}
+
+:host([data-group-kind='letter']) {
+    margin-right: 100%;
+    transform-style: flat;
+}
+
+:host([data-group-kind='letter']) .item {
+    background: var(--disco-background);
+    box-shadow: inset 0 0 0 3px var(--disco-accent);
+    color: var(--disco-accent);
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 5px 0;
+    width: 52px;
+    min-width: 52px;
+    min-height: 52px;
+    padding: 5px 8px;
+    box-sizing: border-box;
+    font-size: 30px;
+    font-weight: 350;
+}

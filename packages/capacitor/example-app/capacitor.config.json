@@ -1,0 +1,12 @@
+{
+  "appId": "com.example.plugin",
+  "appName": "example-app",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShow": false,
+      "launchAutoHide": false,
+      "androidScaleType": "CENTER_CROP"
+    }
+  }
+}

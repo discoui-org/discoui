@@ -1,0 +1,19 @@
+@use 'theme/colors/disco-colors.scss';
+@use 'components/app/disco-app.scss';
+@use 'components/frame/disco-frame.scss';
+@use 'components/splash/disco-splash.scss';
+@import '@olton/metroui/lib/icons.css';
+
+body {
+	margin: 0;
+	background-color: var(--disco-background);
+	color: var(--disco-foreground);
+}
+
+disco-frame {
+	display: none;
+}
+
+disco-frame[disco-launched] {
+	display: flex;
+}

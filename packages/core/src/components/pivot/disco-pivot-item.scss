@@ -1,0 +1,43 @@
+@use '../ui-elements/disco-ui-element.scss' as ui;
+
+:host {
+  flex: 0 0 100%;
+  height: 100%;
+  width: var(--disco-vw);
+  max-width: var(--disco-vw);
+  min-width: var(--disco-vw);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  box-sizing: border-box;
+  display: block;
+  * {
+    transform-style: preserve-3d;
+  }
+}
+
+.pivot-item-content {
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+
+  @include ui.disco-fill-slotted-scrollables;
+}
+
+.pivot-item-scrollview,
+.pivot-item-plain-content {
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  display: block;
+}
+
+.pivot-item-plain-content {
+  box-sizing: border-box;
+  padding: 0 24px;
+}
+
+.pivot-item-scroll-content {
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: 0 24px calc(120px + var(--disco-inset-bottom) + var(--disco-inset-top));
+}

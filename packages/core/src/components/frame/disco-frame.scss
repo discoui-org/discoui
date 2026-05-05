@@ -1,0 +1,46 @@
+@use '../ui-elements/disco-ui-element.scss' as ui;
+
+disco-frame {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  left: 0;
+  top: 0;
+  width: var(--disco-vw);
+  height: var(--disco-vh);
+  box-sizing: border-box;
+  font-family: var(--disco-font);
+  background-color: var(--disco-background);
+  perspective-origin: center;
+  perspective: var(--disco-perspective);
+  zoom: var(--disco-scale, 0.8);
+
+  >*[hidden] {
+    display: none !important;
+  }
+
+  &[disco-launched] {
+    display: flex;
+  }
+
+  * {
+    user-select: none;
+    user-drag: none;
+    -webkit-user-drag: none;
+    -webkit-user-drag: none;
+    transform-style: preserve-3d !important;
+
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    &:-moz-scrollbar {
+      display: none;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+  }
+}

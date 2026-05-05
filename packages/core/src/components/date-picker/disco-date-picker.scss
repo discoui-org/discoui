@@ -1,0 +1,23 @@
+@use '../looping-selector/disco-looping-selector.scss' as slider;
+
+@include slider.disco-looping-selector('date-picker');
+
+:host {
+    --smallest-viewport: calc(min(min(var(--disco-vw), var(--disco-vh)), 720px));
+    --date-picker-tile-width: calc((var(--smallest-viewport) - 48px - var(--date-picker-gap) * 2) / 3);
+    --date-picker-tile-height: var(--date-picker-tile-width);
+}
+
+.date-picker-item {
+    align-items: start;
+    justify-content: end;
+    padding: 7px 7px;
+}
+
+.date-picker-primary {
+    font-size: 50px;
+}
+
+.date-picker-secondary {
+    font-size: 18px;
+}

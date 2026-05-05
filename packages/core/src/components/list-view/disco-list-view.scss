@@ -1,0 +1,23 @@
+@use '../ui-elements/disco-ui-element.scss' as ui;
+@use '../scroll-view/disco-scroll-view.scss' as scroll;
+
+@include scroll.disco-scroll-view-base;
+
+:host .scroll-content {
+  padding-bottom: calc(120px + var(--disco-inset-bottom) + var(--disco-inset-top));
+  box-sizing: border-box;
+}
+
+.list {
+  display: block;
+  transform-style: preserve-3d;
+}
+
+.group-section {
+  display: block;
+}
+
+::slotted(disco-list-item) {
+  @include ui.disco-tilt;
+  display: block;
+}

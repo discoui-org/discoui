@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" disco-theme="dark" disco-accent="#008a00">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disco Components</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        * {
+            user-select: none;
+            user-drag: none;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        #disco-device {
+            width: 600px;
+            height: 1100px;
+            display: block;
+            background-image: url('./disco-device.svg');
+            position: absolute;
+        }
+
+        #disco-device .back-hit {
+            position: absolute;
+            left: 86.5px;
+            top: 950px;
+            width: 34px;
+            height: 34px;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #disco-device .home-hit {
+            position: absolute;
+            left: 283px;
+            top: 950px;
+            width: 34px;
+            height: 34px;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #disco-device iframe {
+            position: absolute;
+            left: 53.9px;
+            top: 93.9px;
+            width: 492.1px;
+            height: 820.2px;
+            filter: brightness(1.1) contrast(0.9);
+        }
+
+        body.fullscreen-iframe #disco-device {
+            width: 100vw;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            transform: none !important;
+            background-image: none;
+        }
+
+        body.fullscreen-iframe #disco-device .back-hit,
+        body.fullscreen-iframe #disco-device .home-hit {
+            display: none;
+        }
+
+        body.fullscreen-iframe #fullscreenIframe {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            border: 0;
+            filter: none;
+            z-index: 10;
+        }
+
+        .fullscreen-link {
+            position: absolute;
+            left: 50%;
+            bottom: 16px;
+            transform: translateX(-50%);
+            padding: 10px 16px;
+            background: #2b2b2b;
+            color: #fff;
+            text-decoration: none;
+            border: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            z-index: 11;
+        }
+
+        .fullscreen-link:hover {
+            background: #3a3a3a;
+        }
+    </style>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+</head>
+
+<body>
+    <div id="disco-device">
+        <button class="back-hit" aria-label="Back"></button>
+        <button class="home-hit" aria-label="Home"></button>
+        <iframe id="fullscreenIframe" src="./example.html" frameborder="0"></iframe>
+    </div>
+    <button class="fullscreen-link" id="fullscreenToggle">Click here for full screen experience</button>
+    <script>
+        //set scale of app inside iframe to 1.025 window.app.scale=1.025
+        const iframe = document.querySelector('#disco-device iframe');
+        const backButton = document.querySelector('#disco-device .back-hit');
+        const homeButton = document.querySelector('#disco-device .home-hit');
+        const fullscreenToggle = document.getElementById('fullscreenToggle');
+        backButton.addEventListener('click', () => {
+            iframe.contentWindow.frame.goBack();
+        });
+        homeButton.addEventListener('click', () => {
+            const frame = iframe.contentWindow?.frame;
+            const homePage = iframe.contentWindow?.homePage;
+            if (frame && homePage) {
+                frame.navigate(homePage);
+            }
+        });
+        fullscreenToggle.addEventListener('click', () => {
+            const isFullscreen = document.body.classList.toggle('fullscreen-iframe');
+            fullscreenToggle.textContent = isFullscreen
+                ? 'Exit full screen'
+                : 'Click here for full screen experience';
+        });
+        //keep device in center and scale on window resize
+        function resize() {
+            const device = document.getElementById('disco-device');
+            const scale = Math.min(window.innerWidth / 600, window.innerHeight / 1100, .75);
+            device.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            device.style.left = '50%';
+            device.style.top = '50%';
+        }
+        window.addEventListener('resize', resize);
+        resize();
+    </script>
+</body>
+
+</html>

@@ -3,6 +3,7 @@ import listViewStyles from './disco-list-view.scss';
 import DiscoLongListSelector from '../long-list-selector/disco-long-list-selector.js';
 import './disco-list-item.js';
 import './disco-list-header-item.js';
+import DiscoAnimations from '../../theme/animations/disco-animations.js';
 
 /**
  * @typedef {object} DiscoListItemClickDetail
@@ -42,6 +43,22 @@ class DiscoListView extends DiscoScrollView {
     this.addEventListener('click', (event) => this._handleClick(event));
     this.addEventListener('keydown', (event) => this._handleKeydown(event));
     this.addEventListener('keyup', (event) => this._handleKeyup(event));
+
+    // Reactive Observer: Watch for static children changes (e.g. from Vue v-for)
+    this._childObserver = new MutationObserver((mutations) => {
+      const addedNodes = mutations.flatMap(m => Array.from(m.addedNodes))
+        .filter(n => n instanceof HTMLElement && (n.tagName === 'DISCO-LIST-ITEM' || n.tagName === 'DISCO-LIST-HEADER-ITEM'));
+
+      this._syncStaticVisibility();
+      this._syncItemInteractivity();
+
+      // Filter out items that already played entrance
+      const newItems = addedNodes.filter(node => !node.hasAttribute('data-entrance-played'));
+
+      if (newItems.length > 0) {
+        this._handleLateArrivals(newItems);
+      }
+    });
   }
 
   connectedCallback() {
@@ -50,6 +67,23 @@ class DiscoListView extends DiscoScrollView {
       this.removeAttribute('direction');
     }
     this.setAttribute('role', 'list');
+
+    this._childObserver.observe(this, { childList: true });
+    this._syncStaticVisibility();
+    this._syncItemInteractivity();
+
+    // Catch initial children that MutationObserver missed
+    const initialItems = Array.from(this.querySelectorAll('disco-list-item, disco-list-header-item'))
+      .filter(node => node instanceof HTMLElement && !node.hasAttribute('data-entrance-played'));
+    
+    if (initialItems.length > 0) {
+      this._handleLateArrivals(/** @type {HTMLElement[]} */ (initialItems));
+    }
+  }
+
+  disconnectedCallback() {
+    if (super.disconnectedCallback) super.disconnectedCallback();
+    this._childObserver.disconnect();
   }
 
   /**
@@ -398,6 +432,30 @@ class DiscoListView extends DiscoScrollView {
     if (this._slot) this._slot.style.display = hasDynamic ? 'none' : '';
     if (this._list) this._list.style.display = hasDynamic ? '' : 'none';
     this._syncItemInteractivity();
+  }
+
+  /**
+   * @param {HTMLElement[]} nodes
+   */
+  async _handleLateArrivals(nodes) {
+    // Add a tiny delay to ensure browser layout and Vue stability
+    await new Promise(resolve => requestAnimationFrame(resolve));
+
+    const page = this.closest('disco-page, disco-pivot-page, disco-hub-page');
+    const isAnimating = page?.hasAttribute('data-animating') || page?.classList.contains('animating-in');
+
+    if (isAnimating) {
+      nodes.forEach(node => node.setAttribute('data-entrance-played', 'true'));
+      await DiscoAnimations.animateEntrance(nodes, { direction: 'forward' });
+    } else {
+      // If page is already shown, check if we should animate individually
+      nodes.forEach(node => {
+        if (!node.hasAttribute('data-entrance-played')) {
+          node.setAttribute('data-entrance-played', 'true');
+          DiscoAnimations.animateEntrance(node, { direction: 'forward' });
+        }
+      });
+    }
   }
 
   _renderDynamic() {

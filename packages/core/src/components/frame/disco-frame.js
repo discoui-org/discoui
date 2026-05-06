@@ -19,10 +19,68 @@ class DiscoFrame extends DiscoUIElement {
     this._predictiveActive = false;
   }
 
+  static get observedAttributes() {
+    return ['initial-page', 'disable-history', 'history-key'];
+  }
+
   connectedCallback() {
+    super.connectedCallback();
     if (this._historyEnabled && !this._historyListenerAttached && typeof window !== 'undefined') {
       window.addEventListener('popstate', this._onPopState);
       this._historyListenerAttached = true;
+    }
+
+    // Atomic Ignition: Use MutationObserver to wait for the initial page target
+    const initial = this.getAttribute('initial-page');
+    if (initial && this.history.length === 0) {
+      this._observeInitialPage(initial);
+    }
+  }
+
+  _observeInitialPage(id) {
+    // If already there, navigate immediately
+    const page = this.querySelector(`#${id}`) || this.querySelector(id);
+    if (page) {
+      this._autoNavigate(id);
+      return;
+    }
+
+    // Otherwise, watch for it
+    const observer = new MutationObserver((mutations, obs) => {
+      const target = this.querySelector(`#${id}`) || this.querySelector(id);
+      if (target) {
+        obs.disconnect();
+        this._autoNavigate(id);
+      }
+    });
+
+    observer.observe(this, { childList: true, subtree: true });
+
+    // Fail-safe: if not found in 2s, just launch anyway
+    setTimeout(() => {
+      observer.disconnect();
+      if (!this.hasAttribute('disco-launched') && this.history.length === 0) {
+        this.setAttribute('disco-launched', 'true');
+      }
+    }, 2000);
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'initial-page' && newValue && oldValue !== newValue) {
+      if (this.isConnected && this.history.length === 0) {
+        this._autoNavigate(newValue);
+      }
+    }
+  }
+
+  async _autoNavigate(id) {
+    // One last check
+    const page = this.querySelector(`#${id}`) || this.querySelector(id);
+    if (page) {
+      await this.navigate(page);
+    } else {
+      console.warn(`DiscoFrame: initial-page target "${id}" not found.`);
+      this.setAttribute('disco-launched', 'true');
     }
   }
 
@@ -86,11 +144,18 @@ class DiscoFrame extends DiscoUIElement {
    */
   async navigate(page) {
     if (!page) return;
-    if (this.historyIndex < this.history.length - 1) {
-      this.history = this.history.slice(0, this.historyIndex + 1);
+
+    // Ensure frame is visible before animation starts
+    if (!this.hasAttribute('disco-launched')) {
+      this.setAttribute('disco-launched', 'true');
+      // Wait a frame to ensure display: flex is applied
+      await new Promise(requestAnimationFrame);
     }
 
+    this.classList.add('transitioning');
     await this._transitionTo(page, { direction: 'forward' });
+    this.classList.remove('transitioning');
+
     this.history.push(page);
     this.historyIndex = this.history.length - 1;
     this._pushHistoryState();

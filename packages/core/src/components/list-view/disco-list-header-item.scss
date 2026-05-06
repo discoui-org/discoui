@@ -15,6 +15,7 @@
     isolation: isolate;
     perspective: var(--disco-perspective);
     transform-style: preserve-3d;
+    opacity: 0; // Default hidden for entrance animation
 }
 
 :host .item {

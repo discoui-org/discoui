@@ -91,7 +91,12 @@ const isElementVisible = (element, container) => {
 const buildListAnimationQueue = (targets) => {
     const items = Array.isArray(targets) ? targets : [];
     return items
-        .filter((target) => target && isElementVisible(target, getScrollContainer(target)))
+        .filter((target) => {
+            if (!(target instanceof HTMLElement)) return false;
+            // In reactive frameworks, elements might be added before they are fully sized
+            // but we still want to animate them if they are part of the active view.
+            return target.isConnected;
+        })
         .map((target, index) => {
             const isHeader = target instanceof HTMLElement
                 && target.tagName === 'DISCO-LIST-HEADER-ITEM';
@@ -176,53 +181,56 @@ const animationSet = {
          * @returns {Promise<void>}
          */
         in: async (target, options = { direction: 'forward' }) => {
-            resetAnimation(target);
             const animation = options.direction === 'forward' ? DiscoAnimations.animate(
                 target,
                 [
                     {
-                        opacity: 1,
+                        opacity: 0,
                         transformOrigin: 'left center',
-                        transform: `translateX(${DiscoAppDelegate.width / 8}px) rotateY(80deg) translateX(${DiscoAppDelegate.width / 5}px)`
+                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(${DiscoAppDelegate.width / 8}px) rotateY(80deg) translateX(${DiscoAppDelegate.width / 5}px)`
                     },
                     {
-                        transform: `translateX(${DiscoAppDelegate.width / 16}px) rotateY(40deg) translateX(${DiscoAppDelegate.width / 8}px)`
+                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(${DiscoAppDelegate.width / 16}px) rotateY(40deg) translateX(${DiscoAppDelegate.width / 8}px)`
                     },
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `translateX(0px) rotateY(0deg) translateX(0px)`
+                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(0px) rotateY(0deg) translateX(0px)`
                     }
                 ],
                 {
                     duration: 300,
                     easing: DiscoAnimations.easeOutQuart,
                     spline: true,
-                    fill: 'none'
+                    fill: 'forwards'
                 }
             ) : DiscoAnimations.animate(
                 target,
                 [
                     {
-                        opacity: 1,
+                        opacity: 0,
                         transformOrigin: 'left center',
-                        transform: `translateX(${-DiscoAppDelegate.width / 2}px) rotateY(-180deg) translateX(0px)`
+                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(${-DiscoAppDelegate.width / 2}px) rotateY(-180deg) translateX(0px)`
                     },
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `translateX(0px) rotateY(0deg) translateX(0px)`
+                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(0px) rotateY(0deg) translateX(0px)`
                     }
                 ],
                 {
                     duration: 300,
                     easing: DiscoAnimations.easeOutQuart,
                     spline: true,
-                    fill: 'none'
+                    fill: 'forwards'
                 }
             );
             await animation.finished;
             resetAnimation(target);
+            if (target instanceof HTMLElement) {
+                target.style.opacity = '1';
+                target.style.visibility = 'visible';
+            }
         },
 
         /**
@@ -1428,6 +1436,38 @@ const DiscoAnimations = {
         const easing = rest.easing;
         return target.animate(frames, { ...rest, easing });
     },
+
+    /**
+     * Public API to animate entrance for elements.
+     * Handles staggering and page-context awareness.
+     * @param {Element | Element[]} targets
+     * @param {DiscoPageAnimationOptions} [options]
+     * @returns {Promise<void>}
+     */
+    animateEntrance: async (targets, options = { direction: 'forward' }) => {
+        const items = Array.isArray(targets) ? targets : [targets];
+        if (items.length === 0) return;
+
+        // Force reset before entrance
+        items.forEach((item) => {
+            if (item instanceof HTMLElement) {
+                item.style.opacity = '0';
+                resetAnimation(item);
+            }
+        });
+
+        // Ensure we are using the list entrance set if multiple items
+        if (items.length > 1) {
+            await animationSet.list.in(items, options);
+        } else {
+            await animationSet.page.in(items[0], options);
+        }
+    },
+
     animationSet
 };
+
+/** @type {any} */
+(window).DiscoAnimations = DiscoAnimations;
+
 export default DiscoAnimations;

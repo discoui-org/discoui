@@ -385,6 +385,11 @@ const animationSet = {
          */
         in: async (targets, options = { direction: 'none' }) => {
             if (!targets || targets.length === 0) return;
+
+            // Layout Breath: Yield to the browser to ensure layout has been calculated
+            // after visibility changes (critical for framework-cached pages).
+            await new Promise(resolve => requestAnimationFrame(resolve));
+
             const container = getScrollContainer(targets[0]);
             let visibleIndex = 0;
             const MAX_STAGGER_ITEMS = 12;

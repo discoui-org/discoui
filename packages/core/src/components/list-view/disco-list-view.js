@@ -103,6 +103,23 @@ class DiscoListView extends DiscoScrollView {
   }
 
   /**
+   * Returns all items within the list that should participate in entrance/exit animations.
+   * This includes both Light DOM children (common in frameworks like Vue) and
+   * Shadow DOM items (common in template-based rendering).
+   * @returns {HTMLElement[]}
+   */
+  getAnimationTargets() {
+    const selector = 'disco-list-header-item, disco-list-item, disco-list-view-item, [data-list-index]';
+    const lightItems = Array.from(this.querySelectorAll(selector));
+    const shadowItems = this._list
+      ? Array.from(this._list.querySelectorAll(selector))
+      : [];
+
+    const all = [...lightItems, ...shadowItems];
+    return /** @type {HTMLElement[]} */ (all.filter(n => n instanceof HTMLElement));
+  }
+
+  /**
    * @returns {unknown[]}
    */
   get items() {
@@ -448,20 +465,21 @@ class DiscoListView extends DiscoScrollView {
     await new Promise(resolve => requestAnimationFrame(resolve));
 
     const page = this.closest('disco-page, disco-pivot-page, disco-hub-page');
-    const isAnimating = page?.hasAttribute('data-animating') || page?.classList.contains('animating-in');
+    const isAnimating = page?.hasAttribute('data-animating') || page?.classList.contains('animating-in') || page?.classList.contains('animating-out');
 
     if (isAnimating) {
-      nodes.forEach(node => node.setAttribute('data-entrance-played', 'true'));
-      await DiscoAnimations.animateEntrance(nodes, { direction: 'forward' });
-    } else {
-      // If page is already shown, check if we should animate individually
-      nodes.forEach(node => {
-        if (!node.hasAttribute('data-entrance-played')) {
-          node.setAttribute('data-entrance-played', 'true');
-          DiscoAnimations.animateEntrance(node, { direction: 'forward' });
-        }
-      });
+      // Let the Page component handle the orchestration. 
+      // We don't trigger the animation ourselves.
+      return;
     }
+
+    // If page is already shown, check if we should animate individually
+    nodes.forEach(node => {
+      if (!node.hasAttribute('data-entrance-played')) {
+        node.setAttribute('data-entrance-played', 'true');
+        DiscoAnimations.animateEntrance(node, { direction: 'forward' });
+      }
+    });
   }
 
   _renderDynamic() {

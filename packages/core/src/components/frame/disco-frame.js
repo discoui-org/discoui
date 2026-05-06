@@ -287,6 +287,12 @@ class DiscoFrame extends DiscoUIElement {
     if (!this.contains(page)) {
       this.appendChild(page);
     }
+
+    // Silent Purge: Reset entrance flags for 'forward' navigation so cached pages can re-animate.
+    if (options.direction === 'forward') {
+      page.querySelectorAll('[data-entrance-played]').forEach(el => el.removeAttribute('data-entrance-played'));
+    }
+
     this._setPageVisibility(page, true);
     this._hideInactivePages(page);
 

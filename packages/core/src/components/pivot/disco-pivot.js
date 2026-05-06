@@ -166,9 +166,8 @@ class DiscoPivotPage extends DiscoPage {
 
     return contentChildren.map((child) => {
       if (child.tagName === 'DISCO-LIST-VIEW') {
-        const listRoot = child.shadowRoot;
-        const listItems = listRoot
-          ? Array.from(listRoot.querySelectorAll('disco-list-header-item, disco-list-item, disco-list-view-item, [data-list-index]'))
+        const listItems = typeof (/** @type {any} */ (child)).getAnimationTargets === 'function'
+          ? (/** @type {any} */ (child)).getAnimationTargets()
           : [];
         return {
           target: child,

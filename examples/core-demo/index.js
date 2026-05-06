@@ -603,6 +603,7 @@ const launchDemo = async () => {
 
   app.launch(frame);
   frame.navigate(homePage);
+  document.body.classList.add('ready');
 };
 
 DiscoApp.ready(launchDemo);

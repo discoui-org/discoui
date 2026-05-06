@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disco UI Emulator</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #disco-device {
+            width: 600px;
+            height: 1100px;
+            display: block;
+            background-image: url('./disco-device.svg');
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0.75);
+        }
+
+        #disco-device .back-hit,
+        #disco-device .home-hit {
+            position: absolute;
+            width: 34px;
+            height: 34px;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #disco-device .back-hit {
+            left: 86.5px;
+            top: 950px;
+        }
+
+        #disco-device .home-hit {
+            left: 283px;
+            top: 950px;
+        }
+
+        #disco-device iframe {
+            position: absolute;
+            left: 53.9px;
+            top: 93.9px;
+            width: 492.1px;
+            height: 820.2px;
+            filter: brightness(1.1) contrast(0.9);
+            border: 0;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="disco-device">
+        <button class="back-hit" aria-label="Back" id="backButton"></button>
+        <button class="home-hit" aria-label="Home" id="homeButton"></button>
+        <iframe id="appIframe"></iframe>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetApp = urlParams.get('app') || 'http://localhost:5173/';
+        const iframe = document.getElementById('appIframe');
+        iframe.src = targetApp;
+
+        const backButton = document.getElementById('backButton');
+        const homeButton = document.getElementById('homeButton');
+
+        backButton.addEventListener('click', () => {
+            iframe.contentWindow.postMessage({ type: 'DISCO_HW_BTN', action: 'goBack' }, '*');
+        });
+
+        homeButton.addEventListener('click', () => {
+            iframe.contentWindow.postMessage({ type: 'DISCO_HW_BTN', action: 'goHome' }, '*');
+        });
+
+        function resize() {
+            const device = document.getElementById('disco-device');
+            const scale = Math.min(window.innerWidth / 600, window.innerHeight / 1100, 0.75);
+            device.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+    </script>
+</body>
+</html>

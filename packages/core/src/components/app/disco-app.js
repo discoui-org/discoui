@@ -64,6 +64,22 @@ const injectFontStyles = (() => {
 injectThemeStyles();
 injectFontStyles();
 
+if (typeof window !== 'undefined') {
+  window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'DISCO_HW_BTN') {
+      const frame = document.querySelector('disco-frame');
+      if (!frame) return;
+
+      if (event.data.action === 'goBack') {
+        frame.goBack();
+      } else if (event.data.action === 'goHome') {
+        const home = document.getElementById('homePage') || document.querySelector('disco-pivot-page') || document.getElementById('componentsHome');
+        if (home) frame.navigate(home);
+      }
+    }
+  });
+}
+
 /**
  * App-level orchestrator for Disco UI themes and boot flow.
  * @public

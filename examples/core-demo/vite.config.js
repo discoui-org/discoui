@@ -16,6 +16,10 @@ const cssInlinePlugin = () => ({
 
 export default defineConfig({
   plugins: [cssInlinePlugin()],
+  server: {
+    port: 5173,
+    strictPort: true
+  },
   resolve: {
     alias: {
       '@discoui/core/dist/discoui.css': path.resolve(__dirname, '../../packages/core/dist/discoui.css'),

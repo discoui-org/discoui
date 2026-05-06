@@ -13,10 +13,11 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "dev": "npm run dev --workspaces",
+    "dev": "concurrently \"npm run dev -w examples/core-demo\" \"npm run dev -w examples/emulator\"",
     "test": "npm run test --workspaces"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "rimraf": "^6.1.0"
   }
 }

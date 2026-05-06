@@ -1,6 +1,13 @@
 # DiscoUI Ecosystem
 
-A modern, framework-agnostic UI library built with Vanilla JavaScript, Shadow DOM, and SCSS. This monorepo contains the core library, its Capacitor bridge, and various framework wrappers.
+A modern, framework-agnostic UI library built with Vanilla JavaScript, Shadow DOM, and SCSS.
+
+### ✨ Highlights
+- **Full Framework Sync**: Perfectly synchronized animation engine for both Vanilla JS and framework-cached environments (Vue, React).
+- **Metro-Grade Motion**: Battle-tested staggering and transition logic that respects layout cycles and DOM boundaries.
+- **Production Ready**: Optimized for performance with built-in "Layout Breath" and "Boundary Piercer" technologies.
+
+For deep technical insights on how we solved complex cross-framework animation challenges, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 ## 🚀 Packages
 

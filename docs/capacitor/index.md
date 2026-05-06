@@ -7,8 +7,8 @@ DiscoUI Capacitor bundles the DiscoUI Web Components into a Capacitor plugin for
 ## Sections
 
 - [Getting Started](getting-started.md)
-- [Vibe Coding](vibe-coding/index.md)
+- [Vibe Coding](../vibe-coding/index.md)
 - [Configuration](configuration.md)
 - [API](api.md)
-- [DiscoUI Docs](https://github.com/cherryhoax/DiscoUI/blob/main/docs/index.md) - Core library overview and guides.
-- [DiscoUI Components](https://github.com/cherryhoax/DiscoUI/blob/main/docs/components/index.md) - Component-by-component documentation.
+- [Core Library Overview](../index.md)
+- [DiscoUI Components](../components/index.md)

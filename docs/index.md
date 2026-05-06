@@ -5,8 +5,7 @@ Welcome to the documentation for **DiscoUI**, a Metro-inspired mobile shell libr
 ## Sections
 
 - [Getting Started](getting-started.md)
-- [Vibe Coding](vibe-coding/index.md)
 - [Components](components/index.md)
+- [Capacitor Integration](capacitor/index.md)
 - [Theming](theming.md)
 - [API Reference](api/index.md)
-- [DiscoUI Capacitor Docs](https://github.com/cherryhoax/DiscoUICapacitor/blob/main/docs/index.md) - Capacitor plugin setup, config, and API.

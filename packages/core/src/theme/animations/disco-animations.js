@@ -141,25 +141,25 @@ const animationSet = {
             if (!animation) {
                 resetAnimation(target);
                 animation = DiscoAnimations.animate(
-                target,
-                [
+                    target,
+                    [
+                        {
+                            opacity: 1,
+                            transformOrigin: 'left center',
+                            transform: `translateX(0px) rotateY(0deg) translateX(0px)`
+                        },
+                        {
+                            opacity: 1,
+                            transformOrigin: 'left center',
+                            transform: `translateX(${DiscoAppDelegate.width / 8}px) rotateY(90deg) translateX(${DiscoAppDelegate.width / 5}px)`
+                        }
+                    ],
                     {
-                        opacity: 1,
-                        transformOrigin: 'left center',
-                        transform: `translateX(0px) rotateY(0deg) translateX(0px)`
-                    },
-                    {
-                        opacity: 1,
-                        transformOrigin: 'left center',
-                        transform: `translateX(${DiscoAppDelegate.width / 8}px) rotateY(90deg) translateX(${DiscoAppDelegate.width / 5}px)`
-                    }
-                ],
-                {
-                    duration: 150,
-                    easing: DiscoAnimations.easeInQuad,
-                    fill: 'none',
-                    spline: true
-                });
+                        duration: 150,
+                        easing: DiscoAnimations.easeInQuad,
+                        fill: 'none',
+                        spline: true
+                    });
                 animation.pause();
                 cache.set(target, animation);
             }
@@ -185,7 +185,7 @@ const animationSet = {
                 target,
                 [
                     {
-                        opacity: 0,
+                        opacity: 1,
                         transformOrigin: 'left center',
                         transform: `perspective(${DiscoAppDelegate.perspective}) translateX(${DiscoAppDelegate.width / 8}px) rotateY(80deg) translateX(${DiscoAppDelegate.width / 5}px)`
                     },
@@ -208,7 +208,7 @@ const animationSet = {
                 target,
                 [
                     {
-                        opacity: 0,
+                        opacity: 1,
                         transformOrigin: 'left center',
                         transform: `perspective(${DiscoAppDelegate.perspective}) translateX(${-DiscoAppDelegate.width / 2}px) rotateY(-180deg) translateX(0px)`
                     },
@@ -384,12 +384,37 @@ const animationSet = {
          * @returns {Promise<void>}
          */
         in: async (targets, options = { direction: 'none' }) => {
+            if (!targets || targets.length === 0) return;
+            const container = getScrollContainer(targets[0]);
+            let visibleIndex = 0;
+            const MAX_STAGGER_ITEMS = 12;
+
             const animationItems = buildListAnimationQueue(targets)
-                .map((item, index) => ({
-                    target: item.target,
-                    delay: index * 40,
-                    run: () => animationSet.page.in(item.target, options)
-                }));
+                .map((item) => {
+                    const isVisible = isElementVisible(item.target, container);
+                    let delay = 0;
+
+                    if (isVisible) {
+                        delay = Math.min(visibleIndex++, MAX_STAGGER_ITEMS) * 40;
+                    }
+
+                    return {
+                        target: item.target,
+                        delay,
+                        run: async () => {
+                            if (!isVisible) {
+                                // Off-screen items should just appear instantly to save resources
+                                resetAnimation(item.target);
+                                if (item.target instanceof HTMLElement) {
+                                    item.target.style.opacity = '1';
+                                    item.target.style.visibility = 'visible';
+                                }
+                                return;
+                            }
+                            return animationSet.page.in(item.target, options);
+                        }
+                    };
+                });
 
             await DiscoAnimations.animateAll(animationItems, true);
         },
@@ -400,12 +425,34 @@ const animationSet = {
          * @returns {Promise<void>}
          */
         out: async (targets, options = { direction: 'forward' }) => {
+            if (!targets || targets.length === 0) return;
+            const container = getScrollContainer(targets[0]);
+            let visibleIndex = 0;
+            const MAX_STAGGER_ITEMS = 8;
+
             const animationItems = buildListAnimationQueue(targets)
-                .map((item, index) => ({
-                    target: item.target,
-                    delay: index * 40,
-                    run: () => animationSet.page.out(item.target, options)
-                }));
+                .map((item) => {
+                    const isVisible = isElementVisible(item.target, container);
+                    let delay = 0;
+
+                    if (isVisible) {
+                        delay = Math.min(visibleIndex++, MAX_STAGGER_ITEMS) * 40;
+                    }
+
+                    return {
+                        target: item.target,
+                        delay,
+                        run: async () => {
+                            if (!isVisible) {
+                                if (item.target instanceof HTMLElement) {
+                                    item.target.style.visibility = 'hidden';
+                                }
+                                return;
+                            }
+                            return animationSet.page.out(item.target, options);
+                        }
+                    };
+                });
 
             await DiscoAnimations.animateAll(animationItems);
         }
@@ -637,24 +684,24 @@ const animationSet = {
                     ? Number(target.dataset.rowIndex ?? target.style.getPropertyValue('--row-index') ?? 0)
                     : index;
                 return {
-                target,
-                delay: rowIndex * 20,
-                run: async () => {
-                    const animation = DiscoAnimations.animate(
-                        target,
-                        [
-                            { opacity: 1, transform: 'rotateX(90deg)' },
-                            { opacity: 1, transform: 'rotateX(0deg)' }
-                        ],
-                        {
-                            duration: 100,
-                            easing: DiscoAnimations.easeOutQuart,
-                            fill: 'both'
-                        }
-                    );
-                    await animation.finished;
-                    resetAnimation(target);
-                }
+                    target,
+                    delay: rowIndex * 20,
+                    run: async () => {
+                        const animation = DiscoAnimations.animate(
+                            target,
+                            [
+                                { opacity: 1, transform: 'rotateX(90deg)' },
+                                { opacity: 1, transform: 'rotateX(0deg)' }
+                            ],
+                            {
+                                duration: 100,
+                                easing: DiscoAnimations.easeOutQuart,
+                                fill: 'both'
+                            }
+                        );
+                        await animation.finished;
+                        resetAnimation(target);
+                    }
                 };
             });
 
@@ -672,27 +719,27 @@ const animationSet = {
                     ? Number(target.dataset.rowIndex ?? target.style.getPropertyValue('--row-index') ?? 0)
                     : index;
                 return {
-                target,
-                delay: rowIndex * 20,
-                run: async () => {
-                    const animation = DiscoAnimations.animate(
-                        target,
-                        [
-                            { opacity: 1, transform: 'rotateX(0deg)' },
-                            { opacity: 1, transform: 'rotateX(-90deg)' }
-                        ],
-                        {
-                            duration: 100,
-                            easing: DiscoAnimations.easeInQuad,
-                            fill: 'both'
+                    target,
+                    delay: rowIndex * 20,
+                    run: async () => {
+                        const animation = DiscoAnimations.animate(
+                            target,
+                            [
+                                { opacity: 1, transform: 'rotateX(0deg)' },
+                                { opacity: 1, transform: 'rotateX(-90deg)' }
+                            ],
+                            {
+                                duration: 100,
+                                easing: DiscoAnimations.easeInQuad,
+                                fill: 'both'
+                            }
+                        );
+                        await animation.finished;
+                        if (target instanceof HTMLElement) {
+                            target.style.visibility = 'hidden';
+                            target.style.opacity = '0';
                         }
-                    );
-                    await animation.finished;
-                    if (target instanceof HTMLElement) {
-                        target.style.visibility = 'hidden';
-                        target.style.opacity = '0';
                     }
-                }
                 };
             });
 

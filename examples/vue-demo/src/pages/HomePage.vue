@@ -64,8 +64,13 @@ const listItems = ref([
   { id: 'radiobutton', Title: 'Radio Button', Description: 'Exclusive selection control' },
   { id: 'slider', Title: 'Slider', Description: 'Range selection control' },
   { id: 'textbox', Title: 'Text Box', Description: 'Single-line text input' },
+  { id: 'passwordbox', Title: 'Password Box', Description: 'Secure text input' },
   { id: 'togglebutton', Title: 'Toggle Button', Description: 'Sticky push button' },
-  { id: 'toggleswitch', Title: 'Toggle Switch', Description: 'On/Off switch control' }
+  { id: 'toggleswitch', Title: 'Toggle Switch', Description: 'On/Off switch control' },
+  { id: 'pivot', Title: 'Pivot', Description: 'Tabbed navigation' },
+  { id: 'hub', Title: 'Hub', Description: 'Panorama style hub' },
+  { id: 'scrollview', Title: 'Scroll View', Description: 'Custom scroll container' },
+  { id: 'flipview', Title: 'Flip View', Description: 'Paged scroll container' }
 ].sort((a, b) => a.Title.localeCompare(b.Title)));
 
 const easingGroups = [
@@ -101,7 +106,45 @@ const systemColors = [
 ];
 
 const handleItemClick = (item: any) => {
-  console.log('Selected:', item.id);
+  const frame = document.getElementById('componentsFrame') as any;
+  if (!frame) return;
+
+  const id = item.id;
+  
+  if (id === 'toggle-theme') {
+    const current = document.documentElement.getAttribute('disco-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('disco-theme', next);
+    item.Description = `current theme: ${next}`;
+    return;
+  }
+
+  // Navigation Map
+  const pageIds: Record<string, string> = {
+    'button': 'componentsButton',
+    'checkbox': 'componentsCheckbox',
+    'combobox': 'componentsComboBox',
+    'dialog': 'componentsDialog',
+    'image': 'componentsImage',
+    'progress': 'componentsProgress',
+    'progressring': 'componentsProgressRing',
+    'radiobutton': 'componentsRadioButton',
+    'slider': 'componentsSlider',
+    'textbox': 'componentsTextBox',
+    'passwordbox': 'componentsPasswordBox',
+    'togglebutton': 'componentsToggleButton',
+    'toggleswitch': 'componentsToggleSwitch',
+    'pivot': 'componentsPivot',
+    'hub': 'componentsHub',
+    'scrollview': 'componentsScrollView',
+    'flipview': 'componentsFlipView'
+  };
+
+  const targetId = pageIds[id];
+  if (targetId) {
+    const page = document.getElementById(targetId);
+    if (page) frame.navigate(page);
+  }
 };
 </script>
 

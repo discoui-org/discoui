@@ -245,6 +245,10 @@ class DiscoFlipView extends DiscoScrollView {
     if (this.direction === 'horizontal') {
       let nextLeft = this.scrollLeft - dx;
       
+      if (Math.abs(dx) > 2 || Math.abs(this.scrollLeft - this._dragStartVirtualX) > 5) {
+        this.setAttribute('data-dragging', 'true');
+      }
+
       if (hasPageLimit) {
         const pageWidth = this.clientWidth || 1;
         const start = this._dragStartVirtualX;
@@ -494,6 +498,7 @@ class DiscoFlipView extends DiscoScrollView {
     this._nestedScrollView = null;
     try { this.releasePointerCapture(e.pointerId); } catch (err) { }
     this._removePointerListeners();
+    this.removeAttribute('data-dragging');
 
     if (this._handoffSnap) {
       this._handoffSnap = false;
@@ -552,6 +557,7 @@ class DiscoFlipView extends DiscoScrollView {
     this._nestedScrollView = null;
     try { this.releasePointerCapture(e.pointerId); } catch (err) { }
     this._removePointerListeners();
+    this.removeAttribute('data-dragging');
 
     const overscrollX = Math.abs(this._overscrollX) > 1;
     const overscrollY = Math.abs(this._overscrollY) > 1;

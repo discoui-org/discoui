@@ -467,8 +467,10 @@ class DiscoPivotPage extends DiscoPage {
         snapTargetIndex = null;
         
         const span = this.getPageSpan(viewport);
-        // Determine current page based on scroll position
-        const current = Math.round(viewport.scrollLeft / span);
+        const count = items().length || 1;
+        // Determine current page based on scroll position - Normalize for loop mode
+        const raw = Math.round(viewport.scrollLeft / span);
+        const current = ((raw % count) + count) % count;
         dragStartIndex = current;
         
         // Hide everything except where we started

@@ -40,7 +40,13 @@ class DiscoListView extends DiscoScrollView {
     }
     this._wrapper.insertBefore(this._list, this._slot);
 
-    this.addEventListener('click', (event) => this._handleClick(event));
+    this.addEventListener('click', (event) => {
+      if (this.closest('[data-dragging="true"]')) {
+        event.stopImmediatePropagation();
+        return;
+      }
+      this._handleClick(event);
+    });
     this.addEventListener('keydown', (event) => this._handleKeydown(event));
     this.addEventListener('keyup', (event) => this._handleKeyup(event));
 

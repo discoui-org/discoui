@@ -198,47 +198,6 @@ class DiscoPivotPage extends DiscoPage {
       this.removeAttribute('data-animating');
       this._isAnimating = false;
     }
-    return; // Temporary disable overflow changes during animation for better performance and to avoid bugs with scroll position
-    const viewport = this._getViewport();
-    if (viewport) {
-      viewport.style.overflow = enabled ? 'visible' : '';
-      viewport.style.contain = enabled ? 'none' : '';
-      const wrapper = viewport.shadowRoot?.querySelector('.scroll-content');
-      if (wrapper instanceof HTMLElement) {
-        wrapper.style.overflow = enabled ? 'visible' : '';
-      }
-      if (enabled) {
-        this._animPrevOverscrollMode = viewport.getAttribute('overscroll-mode');
-        if ((this._animPrevOverscrollMode || '').toLowerCase() === 'loop') {
-          viewport.removeAttribute('overscroll-mode');
-        }
-        if (typeof viewport._updateChildrenLayout === 'function') {
-          viewport._updateChildrenLayout();
-        }
-      } else if (this._animPrevOverscrollMode != null) {
-        viewport.setAttribute('overscroll-mode', this._animPrevOverscrollMode);
-        this._animPrevOverscrollMode = null;
-        if (typeof viewport._updateChildrenLayout === 'function') {
-          viewport._updateChildrenLayout();
-        }
-      }
-    }
-    const pivotItems = /** @type {HTMLElement[]} */ (Array.from(this.querySelectorAll('disco-pivot-item')));
-    if (enabled) {
-      pivotItems.forEach((item) => {
-        item.style.visibility = 'visible';
-        item.style.opacity = '1';
-        item.style.transition = 'none';
-        item.style.animation = 'none';
-      });
-    } else {
-      pivotItems.forEach((item) => {
-        item.style.visibility = '';
-        item.style.opacity = '';
-        item.style.transition = '';
-        item.style.animation = '';
-      });
-    }
   }
 
   /**
@@ -546,111 +505,139 @@ class DiscoPivotPage extends DiscoPage {
 
     viewport.addEventListener('disco-snap-target', async (e) => {
       if (isFromNestedFlipView(e)) return;
-      if (this._isAnimating) {
-        setVisibleItems([this._getActivePivotIndex(viewport)]);
-        return;
+
+      const detail = /** @type {{ index: number, targetX?: number }} */ ((/** @type {CustomEvent} */(e)).detail || { index: 0 });
+      const count = items().length || 1;
+      const normalizedTarget = ((detail.index % count) + count) % count;
+      
+      // Atomic State Sync: Update indices immediately to prevent zombie states
+      const prevIndex = dragStartIndex;
+      dragStartIndex = normalizedTarget;
+      snapTargetIndex = normalizedTarget;
+
+      if (lastActiveIndex !== normalizedTarget) {
+        lastActiveIndex = normalizedTarget;
+        this._emitActiveItem(normalizedTarget);
       }
-        const detail = /** @type {{ index: number, targetX?: number }} */ ((/** @type {CustomEvent} */(e)).detail || { index: 0 });
-        isSnapping = true;
-        const idx = detail.index;
-        const count = items().length || 1;
-        const normalizedTarget = ((idx % count) + count) % count;
-        
-        snapTargetIndex = normalizedTarget;
-        if (lastActiveIndex !== normalizedTarget) {
-          lastActiveIndex = normalizedTarget;
-          this._emitActiveItem(normalizedTarget);
-        }
-        
-        setVisibleItems([dragStartIndex]);
-        
-        // Force header update (including opacity) on snap
-        updateHeaders(true);
 
-        // Only animate if changing pages
+      // Create new transition task and abort previous one
+      if (this._activeTransition) {
+        this._activeTransition.controller.abort();
+      }
+      const controller = new AbortController();
+      const signal = controller.signal;
+      this._activeTransition = { controller, targetIndex: normalizedTarget };
+
+      // Atomic Scene Purge: Hard reset ALL items
+      const allItems = items();
+      const resetAllItems = () => {
+        allItems.forEach((item, i) => {
+          // Kill all active WAAPI tracks
+          if (typeof item.getAnimations === 'function') {
+            item.getAnimations().forEach(a => a.cancel());
+          }
+          // Reset internal content wrapper transforms
+          const content = item.shadowRoot?.querySelector('.pivot-item-content');
+          if (content instanceof HTMLElement) {
+            content.getAnimations().forEach(a => a.cancel());
+            content.style.transform = '';
+          }
+          
+          // Initial visibility state: only prev is shown, others hidden
+          if (i === prevIndex) {
+            item.style.visibility = 'visible';
+            item.style.opacity = '1';
+          } else {
+            item.style.visibility = 'hidden';
+            item.style.opacity = '0';
+          }
+          item.style.transition = 'none';
+        });
+      };
+
+      resetAllItems();
+      updateHeaders(true);
+
+      // Only animate if changing pages
+      if (normalizedTarget !== prevIndex) {
         const dist = (detail.targetX || 0) - viewport.scrollLeft;
-        if (idx !== dragStartIndex) {
-          // Calculate custom entrance animation offset
-          const width = viewport.clientWidth;
-            
-          // "translateX(viewport.width - dist) to translateX(0)"
-          let offset = width - Math.abs(dist) + width * 0.25; // Add small extra offset
-          if (idx < dragStartIndex) {
-            // Moving left, offset should be negative
-            offset = -offset;
-          }
-            
-          const targetItem = /** @type {HTMLElement & { playEntranceAnimation?: (offset: number, duration: number) => Promise<void> }} */ (items()[normalizedTarget]);
-          if (targetItem && typeof targetItem.playEntranceAnimation === 'function') {
+        const width = viewport.clientWidth;
+        
+        // Determine physical direction based on scroll delta
+        const isMovingForward = dist >= 0;
+        
+        // Calculate entrance offset: always relative to the motion direction
+        let offset = width - Math.abs(dist) + width * 0.25;
+        if (!isMovingForward) offset = -offset;
+          
+        const targetItem = /** @type {HTMLElement & { playEntranceAnimation?: (offset: number, duration: number) => Promise<void> }} */ (allItems[normalizedTarget]);
+        const prevItem = allItems[prevIndex];
+
+        if (targetItem && typeof targetItem.playEntranceAnimation === 'function') {
           const duration = 800;
-          const prevItem = /** @type {HTMLElement | undefined} */ (items()[dragStartIndex]);
 
-          const cancelAnimations = (el) => {
-            if (!el || typeof el.getAnimations !== 'function') return;
-            el.getAnimations().forEach((anim) => anim.cancel());
-          };
-
-          cancelAnimations(prevItem);
-          cancelAnimations(targetItem);
-
-          if (prevItem && prevItem !== targetItem) {
-            prevItem.style.visibility = 'visible';
-            prevItem.style.opacity = '1';
-          }
+          // Prepare target for entrance
           targetItem.style.visibility = 'visible';
           targetItem.style.opacity = '0';
 
+          // Start Cross-Fade
           const fadeOut = (prevItem && prevItem !== targetItem)
-            ? prevItem.animate([
-              { opacity: 1 },
-              { opacity: 0 }
-            ], {
-              duration: 50,
-              easing: 'linear',
-              fill: 'forwards'
-            })
+            ? prevItem.animate([{ opacity: 1 }, { opacity: 0 }], {
+                duration: 60,
+                easing: 'linear',
+                fill: 'forwards'
+              })
             : null;
 
-          // Wait briefly before starting entrance/fade-in animations.
-          await new Promise((resolve) => setTimeout(resolve, 50));
+          try {
+            // Guard against async resume if superseded
+            if (signal.aborted) return;
 
-          // Ensure initial opacity is applied before starting animations.
-          await new Promise(requestAnimationFrame);
+            // Wait one frame to ensure visibility:visible is committed before motion starts
+            await new Promise(r => requestAnimationFrame(r));
+            if (signal.aborted) return;
 
-          const fadeIn = targetItem.animate([
-            { opacity: 0 },
-            { opacity: 1 }
-          ], {
-            duration: 200,
-            easing: 'linear',
-            fill: 'forwards'
-          });
+            // Trigger additive motion and fade-in simultaneously
+            const fadeIn = targetItem.animate([{ opacity: 0 }, { opacity: 1 }], {
+              duration: 250,
+              easing: 'ease-out',
+              fill: 'forwards'
+            });
 
-          if (fadeOut) {
-            fadeOut.finished.catch(() => { });
+            await Promise.all([
+              targetItem.playEntranceAnimation(offset, duration),
+              fadeIn.finished
+            ]);
+
+            if (signal.aborted) return;
+
+            // Finalizer: Lock states
+            if (prevItem && prevItem !== targetItem) {
+              prevItem.style.opacity = '0';
+              prevItem.style.visibility = 'hidden';
+            }
+            targetItem.style.opacity = '1';
+            targetItem.style.visibility = 'visible';
+            
+            // Commit WAAPI states to inline styles for stability
+            targetItem.getAnimations().forEach(a => {
+              if (a instanceof Animation) a.commitStyles();
+            });
+          } catch (err) {
+            // Aborted or interrupted
+          } finally {
+            if (this._activeTransition?.controller === controller) {
+              this._activeTransition = null;
+              isSnapping = false;
+            }
           }
-
-          await Promise.all([
-            targetItem.playEntranceAnimation(offset, duration),
-            fadeIn.finished
-          ]);
-
-          if (prevItem && prevItem !== targetItem) {
-            prevItem.style.opacity = '0';
-          }
-          targetItem.style.opacity = '1';
-          } else {
-            setVisibleItems([normalizedTarget]);
-          }
+        } else {
+          setVisibleItems([normalizedTarget]);
+          isSnapping = false;
         }
-        
-        // Cleanup after animation
-        // Only if we haven't started a new interaction
-        if (isSnapping && snapTargetIndex === normalizedTarget) {
-             dragStartIndex = normalizedTarget;
-             setVisibleItems([normalizedTarget]);
-             isSnapping = false; 
-        }
+      } else {
+        isSnapping = false;
+      }
     });
 
     const updateHeaders = (updateOpacity = false) => {

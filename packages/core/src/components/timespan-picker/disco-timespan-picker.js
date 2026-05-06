@@ -55,6 +55,7 @@ class DiscoTimeSpanPicker extends DiscoLoopingSelector {
 
   connectedCallback() {
     super.connectedCallback();
+    this.setAttribute('data-show-seconds', String(this._showSeconds));
     requestAnimationFrame(() => this._syncToDuration(this._selectedTotal));
   }
 
@@ -246,7 +247,6 @@ class DiscoTimeSpanPicker extends DiscoLoopingSelector {
   }
 
   _applyVisibility() {
-    this.setAttribute('data-show-seconds', String(this._showSeconds));
     if (this._secondColumn) {
       this._secondColumn.toggleAttribute('data-hidden', !this._showSeconds);
     }

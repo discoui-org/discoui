@@ -11,6 +11,13 @@ class DiscoUIElement extends HTMLElement {
     this.tiltEnabled = false;
   }
 
+  connectedCallback() {
+    if (this._pendingTiltAttr) {
+        this._pendingTiltAttr = false;
+        this.setAttribute('data-tilt', '');
+    }
+  }
+
   /**
    * @param {string} styleText
    * @param {Document['head'] | ShadowRoot} [target]
@@ -87,7 +94,13 @@ class DiscoUIElement extends HTMLElement {
     if (selector && target === this) {
       console.warn(`enableTilt: selector "${selector}" not found in shadowRoot or light DOM; falling back to host.`);
     }
-    target.setAttribute('data-tilt', '');
+
+    if (target !== this || this.isConnected) {
+        target.setAttribute('data-tilt', '');
+    } else {
+        this._pendingTiltAttr = true;
+    }
+
     let keyPressActive = false;
     let suppressClickOnce = false;
     let startX = 0;

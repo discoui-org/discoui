@@ -7,6 +7,10 @@ import '../scroll-view/disco-scroll-view.js';
 class DiscoLongListSelectorTile extends DiscoUIElement {
     constructor() {
         super();
+    }
+
+    connectedCallback() {
+        if (super.connectedCallback) super.connectedCallback();
         this.setAttribute('role', 'button');
         this.tabIndex = 0;
     }
@@ -42,7 +46,6 @@ class DiscoLongListSelector extends DiscoPickerBox {
         super('', '');
 
         this.loadStyle(longListSelectorCss, this.shadowRoot);
-        this.setAttribute('animation', 'none');
 
         this._items = Array.isArray(items) ? items : [];
         this._options = {
@@ -60,6 +63,11 @@ class DiscoLongListSelector extends DiscoPickerBox {
 
         this._buildContent();
         this.refresh();
+    }
+
+    connectedCallback() {
+        if (super.connectedCallback) super.connectedCallback();
+        this.setAttribute('animation', 'none');
     }
 
     /**

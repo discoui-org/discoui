@@ -43,15 +43,17 @@ class DiscoCheckbox extends DiscoUIElement {
 
     this.enableTilt({ selector: '.wrapper', skipTransformWhenHostDisabled: true });
 
-    this.setAttribute('role', 'checkbox');
-    this.tabIndex = 0;
     this.addEventListener('keydown', (event) => {
       if (event.key === ' ' || event.key === 'Enter') {
         event.preventDefault();
         this._toggleFromUser();
       }
     });
+  }
 
+  connectedCallback() {
+    this.setAttribute('role', 'checkbox');
+    this.tabIndex = 0;
     this._syncFromAttributes();
   }
 

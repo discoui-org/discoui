@@ -11,7 +11,9 @@ class DiscoToggleButton extends DiscoButton {
       if (this.disabled) return;
       this._toggleFromUser();
     });
+  }
 
+  connectedCallback() {
     this.setAttribute('role', 'button');
     this._syncFromAttributes();
   }

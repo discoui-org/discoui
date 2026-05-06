@@ -8,11 +8,14 @@ class DiscoListHeaderItem extends DiscoListItem {
   constructor() {
     super();
     this.loadStyle(listHeaderItemStyles, this.shadowRoot);
-    this.setAttribute('role', 'button');
-    this.tabIndex = 0;
-
     this.disableTilt();
     this.enableTilt({ selector: '.item' });
+  }
+
+  connectedCallback() {
+    if (super.connectedCallback) super.connectedCallback();
+    this.setAttribute('role', 'button');
+    this.tabIndex = 0;
   }
 }
 

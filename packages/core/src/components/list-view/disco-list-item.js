@@ -15,10 +15,13 @@ class DiscoListItem extends DiscoUIElement {
     const slot = document.createElement('slot');
     container.appendChild(slot);
     this.shadowRoot.appendChild(container);
-    this.setAttribute('role', 'listitem');
-
     this.enableTilt({ selector: '.item' });
   }
+
+  connectedCallback() {
+    this.setAttribute('role', 'listitem');
+  }
+
   get direction() {
     return 'vertical';
   }

@@ -38,7 +38,6 @@ class DiscoProgressRing extends DiscoUIElement {
 
     this.shadowRoot.appendChild(this._loader);
     this.shadowRoot.appendChild(this._ring);
-    this.setAttribute('role', 'progressbar');
     this._stopAfterCycle = false;
     this._stopPromise = null;
     this._resolveStopPromise = null;
@@ -50,7 +49,10 @@ class DiscoProgressRing extends DiscoUIElement {
     if (firstCircle) {
       firstCircle.addEventListener('animationiteration', this._onCircleIteration);
     }
+  }
 
+  connectedCallback() {
+    this.setAttribute('role', 'progressbar');
     if (!this.hasAttribute('indeterminate') && !this.hasAttribute('value')) {
       this.setAttribute('indeterminate', '');
     }

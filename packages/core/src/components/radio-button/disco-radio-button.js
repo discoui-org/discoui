@@ -31,7 +31,6 @@ class DiscoRadioButton extends DiscoUIElement {
 
     this.enableTilt({ selector: '.wrapper', skipTransformWhenHostDisabled: true });
 
-    this.setAttribute('role', 'radio');
     this.tabIndex = 0;
 
     this.addEventListener('click', () => {
@@ -46,7 +45,10 @@ class DiscoRadioButton extends DiscoUIElement {
         this._checkFromUser();
       }
     });
+  }
 
+  connectedCallback() {
+    this.setAttribute('role', 'radio');
     this._syncFromAttributes();
   }
 

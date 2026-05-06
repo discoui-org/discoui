@@ -6,8 +6,12 @@ class DiscoDialog extends DiscoFlyout {
     super(title, title);
 
     this.loadStyle(dialogCss, this.shadowRoot);
-      this.setAttribute('animation', 'none');
     this._buildDialog();
+  }
+
+  connectedCallback() {
+    if (super.connectedCallback) super.connectedCallback();
+    this.setAttribute('animation', 'none');
   }
 
   static get observedAttributes() {

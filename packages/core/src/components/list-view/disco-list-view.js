@@ -23,10 +23,6 @@ class DiscoListView extends DiscoScrollView {
     super();
     this.loadStyle(listViewStyles, this.shadowRoot);
 
-    if (this.hasAttribute('direction')) {
-      this.removeAttribute('direction');
-    }
-
     this._items = [];
     this._itemProxyCache = new WeakMap();
     this._groupEntries = [];
@@ -43,10 +39,17 @@ class DiscoListView extends DiscoScrollView {
     }
     this._wrapper.insertBefore(this._list, this._slot);
 
-    this.setAttribute('role', 'list');
     this.addEventListener('click', (event) => this._handleClick(event));
     this.addEventListener('keydown', (event) => this._handleKeydown(event));
     this.addEventListener('keyup', (event) => this._handleKeyup(event));
+  }
+
+  connectedCallback() {
+    if (super.connectedCallback) super.connectedCallback();
+    if (this.hasAttribute('direction')) {
+      this.removeAttribute('direction');
+    }
+    this.setAttribute('role', 'list');
   }
 
   /**

@@ -31,7 +31,10 @@ class DiscoToggleSwitch extends DiscoUIElement {
         this._setCheckedFromUser(!this.checked);
       }
     });
+  }
 
+  connectedCallback() {
+    if (super.connectedCallback) super.connectedCallback();
     this.setAttribute('role', 'switch');
     this.tabIndex = 0;
     this._syncFromAttributes();

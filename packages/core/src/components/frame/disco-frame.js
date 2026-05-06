@@ -143,7 +143,7 @@ class DiscoFrame extends DiscoUIElement {
    * @returns {Promise<void>}
    */
   async navigate(page) {
-    if (!page) return;
+    if (!page || this._isNavigating) return;
 
     // Ensure frame is visible before animation starts
     if (!this.hasAttribute('disco-launched')) {
@@ -152,13 +152,23 @@ class DiscoFrame extends DiscoUIElement {
       await new Promise(requestAnimationFrame);
     }
 
+    this._isNavigating = true;
     this.classList.add('transitioning');
-    await this._transitionTo(page, { direction: 'forward' });
-    this.classList.remove('transitioning');
 
-    this.history.push(page);
-    this.historyIndex = this.history.length - 1;
-    this._pushHistoryState();
+    // Focus Sweep: Blur active element to prevent aria-hidden focus blocking
+    if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    try {
+      await this._transitionTo(page, { direction: 'forward' });
+      this.history.push(page);
+      this.historyIndex = this.history.length - 1;
+      this._pushHistoryState();
+    } finally {
+      this._isNavigating = false;
+      this.classList.remove('transitioning');
+    }
   }
 
   /**
@@ -328,12 +338,27 @@ class DiscoFrame extends DiscoUIElement {
   }
 
   async _navigateToIndex(targetIndex, direction, fromHistory) {
+    if (this._isNavigating) return;
     const target = this.history[targetIndex];
     if (!target) return;
-    await this._transitionTo(target, { direction });
-    this.historyIndex = targetIndex;
-    if (!fromHistory) {
-      this._pushHistoryState();
+
+    this._isNavigating = true;
+    this.classList.add('transitioning');
+
+    // Focus Sweep
+    if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    try {
+      await this._transitionTo(target, { direction });
+      this.historyIndex = targetIndex;
+      if (!fromHistory) {
+        this._pushHistoryState();
+      }
+    } finally {
+      this._isNavigating = false;
+      this.classList.remove('transitioning');
     }
   }
 

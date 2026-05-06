@@ -27,10 +27,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/discoui-org/discouicapacitor.git"
+    "url": "https://github.com/discoui-org/discoui.git",
+    "directory": "packages/capacitor"
   },
   "bugs": {
-    "url": "https://github.com/discoui-org/discouicapacitor/issues"
+    "url": "https://github.com/discoui-org/discoui/issues"
   },
   "keywords": [
     "capacitor",

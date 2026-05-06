@@ -1,4 +1,4 @@
-package io.github.cherryhoax.discoui.capacitor;
+package org.discoui.capacitor;
 
 import com.getcapacitor.Logger;
 

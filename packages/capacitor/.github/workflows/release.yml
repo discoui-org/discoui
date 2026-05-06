@@ -59,10 +59,10 @@ jobs:
           name: DiscoUI Capacitor v${{ steps.get_version.outputs.VERSION }}
           body: |
             ```bash
-            npm install @cherryhoax/discouicapacitor@${{ steps.get_version.outputs.VERSION }}
+            npm install @discoui/capacitor@${{ steps.get_version.outputs.VERSION }}
             ```
             
-            **NPM:** https://www.npmjs.com/package/@cherryhoax/discouicapacitor
+            **NPM:** https://www.npmjs.com/package/@discoui/capacitor
           files: |
             discouicapacitor-${{ github.ref_name }}.zip
             example-app/android/app/build/outputs/apk/debug/app-debug.apk

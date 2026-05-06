@@ -20,7 +20,7 @@ apply plugin: 'com.android.library'
 import groovy.json.JsonSlurper
 
 android {
-    namespace = "io.github.cherryhoax.discoui.capacitor"
+    namespace = "org.discoui.capacitor"
     compileSdk = project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 36
     defaultConfig {
         minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 24

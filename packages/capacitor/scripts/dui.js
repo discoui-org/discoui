@@ -634,7 +634,7 @@ const createApp = async (options) => {
     dependencies: {
       '@capacitor/core': 'latest',
       '@capacitor/android': '8.0.0',
-      discouicapacitor: 'github:cherryhoax/DiscoUI#path:DiscoUICapacitor'
+      discouicapacitor: 'github:discoui-org/discoui#path:packages/capacitor'
     },
     devDependencies: {
       '@capacitor/cli': 'latest',

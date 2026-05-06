@@ -1,4 +1,4 @@
-package io.github.cherryhoax.discoui.capacitor;
+package org.discoui.capacitor;
 
 import android.app.Activity;
 import android.content.res.AssetManager;

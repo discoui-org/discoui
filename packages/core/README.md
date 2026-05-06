@@ -20,7 +20,7 @@ The viewer loads `examples/index.html` by default.
 
 ## Related
 
-- [DiscoUI Capacitor](https://github.com/cherryhoax/DiscoUICapacitor?tab=readme-ov-file) - Capacitor plugin for Android, Electron, and Web.
+- [DiscoUI Capacitor](../capacitor/README.md) - Capacitor plugin for Android, Electron, and Web.
 
 ## Usage
 Import the bundle and drop the components:
@@ -113,4 +113,4 @@ This project is licensed under the [MIT License](./LICENSE).
 
 For any inquiries or feedback, feel free to reach out!
 
-<a href="https://www.buymeacoffee.com/cherryhoax" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<!-- License under MIT -->

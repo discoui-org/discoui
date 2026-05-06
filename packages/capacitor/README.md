@@ -47,7 +47,7 @@ npx discouicapacitor create-app \
 
 ## Related
 
-- [DiscoUI](https://github.com/cherryhoax/DiscoUI?tab=readme-ov-file) - Core Web Components and UI library.
+- [DiscoUI](../core/README.md) - Core Web Components and UI library.
 
 ## Usage
 Create a disco.config.json in your app public root (for example, www/disco.config.json):
@@ -96,4 +96,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 For any inquiries or feedback, feel free to reach out!
 
-<a href="https://www.buymeacoffee.com/cherryhoax" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<!-- License under MIT -->

@@ -49,10 +49,10 @@ jobs:
           name: DiscoUI v${{ steps.get_version.outputs.VERSION }}
           body: |
             ```bash
-            npm install @cherryhoax/discoui@${{ steps.get_version.outputs.VERSION }}
+            npm install @discoui/core@${{ steps.get_version.outputs.VERSION }}
             ```
             
-            **NPM:** https://www.npmjs.com/package/@cherryhoax/discoui
+            **NPM:** https://www.npmjs.com/package/@discoui/core
           files: |
             discoui-${{ github.ref_name }}.zip
           draft: false

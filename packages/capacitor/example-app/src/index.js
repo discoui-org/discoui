@@ -2,7 +2,7 @@
  * Example demo loader used by the examples page.
  */
 
-import { DISCO_COLORS, DiscoApp, DiscoContextMenu, DiscoDatePicker, DiscoDialog, DiscoMessageDialog, DiscoTimePicker, DiscoTimeSpanPicker } from '@cherryhoax/discoui';
+import { DISCO_COLORS, DiscoApp, DiscoContextMenu, DiscoDatePicker, DiscoDialog, DiscoMessageDialog, DiscoTimePicker, DiscoTimeSpanPicker } from '@discoui/core';
 const launchDemo = async () => {
   const app = new DiscoApp();
   app.setInsets({ top: 0, bottom: 0, left: 0, right: 0 });

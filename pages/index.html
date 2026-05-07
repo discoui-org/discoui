@@ -82,31 +82,25 @@
   </main>
 
   <!-- Global Fixed UI Components -->
-  <!-- Windows 8 Style Charm Bar (Right) -->
+  <!-- Windows 8 Style Bottom App Bar -->
   <div class="charms-bar">
-    <div class="charms-item" id="toggleFullscreen">
-      <div class="charms-icon mif-enlarge"></div>
-      <div class="charms-label">Fullscreen</div>
-    </div>
-    <div class="charms-item" id="openSandbox">
-      <div class="charms-icon mif-code"></div>
-      <div class="charms-label">Sandbox</div>
-    </div>
-    <a href="./docs/index.html" class="charms-item">
-      <div class="charms-icon mif-file-text"></div>
-      <div class="charms-label">Docs</div>
-    </a>
-  </div>
-
-  <!-- Windows 8 Style Time Panel (Bottom Left) -->
-  <div class="charms-time-panel">
-    <div class="time-content">
-      <h1 class="disco-title">DiscoUI</h1>
-      <p class="disco-subtitle">Mobile Shell SDK</p>
+    <div class="charms-group">
+      <div class="charms-item" id="toggleFullscreen">
+        <div class="charms-icon mif-enlarge"></div>
+        <div class="charms-label">fullscreen</div>
+      </div>
+      <div class="charms-item" id="openSandbox">
+        <div class="charms-icon mif-code"></div>
+        <div class="charms-label">sandbox</div>
+      </div>
+      <a href="./docs/index.html" class="charms-item">
+        <div class="charms-icon mif-file-text"></div>
+        <div class="charms-label">docs</div>
+      </a>
     </div>
   </div>
 
-  <!-- Sandbox Side Bar (Dual-Tab) -->
+  <!-- Sandbox Panel (Restored but better integrated) -->
   <aside id="sandboxBar" class="sandbox-bar">
     <div class="sandbox-header">
       <h2>Live Sandbox</h2>
@@ -120,10 +114,10 @@
 
     <div class="editor-wrapper">
       <div id="htmlTab" class="tab-content active">
-        <div id="htmlEditorContainer" class="monaco-editor-container"></div>
+        <div id="htmlEditorContainer" class="editor-container"></div>
       </div>
       <div id="jsTab" class="tab-content">
-        <div id="jsEditorContainer" class="monaco-editor-container"></div>
+        <div id="jsEditorContainer" class="editor-container"></div>
       </div>
     </div>
 

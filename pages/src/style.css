@@ -270,6 +270,7 @@ section {
   transform-origin: center center;
   z-index: 10;
   filter: drop-shadow(0 0 50px rgba(62, 101, 255, 0.15));
+  transition: transform 0.6s cubic-bezier(0.1, 0.9, 0.2, 1), left 0.6s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 
 #disco-device iframe {
@@ -322,104 +323,82 @@ section {
   left: 270px;
 }
 
-/* --- Windows 8 Charms Bar --- */
+/* --- Windows 8 Bottom App Bar --- */
 
 .charms-bar {
   position: fixed;
+  left: 0;
   right: 0;
-  top: 0;
   bottom: 0;
-  width: 100px;
-  background: var(--charms-bg);
+  height: 100px;
+  background: transparent;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   z-index: 1000;
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-  transform: translateX(100%);
-  transition: transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 
 body.portal-in-view .charms-bar {
-  transform: translateX(0);
+  transform: translateY(0);
+}
+
+.charms-group {
+  display: flex;
 }
 
 .charms-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   cursor: pointer;
-  color: var(--text-color);
+  color: #fff;
   text-decoration: none;
-  width: 100px;
-  height: 100px;
-  transition: background 0.2s ease;
+  min-width: 100px;
+  transition: opacity 0.2s ease;
 }
 
 .charms-item:hover {
-  background: var(--charms-hover);
+  opacity: 0.8;
+}
+
+.charms-item:active .charms-icon {
+  background: #fff;
+  color: #000;
+  transition: none !important;
+  /* Instant transition */
 }
 
 .charms-icon {
-  font-size: 32px;
+  width: 50px;
+  height: 50px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
   line-height: 1;
+  transition: background 0.1s, color 0.1s;
 }
 
 .charms-label {
-  font-size: 14px;
-  font-weight: 200;
-  opacity: 0.5;
-}
-
-/* --- Windows 8 Time Panel (DiscoUI Brand) --- */
-
-.charms-time-panel {
-  position: fixed;
-  bottom: 60px;
-  left: 60px;
-  background: var(--charms-bg);
-  padding: 24px 40px;
-  display: flex;
-  flex-direction: column;
-  z-index: 900;
-  backdrop-filter: blur(10px);
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s cubic-bezier(0.1, 0.9, 0.2, 1);
-}
-
-body.portal-in-view .charms-time-panel {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: lowercase;
   opacity: 1;
-  transform: translateY(0);
 }
 
-.disco-title {
-  font-size: 96px;
-  font-weight: 200;
-  margin: 0;
-  line-height: 0.9;
-  color: var(--accent-color);
-}
-
-.disco-subtitle {
-  font-size: 24px;
-  font-weight: 300;
-  margin: 8px 0 0 0;
-  opacity: 0.6;
-  text-transform: uppercase;
-}
-
-/* --- Sandbox Side Bar (Dual-Tab) --- */
+/* --- Sandbox Side Bar (Restored Styles) --- */
 
 .sandbox-bar {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
+  /* Leave space for app bar */
   width: 450px;
   background: #101111;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -498,7 +477,7 @@ body.portal-in-view .charms-time-panel {
   display: block;
 }
 
-.tab-content .monaco-editor-container {
+.tab-content .editor-container {
   width: 100%;
   height: 100%;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -506,7 +485,99 @@ body.portal-in-view .charms-time-panel {
   overflow: hidden;
 }
 
-.tab-content.active .monaco-editor-container {
+.tab-content .cm-editor {
+  height: 100%;
+}
+
+.tab-content.active .editor-container {
+  animation: tab-entrance 0.4s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+@keyframes tab-entrance {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sandbox-actions {
+  padding: 24px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: var(--accent-color);
+  border: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.sandbox-tabs {
+  display: flex;
+  padding: 0 24px;
+  gap: 4px;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #fff;
+  padding: 8px 24px;
+  font-family: inherit;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.tab-btn.active {
+  background: var(--accent-color);
+  opacity: 1;
+}
+
+.editor-wrapper {
+  flex: 1;
+  position: relative;
+  margin: 16px 24px;
+}
+
+.tab-content {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-content .editor-container {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #000;
+  overflow: hidden;
+}
+
+.tab-content .cm-editor {
+  height: 100%;
+}
+
+.tab-content.active .editor-container {
   animation: tab-entrance 0.4s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
 }
 

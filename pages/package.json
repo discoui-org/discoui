@@ -16,9 +16,13 @@
     "vite": "^8.0.11"
   },
   "dependencies": {
+    "@babel/runtime": "^7.29.2",
+    "@codemirror/lang-html": "^6.4.11",
+    "@codemirror/lang-javascript": "^6.2.5",
     "@olton/metroui": "^5.1.20",
+    "@uiw/codemirror-theme-vscode": "^4.25.9",
+    "codemirror": "^6.0.2",
     "dompurify": "^3.4.2",
-    "marked": "^18.0.3",
-    "monaco-editor": "^0.55.1"
+    "marked": "^18.0.3"
   }
 }

@@ -1,9 +1,9 @@
-name: Release
+name: Vue Release
 
 on:
   push:
     tags:
-      - 'v*'
+      - 'vue@v*'
   workflow_dispatch:
 
 permissions:
@@ -13,6 +13,9 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/vue
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,30 +33,24 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run tests
-        run: npm test
-
       - name: Publish to NPM
         run: npm publish --provenance --access public
 
-      - name: Create dist archive
-        run: zip -r discoui-${{ github.ref_name }}.zip dist
-
       - name: Get version from tag
         id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        run: echo "VERSION=${GITHUB_REF#refs/tags/vue@v}" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: DiscoUI v${{ steps.get_version.outputs.VERSION }}
+          name: DiscoUI Vue v${{ steps.get_version.outputs.VERSION }}
           body: |
             ```bash
-            npm install @discoui/core@${{ steps.get_version.outputs.VERSION }}
+            npm install @discoui/vue@${{ steps.get_version.outputs.VERSION }}
             ```
             
-            **NPM:** https://www.npmjs.com/package/@discoui/core
+            **NPM:** https://www.npmjs.com/package/@discoui/vue
           files: |
-            discoui-${{ github.ref_name }}.zip
+            packages/vue/dist/*
           draft: false
           prerelease: false

@@ -1,22 +1,22 @@
-# DiscoUI Ecosystem
+<div align="center">
+  <img src="assets/dui.svg" alt="DiscoUI logo" width="120" />
+  <h1>DiscoUI Ecosystem</h1>
+</div>
 
-A modern, framework-agnostic UI library built with Vanilla JavaScript, Shadow DOM, and SCSS.
+<p align="center">
+  A framework-agnostic UI library built with Vanilla JavaScript, Shadow DOM, and SCSS. This monorepo provides a high-performance implementation of Metro UI design principles for modern web and mobile applications.
+</p>
 
-### ✨ Highlights
-- **Full Framework Sync**: Perfectly synchronized animation engine for both Vanilla JS and framework-cached environments (Vue, React).
-- **Metro-Grade Motion**: Battle-tested staggering and transition logic that respects layout cycles and DOM boundaries.
-- **Production Ready**: Optimized for performance with built-in "Layout Breath" and "Boundary Piercer" technologies.
+Technical details regarding cross-framework synchronization, layout management, and animation orchestration can be found in the [ARCHITECTURE.md](./ARCHITECTURE.md) documentation.
 
-For deep technical insights on how we solved complex cross-framework animation challenges, see [ARCHITECTURE.md](./ARCHITECTURE.md).
-
-## 🚀 Packages
+## Packages
 
 - **[@discoui/core](./packages/core)**: The engine of everything. Web Components with zero dependencies.
 - **[@discoui/capacitor](./packages/capacitor)**: Native bridge for Android/iOS apps.
 - **[@discoui/react](./packages/react)**: Official React wrappers for better DX in React apps.
 - **[@discoui/vue](./packages/vue)**: Official Vue 3 integration and composables.
 
-## 🛠️ Monorepo Structure
+## Monorepo Structure
 
 ```text
 .
@@ -31,7 +31,7 @@ For deep technical insights on how we solved complex cross-framework animation c
 └── package.json    # Workspace configuration
 ```
 
-## 🏗️ Getting Started
+## Getting Started
 
 This project uses NPM Workspaces.
 
@@ -46,6 +46,6 @@ npm run build --workspaces
 npm run dev -w react-demo
 ```
 
-## 📜 License
+## License
 
 MIT © [discoui-org](https://github.com/discoui-org)

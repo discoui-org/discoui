@@ -29,13 +29,13 @@ const splashConfig = themeMode === 'light'
       mode: 'auto',
       color: '#f3f3f3',
       progressColor: '#111111',
-      icon: 'assets/logo-dark.png'
+      icon: '../assets/logo-dark.png'
     }
   : {
       mode: 'auto',
       color: '#111111',
       progressColor: '#ffffff',
-      icon: 'assets/logo-light.png'
+      icon: '../assets/logo-light.png'
     };
 
 const app = new DiscoApp({

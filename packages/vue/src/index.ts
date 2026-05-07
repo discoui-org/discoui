@@ -1,12 +1,4 @@
-import type { App } from 'vue';
-import DiscoFrame from './components/DiscoFrame.vue';
+export * from './composables/useDiscoFrame';
+export * from './composables/useDiscoTheme';
+export { default as DiscoButton } from './components/DiscoButton.vue';
 
-export { DiscoFrame };
-
-export const DiscoPlugin = {
-  install(app: App) {
-    app.component('DiscoFrame', DiscoFrame);
-  }
-};
-
-export default DiscoPlugin;

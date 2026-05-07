@@ -15,7 +15,7 @@ new DiscoApp({
     splash: {
         mode: 'auto',
         color: '#1a1a1a',
-        icon: 'assets/logo.png',
+        icon: '../../assets/logo.png',
         showProgress: true,
         progressColor: '#ffffff'
     }
@@ -25,7 +25,7 @@ new DiscoApp({
 If used manually:
 
 ```html
-<disco-splash logo="assets/logo.png"></disco-splash>
+<disco-splash logo="../../assets/logo.png"></disco-splash>
 ```
 
 ## Attributes

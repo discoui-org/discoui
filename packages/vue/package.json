@@ -1,14 +1,26 @@
 {
   "name": "@discoui/vue",
   "version": "0.1.0",
-  "private": true,
-  "main": "src/index.ts",
-  "peerDependencies": {
-    "vue": "^3.0.0",
-    "@discoui/core": "*"
+  "description": "Official Vue 3 integration for DiscoUI",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "npx vite build",
+    "dev": "npx vite"
   },
-  "dependencies": {
-    "vue": "^3.0.0",
-    "@discoui/core": "*"
+  "peerDependencies": {
+    "@discoui/core": "workspace:*",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "vue": "^3.5.0",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "typescript": "^5.0.0"
   }
 }

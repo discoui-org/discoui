@@ -62,10 +62,6 @@ DiscoApp.ready(() => {
 });
 ```
 
-## Vibe coding
+## Architecture
 
-Prebuilt "vibe coding" instructions and downloadable system-instruction files are available for fast prototyping with DiscoUI (UI-only) or scaffolding apps with DiscoUI Capacitor.
-
-- For details, see the pages under `docs/vibe-coding/` in this DiscoUI repository.
-- Copilot (local file): download the `docs/vibe-coding/copilot-instructions.md` file from the DiscoUICapacitor repository and use it as a system instruction in Copilot Chat.
-- Google AI Studio: download the `docs/vibe-coding/google-ai-studio-instructions.md` file from the DiscoUICapacitor repository and upload it to Google AI Studio under Advanced → System instructions.
+For deep technical insights on how DiscoUI handles cross-framework synchronization, layout management, and animation orchestration, see the [ARCHITECTURE.md](../ARCHITECTURE.md) documentation in the root of the repository.

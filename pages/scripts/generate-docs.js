@@ -27,13 +27,8 @@ function walkDir(dir, callback) {
 function extractTitle(mdContent, fileName) {
   const match = mdContent.match(/^#\s+(.+)$/m);
   let title = match ? match[1] : fileName.replace('.md', '').toUpperCase();
-  
-  // Clean up: remove parentheses and their content, remove backticks
   title = title.replace(/\s*\(.*?\)\s*/g, '').replace(/`/g, '').trim();
-  
-  // Consistency: Remove "Disco" prefix if it exists at the start
   title = title.replace(/^Disco\s*/i, '').trim();
-  
   return title;
 }
 
@@ -41,7 +36,7 @@ console.log('--- DiscoUI Dynamic Docs Generator ---');
 
 const allDocs = [];
 
-// 1. First Pass: Collect all docs and their titles
+// 1. Collect all docs
 walkDir(DOCS_DIR, (filePath) => {
   if (path.extname(filePath) !== '.md') return;
   const content = fs.readFileSync(filePath, 'utf-8');
@@ -51,72 +46,79 @@ walkDir(DOCS_DIR, (filePath) => {
   allDocs.push({
     title,
     relativePath,
-    targetUrl: `/docs/${relativePath.replace('.md', '.html')}`,
     category: relativePath.includes('/') ? relativePath.split('/')[0] : 'Getting Started'
   });
 });
 
-// 2. Generate Sidebar HTML
 const categories = {};
 allDocs.forEach(doc => {
   if (!categories[doc.category]) categories[doc.category] = [];
   categories[doc.category].push(doc);
 });
 
-let sidebarHtml = `<div class="sidebar-header"><a href="/" class="sidebar-brand">DiscoUI</a></div>`;
-Object.keys(categories).sort().forEach(cat => {
-  const docs = categories[cat].sort((a, b) => a.title.localeCompare(b.title));
-  const isComponents = cat.toLowerCase() === 'components';
-  const displayTitle = cat.toUpperCase();
-  
-  if (isComponents && docs.length > 5) {
-    sidebarHtml += `
-      <details class="nav-group-details" ${isComponents ? 'open' : ''}>
-        <summary class="nav-group-title">${displayTitle} (${docs.length})</summary>
-        <div class="nav-group-content">
-          ${docs.map(doc => `<a href="${doc.targetUrl}" class="nav-link">{{ACTIVE_${doc.relativePath}}}${doc.title}</a>`).join('')}
-        </div>
-      </details>`;
-  } else {
-    sidebarHtml += `<div class="nav-group-title">${displayTitle}</div>`;
-    docs.forEach(doc => {
-      sidebarHtml += `<a href="${doc.targetUrl}" class="nav-link">{{ACTIVE_${doc.relativePath}}}${doc.title}</a>`;
-    });
-  }
-});
-
-// 3. Second Pass: Generate Pages
+// 2. Generate Pages
 allDocs.forEach(doc => {
-  const filePath = path.join(DOCS_DIR, doc.relativePath);
   const targetPath = path.join(OUTPUT_DIR, doc.relativePath.replace('.md', '.html'));
   const targetDir = path.dirname(targetPath);
+  if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
 
-  if (!fs.existsSync(targetDir)) {
-    fs.mkdirSync(targetDir, { recursive: true });
-  }
+  // Calculate relative base path from current file to /docs/ root
+  const depth = doc.relativePath.split('/').length - 1;
+  const relBase = depth === 0 ? './' : '../'.repeat(depth);
+  const rootBase = depth === 0 ? '../' : '../'.repeat(depth + 1);
 
-  const mdContent = fs.readFileSync(filePath, 'utf-8');
+  // Generate Sidebar specifically for this page's depth
+  let sidebarHtml = `<div class="sidebar-header"><a href="${rootBase}index.html" class="sidebar-brand">DiscoUI</a></div>`;
+  Object.keys(categories).sort().forEach(cat => {
+    const docs = categories[cat].sort((a, b) => a.title.localeCompare(b.title));
+    const isComponents = cat.toLowerCase() === 'components';
+    const displayTitle = cat.toUpperCase();
+    
+    // Relative URL for the link from THIS page
+    const getRelUrl = (targetRelPath) => {
+       // Target is in /docs/
+       // Current is in /docs/[doc.relativePath]
+       return relBase + targetRelPath.replace('.md', '.html');
+    };
+
+    if (isComponents && docs.length > 5) {
+      sidebarHtml += `
+        <details class="nav-group-details" open>
+          <summary class="nav-group-title">${displayTitle} (${docs.length})</summary>
+          <div class="nav-group-content">
+            ${docs.map(d => {
+              const active = d.relativePath === doc.relativePath ? 'active' : '';
+              return `<a href="${getRelUrl(d.relativePath)}" class="nav-link ${active}">${d.title}</a>`;
+            }).join('')}
+          </div>
+        </details>`;
+    } else {
+      sidebarHtml += `<div class="nav-group-title">${displayTitle}</div>`;
+      docs.forEach(d => {
+        const active = d.relativePath === doc.relativePath ? 'active' : '';
+        sidebarHtml += `<a href="${getRelUrl(d.relativePath)}" class="nav-link ${active}">${d.title}</a>`;
+      });
+    }
+  });
+
+  const mdContent = fs.readFileSync(path.join(DOCS_DIR, doc.relativePath), 'utf-8');
   let htmlContent = marked.parse(mdContent);
   
-  // Fix asset paths: convert ../../assets/ or ../assets/ to /assets/
-  htmlContent = htmlContent.replace(/src="(\.\.\/)+assets\//g, 'src="/assets/');
+  // Fix asset paths: convert ../assets/ or assets/ to relative assets path
+  // Assets are in /assets/ (at root)
+  // Current file is in /docs/subdir/file.html
+  // So assets path is rootBase + assets/
+  htmlContent = htmlContent.replace(/src="(\.\.\/)*assets\//g, `src="${rootBase}assets/`);
   
   // Fix internal links: convert .md to .html
   htmlContent = htmlContent.replace(/href="([^"]+)\.md"/g, 'href="$1.html"');
   
-  // Inject sidebar and set active class
-  let pageSidebar = sidebarHtml.replace(`{{ACTIVE_${doc.relativePath}}}`, '');
-  // Clear other active markers
-  pageSidebar = pageSidebar.replace(/\{\{ACTIVE_.*?\}\}/g, '');
-  
-  // Add active class to current link (simple string replace for the href)
-  const activeLink = `href="${doc.targetUrl}" class="nav-link"`;
-  pageSidebar = pageSidebar.replace(activeLink, `href="${doc.targetUrl}" class="nav-link active"`);
-
   const finalHtml = template
     .replace('{{TITLE}}', doc.title)
-    .replace('{{SIDEBAR}}', pageSidebar)
-    .replace('{{CONTENT}}', htmlContent);
+    .replace('{{SIDEBAR}}', sidebarHtml)
+    .replace('{{CONTENT}}', htmlContent)
+    .replace('href="/"', `href="${rootBase}index.html"`) // Fix Close Docs link
+    .replace('href="../src/style.css"', `href="${rootBase}src/style.css"`); // Fallback if still there
 
   fs.writeFileSync(targetPath, finalHtml);
   console.log(`Generated: ${doc.relativePath} -> ${doc.title}`);

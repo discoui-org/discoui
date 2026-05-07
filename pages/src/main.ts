@@ -194,11 +194,12 @@ const runCode = async () => {
   const html = htmlEditor.getValue();
   const js = jsEditor.getValue();
   
+  const baseUrl = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
   const blob = new Blob([`
     <!DOCTYPE html>
     <html>
       <head>
-        <link rel="stylesheet" href="${location.origin}/discoui/discoui.css">
+        <link rel="stylesheet" href="${baseUrl}/discoui/discoui.css">
         <style>
           body { margin: 0; background: #000; color: #fff; overflow: hidden; height: 100vh; font-family: "Segoe UI", sans-serif; }
           * { box-sizing: border-box; }
@@ -207,7 +208,7 @@ const runCode = async () => {
       <body>
         ${html}
         <script type="module">
-          import { DiscoApp } from '${location.origin}/discoui/discoui.mjs';
+          import { DiscoApp } from '${baseUrl}/discoui/discoui.mjs';
           
           window.addEventListener('message', async (event) => {
             const frame = document.querySelector('disco-frame');

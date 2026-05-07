@@ -10,7 +10,7 @@
     "src"
   ],
   "scripts": {
-    "build": "npx vite build",
+    "build": "npx vite build && tsc",
     "dev": "npx vite"
   },
   "peerDependencies": {

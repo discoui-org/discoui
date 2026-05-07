@@ -44,8 +44,8 @@ document.querySelector('.home-hit')?.addEventListener('click', () => {
 toggleFullscreen?.addEventListener('click', (e) => {
   e.preventDefault();
   const isFullscreen = document.body.classList.toggle('fullscreen-mode');
-  const label = toggleFullscreen.querySelector('.tile-label');
-  if (label) label.textContent = isFullscreen ? 'exit' : 'fullscreen';
+  const label = toggleFullscreen.querySelector('.charms-label');
+  if (label) label.textContent = isFullscreen ? 'Exit' : 'Fullscreen';
   
   if (!isFullscreen) resize();
 });
@@ -72,13 +72,13 @@ const runCode = () => {
     <!DOCTYPE html>
     <html>
       <head>
-        <link rel="stylesheet" href="/../packages/core/dist/discoui.css">
+        <link rel="stylesheet" href="${location.origin}/discoui/discoui.css">
         <style>body { margin: 0; background: #000; color: #fff; overflow: hidden; height: 100vh; }</style>
       </head>
       <body>
         ${code}
         <script type="module">
-          import { DiscoApp } from '/../packages/core/dist/discoui.mjs';
+          import { DiscoApp } from '${location.origin}/discoui/discoui.mjs';
            DiscoApp.ready(() => {
             const app = new DiscoApp();
             app.launch(document.body);

@@ -29,6 +29,10 @@ export default defineConfig({
         {
           src: '../docs/*',
           dest: 'docs'
+        },
+        {
+          src: '../packages/core/dist/*',
+          dest: 'discoui'
         }
       ]
     })
@@ -37,7 +41,8 @@ export default defineConfig({
     alias: {
       '@discoui/core': resolve(__dirname, '../packages/core'),
       '/assets': resolve(__dirname, '../assets'),
-      '/docs': resolve(__dirname, '../docs')
+      '/docs': resolve(__dirname, '../docs'),
+      '/discoui': resolve(__dirname, '../packages/core/dist')
     }
   }
 })

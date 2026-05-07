@@ -16,29 +16,28 @@
       <iframe id="heroDemo" src="/demo.html" title="DiscoUI Live Demo" frameborder="0"></iframe>
     </div>
 
-    <!-- HUD Overlay -->
-    <div class="hud-overlay">
-      <header class="hud-header">
-        <div class="brand">
-          <h1>DiscoUI</h1>
-          <p>Mobile Shell SDK Ecosystem</p>
-        </div>
-        <nav class="nav-tiles">
-          <a href="#" class="tile" id="toggleFullscreen">
-            <span class="tile-label">fullscreen</span>
-          </a>
-          <a href="#" class="tile" id="openSandbox">
-            <span class="tile-label">sandbox</span>
-          </a>
-          <a href="./docs/index.md" class="tile">
-            <span class="tile-label">docs</span>
-          </a>
-        </nav>
-      </header>
+    <!-- Windows 8 Style Charm Bar (Right) -->
+    <div class="charms-bar">
+      <div class="charms-item" id="toggleFullscreen">
+        <div class="charms-icon mif-enlarge"></div>
+        <div class="charms-label">Fullscreen</div>
+      </div>
+      <div class="charms-item" id="openSandbox">
+        <div class="charms-icon mif-code"></div>
+        <div class="charms-label">Sandbox</div>
+      </div>
+      <a href="./docs/index.md" class="charms-item">
+        <div class="charms-icon mif-file-text"></div>
+        <div class="charms-label">Docs</div>
+      </a>
+    </div>
 
-      <footer class="hud-footer">
-        <!-- Optional footer info could go here -->
-      </footer>
+    <!-- Windows 8 Style Time Panel (Bottom Left) -->
+    <div class="charms-time-panel">
+      <div class="time-content">
+        <h1 class="disco-title">DiscoUI</h1>
+        <p class="disco-subtitle">Mobile Shell SDK</p>
+      </div>
     </div>
 
     <!-- Sandbox Side Bar -->

@@ -39,7 +39,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/discoui-org/discoui.git"
+    "url": "https://github.com/discoui-org/discoui.git",
+    "directory": "packages/core"
   },
   "dependencies": {
     "@fontsource/open-sans": "^5.2.7",

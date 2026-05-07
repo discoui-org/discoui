@@ -13,6 +13,19 @@
     "build": "npx vite build && tsc",
     "dev": "npx vite"
   },
+  "author": "discoui-org",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/discoui-org/discoui.git",
+    "directory": "packages/vue"
+  },
+  "keywords": [
+    "vue",
+    "disco-ui",
+    "metro-ui",
+    "mobile"
+  ],
   "peerDependencies": {
     "@discoui-org/core": "*",
     "vue": "^3.0.0"

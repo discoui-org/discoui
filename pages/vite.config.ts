@@ -7,7 +7,9 @@ const cssInlinePlugin = () => ({
   enforce: 'pre',
   async resolveId(source, importer) {
     if (!importer) return null;
-    if ((source.endsWith('.scss') || source.endsWith('.css')) && !source.includes('?inline')) {
+    if ((source.endsWith('.scss') || source.endsWith('.css')) && 
+        !source.includes('?') && 
+        !source.includes('style.css')) {
       const resolved = await this.resolve(`${source}?inline`, importer, { skipSelf: true });
       return resolved?.id ?? `${source}?inline`;
     }
@@ -28,7 +30,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        demo: resolve(__dirname, 'demo.html'),
+        demo: resolve(__dirname, 'demo/index.html'),
       }
     }
   },
@@ -38,7 +40,7 @@ export default defineConfig({
       targets: [
         {
           src: '../assets/*',
-          dest: 'assets'
+          dest: '.'
         },
         {
           src: '../packages/core/dist/*',

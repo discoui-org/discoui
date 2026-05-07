@@ -1,6 +1,7 @@
 /**
  * DiscoUI Lumia Portal - Professional Controller
  */
+import './style.css';
 
 const heroDemo = document.getElementById('heroDemo') as HTMLIFrameElement;
 const sandboxFrame = document.getElementById('sandboxFrame') as HTMLIFrameElement;
@@ -51,7 +52,7 @@ async function triggerFrameAnimation(iframe: HTMLIFrameElement, type: 'animate-i
 
     // Find the active page (Pivot, Single, or generic Page)
     const page = doc.querySelector('disco-pivot-page, disco-single-page, disco-page') as any;
-    
+
     if (page) {
       if (type === 'animate-out' && page.animateOut) {
         await page.animateOut({ direction });
@@ -95,14 +96,14 @@ openSandboxBtn?.addEventListener('click', (e) => {
 
 closeSandboxBtn?.addEventListener('click', async () => {
   sandboxBar?.classList.remove('open');
-  
+
   if (discoDevice.classList.contains('sandbox-active')) {
     // 1. Trigger BACK exit animation in Sandbox page
     await triggerFrameAnimation(sandboxFrame, 'animate-out', 'back');
-    
+
     // 2. Switch back to Hero Demo
     discoDevice.classList.remove('sandbox-active');
-    
+
     // 3. Trigger BACK entrance animation in Hero Demo page
     await triggerFrameAnimation(heroDemo, 'animate-in', 'back');
   }
@@ -193,13 +194,15 @@ const jsEditor = monaco.editor.create(document.getElementById('jsEditorContainer
 const runCode = async () => {
   const html = htmlEditor.getValue();
   const js = jsEditor.getValue();
-  
-  const baseUrl = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+
+  const discouiJsUrl = new URL('./discoui/packages/core/dist/discoui.mjs', window.location.href).href;
+  const discouiCssUrl = new URL('./discoui/packages/core/dist/discoui.css', window.location.href).href;
+
   const blob = new Blob([`
     <!DOCTYPE html>
     <html>
       <head>
-        <link rel="stylesheet" href="${baseUrl}/discoui/discoui.css">
+        <link rel="stylesheet" href="${discouiCssUrl}">
         <style>
           body { margin: 0; background: #000; color: #fff; overflow: hidden; height: 100vh; font-family: "Segoe UI", sans-serif; }
           * { box-sizing: border-box; }
@@ -208,7 +211,7 @@ const runCode = async () => {
       <body>
         ${html}
         <script type="module">
-          import { DiscoApp } from '${baseUrl}/discoui/discoui.mjs';
+          import { DiscoApp } from '${discouiJsUrl}';
           
           window.addEventListener('message', async (event) => {
             const frame = document.querySelector('disco-frame');
@@ -232,10 +235,10 @@ const runCode = async () => {
   if (!discoDevice.classList.contains('sandbox-active')) {
     // 1. Trigger FORWARD exit animation in Hero Demo
     await triggerFrameAnimation(heroDemo, 'animate-out', 'forward');
-    
+
     // 2. Prepare Sandbox Iframe
     const blobUrl = URL.createObjectURL(blob);
-    
+
     // 3. Wait for Sandbox to load and then trigger entrance
     sandboxFrame.onload = async () => {
       discoDevice.classList.add('sandbox-active');
@@ -276,7 +279,7 @@ const sandboxTile = document.getElementById('sandboxTile');
 sandboxTile?.addEventListener('click', () => {
   const portal = document.querySelector('.portal-section');
   portal?.scrollIntoView({ behavior: 'smooth' });
-  
+
   // Wait for scroll to complete then open sandbox
   setTimeout(() => {
     sandboxBar?.classList.add('open');

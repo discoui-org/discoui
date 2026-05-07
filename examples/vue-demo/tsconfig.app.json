@@ -5,6 +5,7 @@
     "types": ["vite/client"],
 
     /* Linting */
+    "moduleResolution": "bundler",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,

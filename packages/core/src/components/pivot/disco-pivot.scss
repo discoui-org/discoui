@@ -21,17 +21,18 @@
   left: 0;
   right: 0;
   z-index: 100;
-  pointer-events: none; /* Let clicks pass through empty areas */
-  
+  pointer-events: none;
+  /* Let clicks pass through empty areas */
+
   ::slotted(*) {
-      pointer-events: auto;
+    pointer-events: auto;
   }
 }
 
 
 :host([data-animating]) .pivot-root {
-  perspective: var(--disco-perspective, 2000px);
-  perspective-origin: 50% 50%;
+  //perspective: var(--disco-perspective);
+  perspective-origin: center;
   transform-style: preserve-3d;
 }
 

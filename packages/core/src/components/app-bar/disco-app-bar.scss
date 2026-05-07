@@ -51,9 +51,9 @@
        Cannot use preserve-3d with overflow: hidden on the same element.
        We must establish a local perspective here so children can be 3D.
     */
-    perspective: var(--disco-perspective, 2000px);
+    perspective: var(--disco-perspective);
     perspective-origin: 50% calc(100% - (var(--disco-vh) / 2));
-    
+
     &.is-open {
         /* Height handled by JS animation explicitly */
     }

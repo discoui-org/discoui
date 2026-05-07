@@ -2,6 +2,19 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
+const cssInlinePlugin = () => ({
+  name: 'css-inline',
+  enforce: 'pre',
+  async resolveId(source, importer) {
+    if (!importer) return null;
+    if ((source.endsWith('.scss') || source.endsWith('.css')) && !source.includes('?inline')) {
+      const resolved = await this.resolve(`${source}?inline`, importer, { skipSelf: true });
+      return resolved?.id ?? `${source}?inline`;
+    }
+    return null;
+  }
+});
+
 export default defineConfig({
   server: {
     fs: {
@@ -20,6 +33,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    cssInlinePlugin(),
     viteStaticCopy({
       targets: [
         {
@@ -39,7 +53,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@discoui/core': resolve(__dirname, '../packages/core'),
+      '@discoui/core/dist': resolve(__dirname, '../packages/core/dist'),
+      '@discoui/core': resolve(__dirname, '../packages/core/src/index.js'),
       '/assets': resolve(__dirname, '../assets'),
       '/docs': resolve(__dirname, '../docs'),
       '/discoui': resolve(__dirname, '../packages/core/dist')

@@ -37,7 +37,7 @@
 	--disco-scale: var(--disco-scale-attr, .8);
 	--disco-vw: calc(100vw / var(--disco-scale, 0.8));
 	--disco-vh: calc(100vh / var(--disco-scale, 0.8));
-	--disco-perspective: calc(100vw / (var(--disco-scale, 0.8)) * 4);
+	--disco-perspective: 2000px;
 
 	/* Transitions */
 	--disco-page-in-ease: var(--disco-ease-out-quart, ease-out);

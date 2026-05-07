@@ -2,8 +2,8 @@
  * Example demo loader used by the examples page.
  */
 
-import { DISCO_COLORS, DiscoApp, DiscoContextMenu, DiscoDatePicker, DiscoDialog, DiscoMessageDialog, DiscoTimePicker, DiscoTimeSpanPicker } from '@discoui/core';
-import '@discoui/core/dist/discoui.css';
+import { DISCO_COLORS, DiscoApp, DiscoContextMenu, DiscoDatePicker, DiscoDialog, DiscoMessageDialog, DiscoTimePicker, DiscoTimeSpanPicker } from '@discoui-org/core';
+import '@discoui-org/core/dist/discoui.css';
 const launchDemo = async () => {
   const app = new DiscoApp({
     theme: document.documentElement.getAttribute('disco-theme') || 'dark',

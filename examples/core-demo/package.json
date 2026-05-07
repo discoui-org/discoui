@@ -11,6 +11,6 @@
     "vite": "^8.0.11"
   },
   "dependencies": {
-    "@discoui/core": "*"
+    "@discoui-org/core": "*"
   }
 }

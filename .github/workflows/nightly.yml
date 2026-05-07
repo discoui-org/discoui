@@ -1,0 +1,68 @@
+name: Unified Nightly Build
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build All & Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.11.1
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      
+      - uses: android-actions/setup-android@v3
+
+      - name: Build Core
+        run: |
+          cd packages/core
+          npm ci
+          npm run build
+          zip -r ../../discoui-core-nightly.zip dist
+
+      - name: Build Vue
+        run: |
+          cd packages/vue
+          npm ci
+          npm run build
+          zip -r ../../discoui-vue-nightly.zip dist
+
+      - name: Build Capacitor
+        run: |
+          cd packages/capacitor
+          npm ci
+          npm run build
+          zip -r ../../discoui-capacitor-nightly.zip dist src android/src android/build.gradle
+
+      - name: Create or Update Nightly Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: Nightly Build
+          body: |
+            **Last Updated:** ${{ github.event.repository.updated_at }}
+            **Commit:** ${{ github.sha }}
+            
+            This release contains the latest automated builds for:
+            - `@discoui-org/core`
+            - `@discoui-org/vue`
+            - `@discoui-org/capacitor`
+          prerelease: true
+          files: |
+            discoui-core-nightly.zip
+            discoui-vue-nightly.zip
+            discoui-capacitor-nightly.zip

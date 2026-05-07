@@ -35,7 +35,7 @@
  */
 
 /**
- * @typedef {typeof import('@discoui/core').DiscoApp} DiscoAppInstanceConstructor
+ * @typedef {typeof import('@discoui-org/core').DiscoApp} DiscoAppInstanceConstructor
  */
 
 /**
@@ -49,4 +49,4 @@
  * @property {() => Promise<void>} exitApp
  */
 
-export {};
+export { };

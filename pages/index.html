@@ -129,7 +129,13 @@
   <!-- Sandbox Panel (Restored but better integrated) -->
   <aside id="sandboxBar" class="sandbox-bar">
     <div class="sandbox-header">
-      <h2>Live Sandbox</h2>
+      <div class="sandbox-title-group">
+        <h2>Live Sandbox</h2>
+        <select id="sandboxMode" class="sandbox-select">
+          <option value="vanilla">Vanilla JS</option>
+          <option value="vue">Vue 3</option>
+        </select>
+      </div>
       <button class="close-sandbox" id="closeSandbox">&times;</button>
     </div>
 

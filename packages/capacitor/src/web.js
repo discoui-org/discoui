@@ -4,7 +4,7 @@ import { setDiscoAppExport } from './exports.js';
 /** @typedef {import('./types').DiscoAppOptions} DiscoAppOptions */
 /** @typedef {import('./types').DiscoInitializeOptions} DiscoInitializeOptions */
 
-const DEFAULT_IMPORT_PATH = '@discoui/core';
+const DEFAULT_IMPORT_PATH = '@discoui-org/core';
 const FALLBACK_IMPORT_PATHS = ['/discoui.mjs'];
 const DEFAULT_CONFIG_PATH = '/disco.config.json';
 

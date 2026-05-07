@@ -12,11 +12,11 @@ export default defineConfig({
       formats: ['es', 'cjs']
     },
     rollupOptions: {
-      external: ['vue', '@discoui/core'],
+      external: ['vue', '@discoui-org/core'],
       output: {
         globals: {
           vue: 'Vue',
-          '@discoui/core': 'DiscoUI'
+          '@discoui-org/core': 'DiscoUI'
         }
       }
     }

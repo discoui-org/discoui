@@ -1,9 +1,9 @@
-declare module '@discoui/core' {
+declare module '@discoui-org/core' {
   export class DiscoApp {
     constructor(config?: any);
     launch(frame: HTMLElement): void;
     dismissSplash(): Promise<void>;
     setupSplash(): void;
   }
-  export class DiscoAppDelegate {}
+  export class DiscoAppDelegate { }
 }

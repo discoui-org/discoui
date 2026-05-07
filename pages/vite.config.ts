@@ -7,9 +7,9 @@ const cssInlinePlugin = () => ({
   enforce: 'pre',
   async resolveId(source, importer) {
     if (!importer) return null;
-    if ((source.endsWith('.scss') || source.endsWith('.css')) && 
-        !source.includes('?') && 
-        !source.includes('style.css')) {
+    if ((source.endsWith('.scss') || source.endsWith('.css')) &&
+      !source.includes('?') &&
+      !source.includes('style.css')) {
       const resolved = await this.resolve(`${source}?inline`, importer, { skipSelf: true });
       return resolved?.id ?? `${source}?inline`;
     }
@@ -51,8 +51,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@discoui/core/dist': resolve(__dirname, '../packages/core/dist'),
-      '@discoui/core': resolve(__dirname, '../packages/core/src/index.js')
+      '@discoui-org/core/dist': resolve(__dirname, '../packages/core/dist'),
+      '@discoui-org/core': resolve(__dirname, '../packages/core/src/index.js')
     }
   }
 })

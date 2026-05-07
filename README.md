@@ -11,9 +11,9 @@ Technical details regarding cross-framework synchronization and animation orches
 
 ## Packages
 
-- **[@discoui/core](./packages/core)**: Framework-agnostic engine and high-performance Web Components.
-- **[@discoui/capacitor](./packages/capacitor)**: Native mobile bridge for hardware events and system integration.
-- **[@discoui/vue](./packages/vue)**: Vue 3 SDK with `v-model` support, component wrappers, and full IntelliSense.
+- **[@discoui-org/core](./packages/core)**: Framework-agnostic engine and high-performance Web Components.
+- **[@discoui-org/capacitor](./packages/capacitor)**: Native mobile bridge for hardware events and system integration.
+- **[@discoui-org/vue](./packages/vue)**: Vue 3 SDK with `v-model` support, component wrappers, and full IntelliSense.
 
 ## Monorepo Structure
 

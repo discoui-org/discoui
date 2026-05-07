@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "vue": "^3.5.34",
-    "@discoui/core": "*",
-    "@discoui/vue": "*"
+    "@discoui-org/core": "*",
+    "@discoui-org/vue": "*"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",

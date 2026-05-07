@@ -22,8 +22,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@discoui/core/dist/discoui.css': path.resolve(__dirname, '../../packages/core/dist/discoui.css'),
-      '@discoui/core': path.resolve(__dirname, '../../packages/core/src/index.js')
+      '@discoui-org/core/dist/discoui.css': path.resolve(__dirname, '../../packages/core/dist/discoui.css'),
+      '@discoui-org/core': path.resolve(__dirname, '../../packages/core/src/index.js')
     }
   }
 });

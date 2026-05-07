@@ -510,10 +510,32 @@ body.portal-in-view .charms-bar {
 }
 
 .sandbox-header {
-  padding: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+  padding: 24px;
+}
+
+.sandbox-title-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sandbox-select {
+  background: #1e1e1e;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 4px 8px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.sandbox-select:hover {
+  border-color: #555;
 }
 
 .sandbox-header h2 {

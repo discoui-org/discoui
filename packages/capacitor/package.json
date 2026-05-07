@@ -1,5 +1,5 @@
 {
-  "name": "@discoui/capacitor",
+  "name": "@discoui-org/capacitor",
   "version": "0.8.1",
   "description": "well its disco ui. in android",
   "main": "src/index.js",
@@ -88,6 +88,6 @@
     }
   },
   "dependencies": {
-    "@discoui/core": "*"
+    "@discoui-org/core": "*"
   }
 }

@@ -28,7 +28,7 @@ export interface DiscoInitializeOptions {
   configPath?: string;
 }
 
-import { DiscoApp as DiscoAppValue } from "@discoui/core";
+import { DiscoApp as DiscoAppValue } from "@discoui-org/core";
 
 export type DiscoAppConstructor = typeof DiscoAppValue & {
   ready?: (cb: () => void) => void | Promise<void>;

@@ -14,7 +14,7 @@
     "dev": "npx vite"
   },
   "peerDependencies": {
-    "@discoui/core": "workspace:*",
+    "@discoui/core": "*",
     "vue": "^3.0.0"
   },
   "devDependencies": {

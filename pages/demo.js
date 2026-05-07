@@ -1,0 +1,609 @@
+/**
+ * Example demo loader used by the examples page.
+ */
+
+import { DISCO_COLORS, DiscoApp, DiscoContextMenu, DiscoDatePicker, DiscoDialog, DiscoMessageDialog, DiscoTimePicker, DiscoTimeSpanPicker } from '@discoui/core';
+import '@discoui/core/dist/discoui.css';
+const launchDemo = async () => {
+  const app = new DiscoApp({
+    theme: document.documentElement.getAttribute('disco-theme') || 'dark',
+    accent: document.documentElement.getAttribute('disco-accent') || '#008a00',
+    font: document.documentElement.getAttribute('disco-font') || null
+  });
+  app.scale = 1.025;
+  app.setInsets({ top: 0, bottom: 0, left: 0, right: 0 });
+  window.app = app;
+
+  const frame = document.getElementById('componentsFrame');
+  if (!frame) return;
+  window.frame = frame;
+  const homePage = document.getElementById('componentsHome');
+  const homeEasingsItem = document.getElementById('componentsHomeEasings');
+  const homeColorsList = document.getElementById('componentsHomeColorsList');
+  window.homePage = homePage;
+  const pivotPage = document.getElementById('componentsPivot');
+  const hubPage = document.getElementById('componentsHub');
+  const appBarPage = document.getElementById('componentsAppBar');
+  const groupStylePage = document.getElementById('componentsGroupStyle');
+  const checkboxPage = document.getElementById('componentsCheckbox');
+  const radioButtonPage = document.getElementById('componentsRadioButton');
+  const progressPage = document.getElementById('componentsProgress');
+  const progressRingPage = document.getElementById('componentsProgressRing');
+  const comboBoxPage = document.getElementById('componentsComboBox');
+  const buttonPage = document.getElementById('componentsButton');
+  const textBoxPage = document.getElementById('componentsTextBox');
+  const passwordBoxPage = document.getElementById('componentsPasswordBox');
+  const sliderPage = document.getElementById('componentsSlider');
+  const toggleSwitchPage = document.getElementById('componentsToggleSwitch');
+  const toggleButtonPage = document.getElementById('componentsToggleButton');
+  const dialogPage = document.getElementById('componentsDialog');
+  const messageDialogPage = document.getElementById('componentsMessageDialog');
+  const contextMenuPage = document.getElementById('componentsContextMenu');
+  const imagePage = document.getElementById('componentsImage');
+  const mediaElementPage = document.getElementById('componentsMediaElement');
+  const scrollViewPage = document.getElementById('componentsScrollView');
+  const flipViewPage = document.getElementById('componentsFlipView');
+  const groupStyleList = document.getElementById('groupStyleList');
+  const groupStyleSettingsList = document.getElementById('groupStyleSettingsList');
+  const comboBox = document.querySelector('#componentsComboBox disco-combo-box');
+
+  // App Bar Test Pages
+  const appBarSinglePage = document.getElementById('appBarSinglePage');
+  const appBarPivotPage = document.getElementById('appBarPivotPage');
+  const appBarHubPage = document.getElementById('appBarHubPage');
+  const appBarPivotLocalOnlyPage = document.getElementById('appBarPivotLocalOnlyPage');
+  const appBarHubLocalOnlyPage = document.getElementById('appBarHubLocalOnlyPage');
+  const appBarTestList = document.getElementById('appBarTestList');
+
+  if (appBarTestList) {
+    appBarTestList.items = [
+      { id: 'single', Title: 'App Bar in Page' },
+      { id: 'pivot', Title: 'App Bar in Pivot' },
+      { id: 'panorama', Title: 'App Bar in Panorama' },
+      { id: 'pivot-local', Title: 'Pivot: Local Only' },
+      { id: 'panorama-local', Title: 'Panorama: Local Only' }
+    ];
+    appBarTestList.addEventListener('itemselect', (e) => {
+      const id = e.detail?.data?.id;
+      if (id === 'single') frame.navigate(appBarSinglePage);
+      if (id === 'pivot') frame.navigate(appBarPivotPage);
+      if (id === 'panorama') frame.navigate(appBarHubPage);
+      if (id === 'pivot-local') frame.navigate(appBarPivotLocalOnlyPage);
+      if (id === 'panorama-local') frame.navigate(appBarHubLocalOnlyPage);
+    });
+  }
+
+  let stressScrollPage = document.getElementById('componentsStressScroll');
+  let stressNativeScrollPage = document.getElementById('componentsStressNativeScroll');
+
+  const populateStressContent = (container) => {
+    if (!container) return;
+    const fragment = document.createDocumentFragment();
+    const variants = ['stress-scroll__item--card', 'stress-scroll__item--mesh', 'stress-scroll__item--ring'];
+    const animations = ['stress-scroll__anim--float', 'stress-scroll__anim--pulse', 'stress-scroll__anim--spin', 'stress-scroll__anim--shimmer'];
+    const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const pick = (list) => list[random(0, list.length - 1)];
+    for (let i = 1; i <= 48; i += 1) {
+      const item = document.createElement('div');
+      const variant = variants[i % variants.length];
+      item.className = `stress-scroll__item ${variant}`;
+
+      const content = document.createElement('div');
+      content.className = 'stress-scroll__content';
+
+      const blocks = random(3, 8);
+      for (let j = 0; j < blocks; j += 1) {
+        const block = document.createElement('div');
+        block.className = 'stress-scroll__block';
+        if (Math.random() < 0.6) block.classList.add(pick(animations));
+        content.appendChild(block);
+      }
+
+      const lines = random(1, 3);
+      for (let k = 0; k < lines; k += 1) {
+        const line = document.createElement('div');
+        line.className = 'stress-scroll__line';
+        if (Math.random() < 0.4) line.classList.add(pick(animations));
+        content.appendChild(line);
+      }
+
+      const label = document.createElement('div');
+      label.className = 'stress-scroll__label';
+      label.textContent = `Item ${i}`;
+      content.appendChild(label);
+
+      const badge = document.createElement('div');
+      badge.className = 'stress-scroll__badge';
+      if (Math.random() < 0.5) badge.classList.add(pick(animations));
+      badge.textContent = `#${random(100, 999)}`;
+
+      item.appendChild(content);
+      item.appendChild(badge);
+      fragment.appendChild(item);
+    }
+    container.appendChild(fragment);
+  };
+
+  const list = homePage.querySelector('#componentsList');
+  if (list) {
+    const getTheme = () => document.documentElement.getAttribute('disco-theme') || 'dark';
+    const listItems = [
+      { id: 'toggle-theme', Title: 'Toggle Theme', Description: `current theme: ${getTheme()}` },
+      { id: 'pivot', Title: 'Pivot', Description: '' },
+      { id: 'hub', Title: 'Hub', Description: '' },
+      { id: 'appbar', Title: 'App Bar', Description: '' },
+      { id: 'groupstyle', Title: 'Group Style (Sticky Header)', Description: '' },
+      { id: 'progress', Title: 'Progress Bar', Description: '' },
+      { id: 'progressring', Title: 'Progress Ring', Description: '' },
+      { id: 'checkbox', Title: 'Checkbox', Description: '' },
+      { id: 'radiobutton', Title: 'Radio Button', Description: '' },
+      { id: 'textbox', Title: 'Text Box', Description: '' },
+      { id: 'passwordbox', Title: 'Password Box', Description: '' },
+      { id: 'slider', Title: 'Slider', Description: '' },
+      { id: 'dialog', Title: 'Dialog', Description: '' },
+      { id: 'contextmenu', Title: 'Context Menu', Description: '' },
+      { id: 'image', Title: 'Image', Description: '' },
+      { id: 'mediaelement', Title: 'Media Element', Description: '' },
+      { id: 'messagedialog', Title: 'Message Dialog', Description: '' },
+      { id: 'togglebutton', Title: 'Toggle Button', Description: '' },
+      { id: 'toggleswitch', Title: 'Toggle Switch', Description: '' },
+      { id: 'combobox', Title: 'Combo Box', Description: '' },
+      { id: 'button', Title: 'Button', Description: '' },
+      { id: 'scrollview', Title: 'Scroll View', Description: '' },
+      { id: 'flipview', Title: 'Flip View', Description: '' },
+      { id: 'datepicker', Title: 'Date Picker', Description: '' },
+      { id: 'timepicker', Title: 'Time Picker', Description: '' },
+      { id: 'timespanpicker', Title: 'Time Span Picker', Description: '' }
+    ];
+    const sortedItems = listItems
+      .filter((item) => item.id !== 'toggle-theme')
+      .sort((a, b) => a.Title.localeCompare(b.Title));
+    list.items = [listItems[0], ...sortedItems];
+
+    list.addEventListener('itemselect', async (event) => {
+      const detail = event.detail;
+      const id = detail?.data?.id;
+      if (id === 'datepicker') {
+        const datePicker = new DiscoDatePicker(
+          'Choose Date',
+          new Date(),
+          {
+            min: new Date(1900, 0, 1),
+            max: new Date(),
+            format: 'MM MMMM dddd dd yyyy'
+          }
+        );
+
+        datePicker.open().then((selectedDate) => {
+          if (selectedDate) {
+            console.log('Date picker selected:', selectedDate);
+          }
+        });
+      }
+      if (id === 'timepicker') {
+        const timePicker = new DiscoTimePicker(
+          'CHOOSE TIME',
+          '14:30',
+          {
+            minuteIncrement: 5
+          }
+        );
+
+        timePicker.open().then((selectedTime) => {
+          if (selectedTime) {
+            console.log('Time picker selected:', selectedTime);
+          }
+        });
+      }
+      if (id === 'timespanpicker') {
+        const timeSpanPicker = new DiscoTimeSpanPicker(
+          'DURATION',
+          '01:30:00',
+          {
+            min: '00:10:00',
+            max: '12:00:00',
+            step: { m: 5, s: 10 },
+            showSeconds: true
+          }
+        );
+
+        timeSpanPicker.open().then((selectedValue) => {
+          if (selectedValue) {
+            console.log('Time span picker selected:', selectedValue);
+          }
+        });
+      }
+      if (id === 'toggle-theme') {
+        const nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('disco-theme', nextTheme);
+        const updatedDescription = `current theme: ${nextTheme}`;
+        if (list.items[0] && typeof list.items[0] === 'object') {
+          list.items[0].Description = updatedDescription;
+        }
+      }
+      if (id === 'pivot') {
+        frame.navigate(pivotPage);
+      }
+      if (id === 'hub') {
+        frame.navigate(hubPage);
+      }
+      if (id === 'appbar') {
+        frame.navigate(appBarPage);
+      }
+      if (id === 'groupstyle') {
+        frame.navigate(groupStylePage);
+      }
+      if (id === 'progress') {
+        frame.navigate(progressPage);
+      }
+      if (id === 'progressring') {
+        frame.navigate(progressRingPage);
+      }
+      if (id === 'checkbox') {
+        frame.navigate(checkboxPage);
+      }
+      if (id === 'radiobutton') {
+        frame.navigate(radioButtonPage);
+      }
+      if (id === 'combobox') {
+        frame.navigate(comboBoxPage);
+      }
+      if (id === 'button') {
+        frame.navigate(buttonPage);
+      }
+      if (id === 'textbox') {
+        frame.navigate(textBoxPage);
+      }
+      if (id === 'passwordbox') {
+        frame.navigate(passwordBoxPage);
+      }
+      if (id === 'slider') {
+        frame.navigate(sliderPage);
+      }
+      if (id === 'dialog') {
+        frame.navigate(dialogPage);
+      }
+      if (id === 'image') {
+        frame.navigate(imagePage);
+      }
+      if (id === 'contextmenu') {
+        frame.navigate(contextMenuPage);
+      }
+      if (id === 'messagedialog') {
+        frame.navigate(messageDialogPage);
+      }
+      if (id === 'mediaelement') {
+        frame.navigate(mediaElementPage);
+      }
+      if (id === 'togglebutton') {
+        frame.navigate(toggleButtonPage);
+      }
+      if (id === 'toggleswitch') {
+        frame.navigate(toggleSwitchPage);
+      }
+      if (id === 'scrollview') {
+        frame.navigate(scrollViewPage);
+      }
+      if (id === 'flipview') {
+        frame.navigate(flipViewPage);
+      }
+      if (id === 'stressscroll') {
+        if (!stressScrollPage) {
+          stressScrollPage = await frame.loadPage('stress-scroll.html', {
+            onLoad: (page) => populateStressContent(page.querySelector('#stressScrollContent'))
+          });
+        }
+        frame.navigate(stressScrollPage);
+      }
+      if (id === 'stressnative') {
+        if (!stressNativeScrollPage) {
+          stressNativeScrollPage = await frame.loadPage('stress-native-scroll.html', {
+            onLoad: (page) => populateStressContent(page.querySelector('#stressNativeScrollContent'))
+          });
+        }
+        frame.navigate(stressNativeScrollPage);
+      }
+    });
+  }
+
+  const button = document.getElementById('homeButton');
+  if (button) {
+    button.addEventListener('click', () => frame.navigate(homePage));
+  }
+
+  const stressButton = document.getElementById('stressScrollButton');
+  if (stressButton) {
+    stressButton.addEventListener('click', async () => {
+      if (!stressScrollPage) {
+        stressScrollPage = await frame.loadPage('stress-scroll.html', {
+          onLoad: (page) => populateStressContent(page.querySelector('#stressScrollContent'))
+        });
+      }
+      frame.navigate(stressScrollPage);
+    });
+  }
+
+  const stressNativeButton = document.getElementById('stressNativeScrollButton');
+  if (stressNativeButton) {
+    stressNativeButton.addEventListener('click', async () => {
+      if (!stressNativeScrollPage) {
+        stressNativeScrollPage = await frame.loadPage('stress-native-scroll.html', {
+          onLoad: (page) => populateStressContent(page.querySelector('#stressNativeScrollContent'))
+        });
+      }
+      frame.navigate(stressNativeScrollPage);
+    });
+  }
+
+  // Stress content population logic moved to populateStressContent() and called via loadPage options
+
+  // Progress controls
+  const inc = document.getElementById('incProgress');
+  const toggle = document.getElementById('toggleIndeterminate');
+  const det = document.getElementById('progressDeterminate');
+  const incRing = document.getElementById('incProgressRing');
+  const toggleRing = document.getElementById('toggleRingIndeterminate');
+  const detRing = document.getElementById('progressRingDeterminate');
+  if (inc && det) {
+    inc.addEventListener('click', () => {
+      const current = Number(det.getAttribute('value') || 0);
+      const max = Number(det.getAttribute('max') || 100);
+      det.setAttribute('value', String(Math.min(max, current + 10)));
+    });
+  }
+  if (toggle && det) {
+    toggle.addEventListener('click', () => {
+      if (det.hasAttribute('indeterminate')) det.removeAttribute('indeterminate');
+      else det.setAttribute('indeterminate', '');
+    });
+  }
+  if (incRing && detRing) {
+    incRing.addEventListener('click', () => {
+      const current = Number(detRing.getAttribute('value') || 0);
+      const max = Number(detRing.getAttribute('max') || 100);
+      detRing.setAttribute('value', String(Math.min(max, current + 10)));
+    });
+  }
+  if (toggleRing && detRing) {
+    toggleRing.addEventListener('click', () => {
+      if (detRing.hasAttribute('indeterminate')) detRing.removeAttribute('indeterminate');
+      else detRing.setAttribute('indeterminate', '');
+    });
+  }
+
+  if (comboBox) {
+    comboBox.addEventListener('change', (event) => {
+      const detail = event.detail || {};
+      console.log('Combo box changed:', detail.value, detail.index);
+    });
+  }
+
+  const demoSlider = document.getElementById('demoSlider');
+  const demoSliderValue = document.getElementById('demoSliderValue');
+  if (demoSlider && demoSliderValue) {
+    const syncSliderValue = () => {
+      demoSliderValue.textContent = `Value: ${demoSlider.getAttribute('value') || '0'}`;
+    };
+    demoSlider.addEventListener('input', syncSliderValue);
+    demoSlider.addEventListener('change', syncSliderValue);
+    syncSliderValue();
+  }
+
+  const demoToggleSwitch = document.getElementById('demoToggleSwitch');
+  const demoToggleValue = document.getElementById('demoToggleValue');
+  if (demoToggleSwitch && demoToggleValue) {
+    const syncToggle = () => {
+      demoToggleValue.textContent = `State: ${demoToggleSwitch.hasAttribute('checked') ? 'on' : 'off'}`;
+    };
+    demoToggleSwitch.addEventListener('change', syncToggle);
+    syncToggle();
+  }
+
+  const demoToggleButton = document.getElementById('demoToggleButton');
+  const demoToggleButtonValue = document.getElementById('demoToggleButtonValue');
+  if (demoToggleButton && demoToggleButtonValue) {
+    const syncToggleButton = () => {
+      demoToggleButtonValue.textContent = `State: ${demoToggleButton.hasAttribute('checked') ? 'on' : 'off'}`;
+    };
+    demoToggleButton.addEventListener('change', syncToggleButton);
+    syncToggleButton();
+  }
+
+  const openDialogButton = document.getElementById('openDialogButton');
+  const dialogResult = document.getElementById('dialogResult');
+  if (openDialogButton && dialogResult) {
+    openDialogButton.addEventListener('click', async () => {
+      const dialog = new DiscoDialog('Simple Dialog');
+      dialog.append('This is a basic dialog shell.');
+      await dialog.open();
+      dialogResult.textContent = 'Result: closed';
+    });
+  }
+
+  const openMessageDialogButton = document.getElementById('openMessageDialogButton');
+  const messageDialogResult = document.getElementById('messageDialogResult');
+  if (openMessageDialogButton && messageDialogResult) {
+    openMessageDialogButton.addEventListener('click', async () => {
+      const dialog = new DiscoMessageDialog('Delete Item', 'This action cannot be undone.', {
+        cancel: null,
+        delete: 'delete'
+      });
+      const result = await dialog.open();
+      messageDialogResult.textContent = `Result: ${result == null ? 'cancel' : String(result)}`;
+    });
+  }
+
+  const contextMenuDemoList = document.getElementById('contextMenuDemoList');
+  const contextMenuResult = document.getElementById('contextMenuResult');
+  if (contextMenuDemoList) {
+    contextMenuDemoList.items = [
+      { id: 'mail', Title: 'Mail', Description: 'inbox, accounts, notifications' },
+      { id: 'music', Title: 'Music', Description: 'albums, playlists, favorites' },
+      { id: 'weather', Title: 'Weather', Description: 'forecast and locations' },
+      { id: 'photos', Title: 'Photos', Description: 'memories and camera roll' }
+    ];
+
+    let cleanupBindings = [];
+    let internalListObserver = null;
+    const refreshBindings = () => {
+      cleanupBindings.forEach((unbind) => unbind());
+      cleanupBindings = [];
+
+      const dynamicItems = Array.from(
+        contextMenuDemoList.shadowRoot?.querySelectorAll('.list disco-list-item') || []
+      );
+      const staticItems = Array.from(contextMenuDemoList.querySelectorAll('disco-list-item'));
+      const items = [...new Set([...dynamicItems, ...staticItems])];
+
+      items.forEach((itemEl) => {
+        const unbind = DiscoContextMenu.bind(
+          itemEl,
+          () => {
+            const titleEl = itemEl.querySelector('[data-bind="Title"], .item-title');
+            const title = titleEl?.textContent?.trim() || 'app';
+            return [
+              {
+                id: 'pin',
+                label: 'add to start',
+                value: `Pinned ${title}`,
+                action: () => {
+                  if (contextMenuResult) contextMenuResult.textContent = `Result: Pinned ${title}`;
+                  return `Pinned ${title}`;
+                }
+              },
+              {
+                id: 'uninstall',
+                label: 'uninstall',
+                value: `Uninstalled ${title}`,
+                danger: true,
+                action: () => {
+                  if (contextMenuResult) contextMenuResult.textContent = `Result: Uninstalled ${title}`;
+                  return `Uninstalled ${title}`;
+                }
+              },
+              {
+                id: 'details',
+                label: 'app details',
+                value: `Opened details for ${title}`,
+                action: () => {
+                  if (contextMenuResult) contextMenuResult.textContent = `Result: Opened details for ${title}`;
+                  return `Opened details for ${title}`;
+                }
+              }
+            ];
+          },
+          { trigger: 'longpress' }
+        );
+        cleanupBindings.push(unbind);
+      });
+    };
+
+    const observeInternalList = () => {
+      if (internalListObserver) {
+        internalListObserver.disconnect();
+        internalListObserver = null;
+      }
+      const internalList = contextMenuDemoList.shadowRoot?.querySelector('.list');
+      if (!internalList) return;
+      internalListObserver = new MutationObserver(() => refreshBindings());
+      internalListObserver.observe(internalList, { childList: true, subtree: true });
+    };
+
+    observeInternalList();
+    refreshBindings();
+  }
+
+  const demoImage = document.getElementById('demoImage');
+  if (demoImage) {
+    const nextRandomImage = () => {
+      const randomInt = Math.floor(Math.random() * 1_000_000);
+      demoImage.setAttribute('src', `https://picsum.photos/200?random=${randomInt}`);
+      demoImage.setAttribute('fit', 'cover');
+    };
+
+    demoImage.addEventListener('disco-press', nextRandomImage);
+    demoImage.addEventListener('click', nextRandomImage);
+  }
+
+  if (groupStyleList) {
+    groupStyleList.items = [
+      { Title: '00 Zero' },
+      { Title: '& Specials' },
+      { Title: 'Alarm' },
+      { Title: 'Calendar' },
+      { Title: 'Camera' },
+      { Title: 'Files' },
+      { Title: 'Gallery' },
+      { Title: 'Mail' },
+      { Title: 'Maps' },
+      { Title: 'Music' },
+      { Title: 'Notes' },
+      { Title: 'Phone' },
+      { Title: 'Photos' },
+      { Title: 'Settings' },
+      { Title: 'Store' },
+      { Title: 'Terminal' },
+      { Title: 'Weather' }
+    ];
+    groupStyleList.addEventListener('separatorselect', (event) => {
+      console.log('Group selector selected:', event.detail);
+    });
+  }
+
+  if (groupStyleSettingsList) {
+    groupStyleSettingsList.items = [
+      { Title: 'Wi-Fi', Description: 'Connected', separator: 'Connectivity' },
+      { Title: 'Bluetooth', Description: 'Off', separator: 'Connectivity' },
+      { Title: 'Mobile network', Description: '4G', separator: 'Connectivity' },
+      { Title: 'Update', Description: 'No updates available', separator: 'General' },
+      { Title: 'Version', Description: '1.0.0', separator: 'General' },
+      { Title: 'About', Description: 'Device information', separator: 'General' }
+    ];
+    groupStyleSettingsList.addEventListener('separatorselect', (event) => {
+      console.log('Settings group selector selected:', event.detail);
+    });
+  }
+
+  if (homePage && homeEasingsItem) {
+    homePage.addEventListener('disco-active-item-change', (event) => {
+      const activeItem = event.detail?.item;
+      if (activeItem === homeEasingsItem) {
+        homeEasingsItem.setAttribute('data-easing-active', '');
+      } else {
+        homeEasingsItem.removeAttribute('data-easing-active');
+      }
+    });
+  }
+
+  if (homeColorsList) {
+    const fragment = document.createDocumentFragment();
+    DISCO_COLORS.forEach((color) => {
+      const row = document.createElement('div');
+      row.className = 'color-row';
+
+      const swatch = document.createElement('div');
+      swatch.className = 'color-swatch';
+      swatch.style.background = color.hex;
+
+      const name = document.createElement('div');
+      name.className = 'color-name';
+      name.textContent = color.name;
+
+      const hex = document.createElement('div');
+      hex.className = 'color-hex';
+      hex.textContent = color.hex;
+
+      row.appendChild(swatch);
+      row.appendChild(name);
+      row.appendChild(hex);
+      fragment.appendChild(row);
+    });
+    homeColorsList.replaceChildren(fragment);
+  }
+
+  app.launch(frame);
+  frame.navigate(homePage);
+  document.body.classList.add('ready');
+};
+
+DiscoApp.ready(launchDemo);

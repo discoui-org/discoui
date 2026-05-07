@@ -1,0 +1,258 @@
+:root {
+  --bg-color: #000000;
+  --accent-color: #3E65FF; /* Cobalt */
+  --text-color: #ffffff;
+  --dim-text: rgba(255, 255, 255, 0.6);
+  --font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+#portal-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Lumia Device Styles (Original Logic) --- */
+
+#disco-device {
+  width: 600px;
+  height: 1100px;
+  display: block;
+  background-image: url('/assets/disco-device.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  transform-origin: center center;
+  z-index: 10;
+  filter: drop-shadow(0 0 50px rgba(62, 101, 255, 0.15));
+}
+
+#disco-device iframe {
+  position: absolute;
+  left: 53.9px;
+  top: 93.9px;
+  width: 492.1px;
+  height: 820.2px;
+  border: none;
+  background: #000;
+  filter: brightness(1.05) contrast(0.95);
+}
+
+#disco-device .back-hit,
+#disco-device .home-hit {
+  position: absolute;
+  top: 950px;
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+  outline: none;
+  border-radius: 50%;
+}
+
+#disco-device .back-hit { left: 70px; }
+#disco-device .home-hit { left: 270px; }
+
+/* --- HUD / Metro UI Elements --- */
+
+.hud-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.brand h1 {
+  font-size: 48px;
+  font-weight: 200;
+  margin: 0;
+  letter-spacing: -1.5px;
+  color: var(--accent-color);
+}
+
+.brand p {
+  font-size: 14px;
+  margin: 4px 0 0 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.5;
+}
+
+.nav-tiles {
+  display: flex;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.tile {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+  text-decoration: none;
+  color: inherit;
+}
+
+.tile:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.tile.active {
+  background: var(--accent-color);
+}
+
+.tile-label {
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: lowercase;
+}
+
+/* --- Sandbox Bar --- */
+
+.sandbox-bar {
+  position: absolute;
+  right: -400px;
+  top: 0;
+  bottom: 0;
+  width: 400px;
+  background: #0a0a0a;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+  transition: right 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+}
+
+.sandbox-bar.open {
+  right: 0;
+}
+
+.sandbox-header {
+  padding: 24px;
+  background: #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sandbox-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.close-sandbox {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.editor-container {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-container textarea {
+  flex: 1;
+  background: #000;
+  color: #0f0;
+  border: none;
+  padding: 20px;
+  font-family: "Consolas", monospace;
+  font-size: 13px;
+  resize: none;
+  outline: none;
+}
+
+.sandbox-actions {
+  padding: 16px;
+  background: #111;
+  display: flex;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* --- Fullscreen Logic --- */
+
+body.fullscreen-mode #disco-device {
+  width: 100vw;
+  height: 100vh;
+  left: 0 !important;
+  top: 0 !important;
+  transform: none !important;
+  background-image: none;
+  filter: none;
+  border-radius: 0;
+}
+
+body.fullscreen-mode #disco-device iframe {
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  filter: none;
+}
+
+body.fullscreen-mode #disco-device .back-hit,
+body.fullscreen-mode #disco-device .home-hit {
+  display: none;
+}
+
+body.fullscreen-mode .hud-overlay {
+  opacity: 0;
+  pointer-events: none;
+}

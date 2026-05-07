@@ -9,7 +9,8 @@
   },
   "workspaces": [
     "packages/*",
-    "examples/*"
+    "examples/*",
+    "pages"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
-    "rimraf": "^6.1.0"
+    "rimraf": "^6.1.0",
+    "vite-plugin-static-copy": "^4.1.0"
   }
 }

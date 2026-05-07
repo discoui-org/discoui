@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/assets/dui.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DiscoUI | The Lumia Portal</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <div id="portal-root">
+    <!-- Lumia Device (Original Emulator Logic) -->
+    <div id="disco-device">
+      <button class="back-hit" aria-label="Back"></button>
+      <button class="home-hit" aria-label="Home"></button>
+      <iframe id="heroDemo" src="/demo.html" title="DiscoUI Live Demo" frameborder="0"></iframe>
+    </div>
+
+    <!-- HUD Overlay -->
+    <div class="hud-overlay">
+      <header class="hud-header">
+        <div class="brand">
+          <h1>DiscoUI</h1>
+          <p>Mobile Shell SDK Ecosystem</p>
+        </div>
+        <nav class="nav-tiles">
+          <a href="#" class="tile" id="toggleFullscreen">
+            <span class="tile-label">fullscreen</span>
+          </a>
+          <a href="#" class="tile" id="openSandbox">
+            <span class="tile-label">sandbox</span>
+          </a>
+          <a href="./docs/index.md" class="tile">
+            <span class="tile-label">docs</span>
+          </a>
+        </nav>
+      </header>
+
+      <footer class="hud-footer">
+        <!-- Optional footer info could go here -->
+      </footer>
+    </div>
+
+    <!-- Sandbox Side Bar -->
+    <aside id="sandboxBar" class="sandbox-bar">
+      <div class="sandbox-header">
+        <h2>Live Sandbox</h2>
+        <button class="close-sandbox" id="closeSandbox">&times;</button>
+      </div>
+      <div class="editor-container">
+        <textarea id="codeEditor" spellcheck="false"><!-- DiscoUI Sandbox -->
+<disco-frame>
+  <disco-pivot-page app-title="SANDBOX">
+    <disco-pivot-item header="home">
+      <disco-button>Hello World</disco-button>
+    </disco-pivot-item>
+  </disco-pivot-page>
+</disco-frame></textarea>
+      </div>
+      <div class="sandbox-actions">
+        <button class="btn-primary" id="runSandbox">Run Code</button>
+      </div>
+    </aside>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

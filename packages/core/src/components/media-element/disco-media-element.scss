@@ -7,7 +7,7 @@
 }
 
 :host(:fullscreen),
-:host(::-webkit-full-screen) {
+:host:-webkit-full-screen {
     width: 100vw;
     max-width: none;
     height: 100vh;
@@ -15,7 +15,7 @@
 }
 
 :host(:fullscreen) .media-root,
-:host(::-webkit-full-screen) .media-root {
+:host:-webkit-full-screen .media-root {
     width: 100%;
     height: 100%;
     background: #000;

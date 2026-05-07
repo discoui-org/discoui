@@ -27,4 +27,5 @@ dist-ssr
 public/assets
 public/docs
 dist
+.docs_generated
 

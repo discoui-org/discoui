@@ -18,6 +18,11 @@
 }
 
 ::slotted(disco-list-item) {
-  @include ui.disco-tilt;
+  transition: transform .25s .25s ease-out;
+  transform-style: preserve-3d;
   display: block;
+}
+
+::slotted(disco-list-item[data-pressed]) {
+  transition: transform .1ms;
 }

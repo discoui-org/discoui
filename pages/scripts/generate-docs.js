@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DOCS_DIR = path.resolve(__dirname, '../../docs');
-const OUTPUT_DIR = path.resolve(__dirname, '../docs');
+const OUTPUT_DIR = path.resolve(__dirname, '../dist/docs');
 const TEMPLATE_PATH = path.resolve(__dirname, '../docs/template.html');
 
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -100,6 +100,9 @@ allDocs.forEach(doc => {
   
   // Fix asset paths: convert ../../assets/ or ../assets/ to /assets/
   htmlContent = htmlContent.replace(/src="(\.\.\/)+assets\//g, 'src="/assets/');
+  
+  // Fix internal links: convert .md to .html
+  htmlContent = htmlContent.replace(/href="([^"]+)\.md"/g, 'href="$1.html"');
   
   // Inject sidebar and set active class
   let pageSidebar = sidebarHtml.replace(`{{ACTIVE_${doc.relativePath}}}`, '');

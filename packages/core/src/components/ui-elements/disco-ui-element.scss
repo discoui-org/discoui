@@ -2,7 +2,8 @@
   transition: transform .25s .25s ease-out;
   transform-style: preserve-3d;
 
-  &[data-pressed] {
+  &[data-pressed],
+  &:active {
     transition: transform .1ms;
   }
 }

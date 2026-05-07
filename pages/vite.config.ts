@@ -29,7 +29,6 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         demo: resolve(__dirname, 'demo.html'),
-        docs: resolve(__dirname, 'docs/index.html'),
       }
     }
   },
@@ -40,10 +39,6 @@ export default defineConfig({
         {
           src: '../assets/*',
           dest: 'assets'
-        },
-        {
-          src: '../docs/*',
-          dest: 'docs'
         },
         {
           src: '../packages/core/dist/*',

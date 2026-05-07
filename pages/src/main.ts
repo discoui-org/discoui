@@ -126,7 +126,7 @@ import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
   }
 };
 
-monaco.languages.typescript.javascriptDefaults.addExtraLib(`
+(monaco.languages.typescript as any).javascriptDefaults.addExtraLib(`
   declare class DiscoApp {
     constructor(config?: {
       accent?: string;

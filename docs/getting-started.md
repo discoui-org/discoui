@@ -1,67 +1,69 @@
 # Getting Started
 
-## Installation
+DiscoUI is a **Mobile Shell SDK** for building high-performance Metro-inspired applications. It is designed as a modular ecosystem that synchronizes native hardware events with a framework-native development experience.
+
+## The Golden Path: Full Mobile Stack
+
+This approach combines the core engine, the Vue integration, and the Capacitor bridge for a complete mobile application shell.
+
+### 1. Installation
 
 ```bash
-npm install discoui
+npm install @discoui/core @discoui/vue @discoui/capacitor
 ```
 
-## Quick Start (Vite)
+### 2. Integrated App Architecture
 
-1. Import `DiscoApp` and the CSS.
+The three packages work in tandem to provide a cohesive mobile experience:
+- **`@discoui/core`**: The rendering engine and high-performance animation motor.
+- **`@discoui/vue`**:
+    - **First-class Wrappers**: Vue-native components with full prop/event mapping.
+    - **Two-way Binding**: Direct `v-model` support for sliders, switches, and inputs.
+    - **IntelliSense**: Comprehensive TypeScript definitions for a seamless IDE experience.
+- **`@discoui/capacitor`**: Bridges hardware events (Back button, Haptics) directly to the UI navigation stack and lifecycle.
 
-```javascript
-/* main.js */
-import { DiscoApp } from 'discoui';
-// Ensure dist/discoui.css is loaded in your HTML head to prevent FOUC
-```
+### 3. Quick Start (Vue 3 + Capacitor)
 
-2. Setup your `index.html`.
+Initialize the app in your entry point:
 
-```html
-<!DOCTYPE html>
-<html disco-theme="dark" disco-accent="#d80073">
-<head>
-    <link rel="stylesheet" href="node_modules/discoui/dist/discoui.css">
-</head>
-<body>
-    <disco-frame id="appFrame">
-        <!-- Initial Page -->
-        <disco-pivot-page app-title="MY APP">
-            <disco-pivot-item header="home">
-                 <p>Hello World</p>
-                 <button id="btnGo">Go to Settings</button>
-            </disco-pivot-item>
-        </disco-pivot-page>
-    </disco-frame>
-    <script type="module" src="./main.js"></script>
-</body>
-</html>
-```
-
-3. Initialize the App.
-
-```javascript
-import { DiscoApp } from 'discoui';
+```typescript
+import { DiscoApp } from '@discoui/core';
+import '@discoui/core/dist/discoui.css';
 
 DiscoApp.ready(() => {
-    const app = new DiscoApp({ splash: 'auto' });
-    const frame = document.getElementById('appFrame');
-    app.launch(frame);
-    
-    // Navigation example
-    document.getElementById('btnGo').onclick = async () => {
-        // Load an external page
-        try {
-            const settingsPage = await frame.loadPage('pages/settings.html');
-            await frame.navigate(settingsPage);
-        } catch (e) {
-            console.error('Nav failed', e);
-        }
-    };
+  const app = new DiscoApp({ splash: 'auto' });
+  app.launch(document.getElementById('appFrame'));
 });
 ```
 
-## Architecture
+### 4. IDE Support (Volar/VS Code)
 
-For deep technical insights on how DiscoUI handles cross-framework synchronization, layout management, and animation orchestration, see the [ARCHITECTURE.md](../ARCHITECTURE.md) documentation in the root of the repository.
+To enable IntelliSense and prop validation for all DiscoUI components, add the following to your `env.d.ts` or `discoui.d.ts`:
+
+```typescript
+import '@discoui/vue/src/global.d.ts';
+```
+
+---
+
+## Alternative: Web-Only Path
+
+For projects that only require web components without native mobile features or Vue-specific DX:
+
+### 1. Installation
+
+```bash
+npm install @discoui/core
+```
+
+### 2. Usage
+
+Refer to the [Component Gallery](./components/index.md) for vanilla JS usage.
+
+---
+
+## Next Steps
+
+- [Architecture Reference](../ARCHITECTURE.md)
+- [Component Gallery](./components/index.md)
+- [Theming Guide](./theming.md)

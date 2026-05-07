@@ -4,16 +4,16 @@
 </div>
 
 <p align="center">
-  A high-performance, framework-agnostic UI library built with Vanilla JavaScript, Shadow DOM, and SCSS. This monorepo provides a production-ready implementation of Metro UI design principles for web and mobile applications.
+  A high-performance <b>Mobile Shell SDK</b> built with Vanilla JavaScript, Shadow DOM, and SCSS. This monorepo provides a production-ready ecosystem of Metro UI design principles, seamless framework integrations, and native mobile bridges.
 </p>
 
 Technical details regarding cross-framework synchronization and animation orchestration can be found in [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 ## Packages
 
-- **[@discoui/core](./packages/core)**: Core Web Components with zero dependencies.
-- **[@discoui/capacitor](./packages/capacitor)**: Native bridge for Android and mobile platforms.
-- **[@discoui/vue](./packages/vue)**: Official Vue 3 integration, composables, and type definitions.
+- **[@discoui/core](./packages/core)**: Framework-agnostic engine and high-performance Web Components.
+- **[@discoui/capacitor](./packages/capacitor)**: Native mobile bridge for hardware events and system integration.
+- **[@discoui/vue](./packages/vue)**: Vue 3 SDK with `v-model` support, component wrappers, and full IntelliSense.
 
 ## Monorepo Structure
 

@@ -1,6 +1,6 @@
 # DiscoUI Documentation
 
-Welcome to the documentation for **DiscoUI**, a Metro-inspired mobile shell library web components.
+Welcome to the technical documentation for the **DiscoUI Mobile Shell SDK Ecosystem**.
 
 ## Sections
 

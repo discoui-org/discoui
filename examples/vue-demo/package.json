@@ -9,16 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.32",
+    "vue": "^3.5.34",
     "@discoui/core": "*",
     "@discoui/vue": "*"
   },
   "devDependencies": {
-    "@types/node": "^24.12.2",
+    "@types/node": "^25.6.0",
     "@vitejs/plugin-vue": "^6.0.6",
     "@vue/tsconfig": "^0.9.1",
-    "typescript": "~6.0.2",
-    "vite": "^8.0.10",
-    "vue-tsc": "^3.2.7"
+    "typescript": "~6.0.3",
+    "vite": "^8.0.11",
+    "vue-tsc": "^3.2.8"
   }
 }

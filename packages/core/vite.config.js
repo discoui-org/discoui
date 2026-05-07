@@ -48,8 +48,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        discoui: path.resolve(__dirname, 'src/index.js'),
-        'discoui.preload': path.resolve(__dirname, 'src/preload.scss')
+        discoui: path.resolve(__dirname, 'src/index.js')
       }
     },
     lib: {

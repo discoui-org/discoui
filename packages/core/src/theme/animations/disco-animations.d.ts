@@ -20,6 +20,7 @@ export type DiscoAnimateOptions = KeyframeAnimationOptions & {
 
 export interface DiscoPageAnimationOptions {
   direction?: 'forward' | 'back';
+  perspective?: boolean;
 }
 
 export interface PageAnimations {

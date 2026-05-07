@@ -67,7 +67,7 @@ class DiscoPivotPage extends DiscoPage {
         animationItems.push({ target: headerStrip, run: () => DiscoAnimations.animationSet.page.in(headerStrip, options) });
       }
       if (activeItem) {
-        const contentAnimations = this._collectActiveContentAnimations(activeItem, options, 'in');
+        const contentAnimations = this._collectActiveContentAnimations(activeItem, { ...options, perspective: false }, 'in');
         animationItems.push(...contentAnimations);
       }
 
@@ -100,7 +100,7 @@ class DiscoPivotPage extends DiscoPage {
         animationItems.push({ target: headerStrip, run: () => DiscoAnimations.animationSet.page.out(headerStrip, options) });
       }
       if (activeItem) {
-        const contentAnimations = this._collectActiveContentAnimations(activeItem, options, 'out');
+        const contentAnimations = this._collectActiveContentAnimations(activeItem, { ...options, perspective: false }, 'out');
         animationItems.push(...contentAnimations);
       }
 

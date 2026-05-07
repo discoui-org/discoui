@@ -31,7 +31,7 @@
 
 
 :host([data-animating]) .pivot-root {
-  //perspective: var(--disco-perspective);
+  perspective: var(--disco-perspective);
   perspective-origin: center;
   transform-style: preserve-3d;
 }

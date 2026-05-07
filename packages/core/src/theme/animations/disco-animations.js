@@ -180,22 +180,30 @@ const animationSet = {
          * @param {DiscoPageAnimationOptions} [options]
          * @returns {Promise<void>}
          */
+        /**
+         * @param {Element} target
+         * @param {DiscoPageAnimationOptions} [options]
+         * @returns {Promise<void>}
+         */
         in: async (target, options = { direction: 'forward' }) => {
+            const useP = options.perspective !== false;
+            const p = useP ? `perspective(${DiscoAppDelegate.perspective}) ` : '';
+
             const animation = options.direction === 'forward' ? DiscoAnimations.animate(
                 target,
                 [
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(${DiscoAppDelegate.width / 8}px) rotateY(80deg) translateX(${DiscoAppDelegate.width / 5}px)`
+                        transform: `${p}translateX(${DiscoAppDelegate.width / 8}px) rotateY(80deg) translateX(${DiscoAppDelegate.width / 5}px)`
                     },
                     {
-                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(${DiscoAppDelegate.width / 16}px) rotateY(40deg) translateX(${DiscoAppDelegate.width / 8}px)`
+                        transform: `${p}translateX(${DiscoAppDelegate.width / 16}px) rotateY(40deg) translateX(${DiscoAppDelegate.width / 8}px)`
                     },
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(0px) rotateY(0deg) translateX(0px)`
+                        transform: `${p}translateX(0px) rotateY(0deg) translateX(0px)`
                     }
                 ],
                 {
@@ -210,12 +218,12 @@ const animationSet = {
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(${-DiscoAppDelegate.width / 2}px) rotateY(-180deg) translateX(0px)`
+                        transform: `${p}translateX(${-DiscoAppDelegate.width / 2}px) rotateY(-180deg) translateX(0px)`
                     },
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `perspective(${DiscoAppDelegate.perspective}) translateX(0px) rotateY(0deg) translateX(0px)`
+                        transform: `${p}translateX(0px) rotateY(0deg) translateX(0px)`
                     }
                 ],
                 {
@@ -239,18 +247,21 @@ const animationSet = {
          * @returns {Promise<void>}
          */
         out: async (target, options = { direction: 'forward' }) => {
+            const useP = options.perspective !== false;
+            const p = useP ? `perspective(${DiscoAppDelegate.perspective}) ` : '';
+
             const animation = options.direction === 'forward' ? DiscoAnimations.animate(
                 target,
                 [
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `translateX(0px) rotateY(0deg) translateX(0px)`
+                        transform: `${p}translateX(0px) rotateY(0deg) translateX(0px)`
                     },
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `translateX(${-DiscoAppDelegate.width / 2}px) rotateY(-180deg) translateX(0px)`
+                        transform: `${p}translateX(${-DiscoAppDelegate.width / 2}px) rotateY(-180deg) translateX(0px)`
                     }
                 ],
                 {
@@ -265,12 +276,12 @@ const animationSet = {
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `translateX(0px) rotateY(0deg) translateX(0px)`
+                        transform: `${p}translateX(0px) rotateY(0deg) translateX(0px)`
                     },
                     {
                         opacity: 1,
                         transformOrigin: 'left center',
-                        transform: `translateX(${DiscoAppDelegate.width / 8}px) rotateY(90deg) translateX(${DiscoAppDelegate.width / 5}px)`
+                        transform: `${p}translateX(${DiscoAppDelegate.width / 8}px) rotateY(90deg) translateX(${DiscoAppDelegate.width / 5}px)`
                     }
                 ],
                 {
@@ -281,9 +292,12 @@ const animationSet = {
                 }
             );
             await animation.finished;
-            target.style.visibility = 'hidden';
-        }
-
+            resetAnimation(target);
+            if (target instanceof HTMLElement) {
+                target.style.opacity = '0';
+                target.style.visibility = 'hidden';
+            }
+        },
     },
     splash: {
         /**

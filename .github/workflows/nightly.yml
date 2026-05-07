@@ -7,48 +7,91 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
-  build-and-release:
-    name: Build All & Release
+  nightly-packages:
+    name: Nightly ${{ matrix.package.name }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - name: core
+            dir: packages/core
+          - name: vue
+            dir: packages/vue
+          - name: capacitor
+            dir: packages/capacitor
     steps:
       - uses: actions/checkout@v4
       
       - uses: actions/setup-node@v4
         with:
           node-version: 24.11.1
+          registry-url: 'https://registry.npmjs.org'
           cache: npm
 
-      - uses: actions/setup-java@v4
+      - name: Setup Java/Android (Capacitor Only)
+        if: matrix.package.name == 'capacitor'
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
       
-      - uses: android-actions/setup-android@v3
+      - name: Setup Android SDK (Capacitor Only)
+        if: matrix.package.name == 'capacitor'
+        uses: android-actions/setup-android@v3
 
-      - name: Build Core
+      - name: Generate Nightly Version
+        id: nightly_version
         run: |
-          cd packages/core
-          npm ci
-          npm run build
-          zip -r ../../discoui-core-nightly.zip dist
+          VERSION=$(node -p "require('./package.json').version")
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          NIGHTLY_VERSION="${VERSION}-nightly.${SHORT_SHA}"
+          npm version $NIGHTLY_VERSION --no-git-tag-version
+          echo "VERSION=$NIGHTLY_VERSION" >> $GITHUB_OUTPUT
+        working-directory: ${{ matrix.package.dir }}
 
-      - name: Build Vue
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ${{ matrix.package.dir }}
+
+      - name: Build
+        run: npm run build
+        working-directory: ${{ matrix.package.dir }}
+
+      - name: Publish to NPM (Nightly Tag)
+        run: npm publish --tag nightly --access public
+        working-directory: ${{ matrix.package.dir }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Archive
         run: |
-          cd packages/vue
-          npm ci
-          npm run build
-          zip -r ../../discoui-vue-nightly.zip dist
+          if [ "${{ matrix.package.name }}" == "capacitor" ]; then
+            zip -r ../../discoui-${{ matrix.package.name }}-nightly.zip dist src android/src android/build.gradle
+          else
+            zip -r ../../discoui-${{ matrix.package.name }}-nightly.zip dist
+          fi
+        working-directory: ${{ matrix.package.dir }}
 
-      - name: Build Capacitor
-        run: |
-          cd packages/capacitor
-          npm ci
-          npm run build
-          zip -r ../../discoui-capacitor-nightly.zip dist src android/src android/build.gradle
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.package.name }}-nightly-artifact
+          path: discoui-${{ matrix.package.name }}-nightly.zip
 
-      - name: Create or Update Nightly Release
+  github-nightly-release:
+    name: Update GitHub Nightly
+    runs-on: ubuntu-latest
+    needs: nightly-packages
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: Update Nightly Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: nightly
@@ -57,12 +100,14 @@ jobs:
             **Last Updated:** ${{ github.event.repository.updated_at }}
             **Commit:** ${{ github.sha }}
             
-            This release contains the latest automated builds for:
-            - `@discoui-org/core`
-            - `@discoui-org/vue`
-            - `@discoui-org/capacitor`
+            This nightly release is available on NPM via the `@nightly` tag:
+            
+            ```bash
+            npm install @discoui-org/core@nightly
+            npm install @discoui-org/vue@nightly
+            npm install @discoui-org/capacitor@nightly
+            ```
+            
+            Or download the artifacts below.
           prerelease: true
-          files: |
-            discoui-core-nightly.zip
-            discoui-vue-nightly.zip
-            discoui-capacitor-nightly.zip
+          files: artifacts/*

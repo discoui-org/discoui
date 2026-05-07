@@ -45,7 +45,7 @@ jobs:
       - name: Copy dist to examples
         run: |
           rm -rf examples/dist || true
-          cp -r dist examples/dist
+          cp -r pages/dist examples/dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

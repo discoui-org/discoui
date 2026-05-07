@@ -14,6 +14,7 @@
       <button class="back-hit" aria-label="Back"></button>
       <button class="home-hit" aria-label="Home"></button>
       <iframe id="heroDemo" src="/demo.html" title="DiscoUI Live Demo" frameborder="0"></iframe>
+      <iframe id="sandboxFrame" title="DiscoUI Sandbox" frameborder="0"></iframe>
     </div>
 
     <!-- Windows 8 Style Charm Bar (Right) -->
@@ -40,22 +41,50 @@
       </div>
     </div>
 
-    <!-- Sandbox Side Bar -->
+    <!-- Sandbox Side Bar (Dual-Tab) -->
     <aside id="sandboxBar" class="sandbox-bar">
       <div class="sandbox-header">
         <h2>Live Sandbox</h2>
         <button class="close-sandbox" id="closeSandbox">&times;</button>
       </div>
-      <div class="editor-container">
-        <textarea id="codeEditor" spellcheck="false"><!-- DiscoUI Sandbox -->
-<disco-frame>
-  <disco-pivot-page app-title="SANDBOX">
-    <disco-pivot-item header="home">
-      <disco-button>Hello World</disco-button>
-    </disco-pivot-item>
-  </disco-pivot-page>
-</disco-frame></textarea>
+
+      <div class="sandbox-tabs">
+        <button class="tab-btn active" data-tab="html">HTML</button>
+        <button class="tab-btn" data-tab="js">JavaScript</button>
       </div>
+
+      <div class="editor-wrapper">
+        <div id="htmlTab" class="tab-content active">
+          <textarea id="htmlEditor" spellcheck="false"><!-- DiscoUI UI Structure -->
+<disco-frame>
+  <disco-single-page app-title="SANDBOX">
+    <disco-button id="helloBtn">Hello World</disco-button>
+  </disco-single-page>
+</disco-frame></textarea>
+        </div>
+        <div id="jsTab" class="tab-content">
+          <textarea id="jsEditor" spellcheck="false">// DiscoUI Application Logic
+// 1. Initialize the App with custom scale and accent
+const app = new DiscoApp({
+  accent: '#008a00',
+  theme: 'dark'
+});
+app.scale = 1.025;
+app.launch(document.body);
+
+// 2. Initialize Navigation
+const frame = document.querySelector('disco-frame');
+const page = frame.querySelector('disco-single-page');
+await frame.navigate(page);
+
+// 3. Simple Interaction
+const btn = document.getElementById('helloBtn');
+btn?.addEventListener('click', () => {
+  alert('DiscoUI: Interaction working!');
+});</textarea>
+        </div>
+      </div>
+
       <div class="sandbox-actions">
         <button class="btn-primary" id="runSandbox">Run Code</button>
       </div>

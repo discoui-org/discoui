@@ -59,6 +59,23 @@ body {
   border: none;
   background: #000;
   filter: brightness(1.05) contrast(0.95);
+  z-index: 10;
+}
+
+#sandboxFrame {
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 11;
+}
+
+#disco-device.sandbox-active #sandboxFrame {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#disco-device.sandbox-active #heroDemo {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 #disco-device .back-hit,
@@ -177,30 +194,29 @@ body {
   letter-spacing: 4px;
 }
 
-/* --- Sandbox Bar --- */
+/* --- Sandbox Side Bar (Dual-Tab) --- */
 
 .sandbox-bar {
   position: absolute;
-  right: -400px;
   top: 0;
+  right: 0;
   bottom: 0;
-  width: 400px;
-  background: #0a0a0a;
+  width: 450px;
+  background: #101111;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 100;
-  transition: right 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
   display: flex;
   flex-direction: column;
-  pointer-events: auto;
+  z-index: 1100;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 
 .sandbox-bar.open {
-  right: 0;
+  transform: translateX(0);
 }
 
 .sandbox-header {
   padding: 24px;
-  background: #111;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -208,52 +224,112 @@ body {
 
 .sandbox-header h2 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 300;
+  font-weight: 200;
+  letter-spacing: 1px;
 }
 
 .close-sandbox {
-  background: transparent;
+  background: none;
   border: none;
   color: #fff;
+  font-size: 32px;
   cursor: pointer;
-  font-size: 24px;
+  opacity: 0.5;
 }
 
-.editor-container {
-  flex: 1;
-  padding: 0;
+.close-sandbox:hover {
+  opacity: 1;
+}
+
+.sandbox-tabs {
   display: flex;
-  flex-direction: column;
+  padding: 0 24px;
+  gap: 4px;
 }
 
-.editor-container textarea {
-  flex: 1;
-  background: #000;
-  color: #0f0;
+.tab-btn {
+  background: rgba(255, 255, 255, 0.05);
   border: none;
-  padding: 20px;
-  font-family: "Consolas", monospace;
+  color: #fff;
+  padding: 8px 24px;
+  font-family: inherit;
   font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.tab-btn.active {
+  background: var(--accent-color);
+  opacity: 1;
+}
+
+.editor-wrapper {
+  flex: 1;
+  position: relative;
+  margin: 16px 24px;
+}
+
+.tab-content {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-content textarea {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #00ff00; /* Retro Matrix green for code */
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
+  padding: 16px;
   resize: none;
   outline: none;
 }
 
+.tab-content.active textarea {
+  animation: tab-entrance 0.4s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+@keyframes tab-entrance {
+  from { 
+    padding-top: 100px; 
+    color: transparent;
+    opacity: 0;
+  }
+  to { 
+    padding-top: 16px; 
+    color: #00ff00;
+    opacity: 1;
+  }
+}
+
 .sandbox-actions {
-  padding: 16px;
-  background: #111;
-  display: flex;
-  gap: 12px;
+  padding: 24px;
 }
 
 .btn-primary {
+  width: 100%;
+  padding: 16px;
   background: var(--accent-color);
-  color: #fff;
   border: none;
-  padding: 8px 20px;
-  font-size: 14px;
-  cursor: pointer;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
   font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
 }
 
 /* --- Fullscreen Logic --- */

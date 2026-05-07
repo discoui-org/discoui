@@ -14,6 +14,26 @@ const launchDemo = async () => {
   app.setInsets({ top: 0, bottom: 0, left: 0, right: 0 });
   window.app = app;
 
+  // --- External Control Logic (Lumia Portal Integration) ---
+  window.addEventListener('message', async (event) => {
+    const type = event.data.type || event.data;
+    const direction = event.data.direction || 'forward';
+    const frame = window.frame;
+    const homePage = window.homePage;
+
+    if (type === 'animate-out') {
+      const page = document.querySelector('disco-pivot-page, disco-single-page, disco-page');
+      if (page && page.animateOut) {
+        await page.animateOut({ direction });
+      }
+    } else if (type === 'animate-in') {
+      const page = document.querySelector('disco-pivot-page, disco-single-page, disco-page');
+      if (page && page.animateIn) {
+        await page.animateIn({ direction });
+      }
+    }
+  });
+
   const frame = document.getElementById('componentsFrame');
   if (!frame) return;
   window.frame = frame;

@@ -108,14 +108,91 @@ closeSandboxBtn?.addEventListener('click', async () => {
   }
 });
 
-// --- Sandbox Injection ---
+// --- Monaco Editor Integration ---
+import * as monaco from 'monaco-editor';
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
+import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
+import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
+import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 
-const htmlEditor = document.getElementById('htmlEditor') as HTMLTextAreaElement;
-const jsEditor = document.getElementById('jsEditor') as HTMLTextAreaElement;
+(window as any).MonacoEnvironment = {
+  getWorker(_: any, label: string) {
+    if (label === 'json') return new jsonWorker();
+    if (label === 'css' || label === 'scss' || label === 'less') return new cssWorker();
+    if (label === 'html' || label === 'handlebars' || label === 'razor') return new htmlWorker();
+    if (label === 'typescript' || label === 'javascript') return new tsWorker();
+    return new editorWorker();
+  }
+};
+
+monaco.languages.typescript.javascriptDefaults.addExtraLib(`
+  declare class DiscoApp {
+    constructor(config?: {
+      accent?: string;
+      theme?: 'light' | 'dark' | 'auto';
+      splash?: any;
+    });
+    accent: string;
+    theme: string;
+    scale: number;
+    launch(frame: HTMLElement): void;
+    static ready(): Promise<void>;
+  }
+`, 'ts:discoui.d.ts');
+
+const initialHtml = `<!-- DiscoUI UI Structure -->
+<disco-frame>
+  <disco-single-page app-title="SANDBOX">
+    <disco-button id="helloBtn">Hello World</disco-button>
+  </disco-single-page>
+</disco-frame>`;
+
+const initialJs = `// DiscoUI Application Logic
+// 1. Initialize the App with custom scale and accent
+const app = new DiscoApp({
+  accent: '#008a00',
+  theme: 'dark'
+});
+app.scale = 1.025;
+app.launch(document.body);
+
+// 2. Initialize Navigation
+const frame = document.querySelector('disco-frame');
+const page = frame.querySelector('disco-single-page');
+await frame.navigate(page);
+
+// 3. Simple Interaction
+const btn = document.getElementById('helloBtn');
+btn?.addEventListener('click', () => {
+  alert('DiscoUI: Interaction working!');
+});`;
+
+const htmlEditor = monaco.editor.create(document.getElementById('htmlEditorContainer')!, {
+  value: initialHtml,
+  language: 'html',
+  theme: 'vs-dark',
+  automaticLayout: true,
+  wordWrap: 'off',
+  minimap: { enabled: false },
+  fontSize: 14,
+  fontFamily: 'Consolas, monospace'
+});
+
+const jsEditor = monaco.editor.create(document.getElementById('jsEditorContainer')!, {
+  value: initialJs,
+  language: 'javascript',
+  theme: 'vs-dark',
+  automaticLayout: true,
+  wordWrap: 'off',
+  minimap: { enabled: false },
+  fontSize: 14,
+  fontFamily: 'Consolas, monospace'
+});
 
 const runCode = async () => {
-  const html = htmlEditor.value;
-  const js = jsEditor.value;
+  const html = htmlEditor.getValue();
+  const js = jsEditor.getValue();
   
   const blob = new Blob([`
     <!DOCTYPE html>

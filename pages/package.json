@@ -13,6 +13,7 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
-    "@olton/metroui": "^5.1.20"
+    "@olton/metroui": "^5.1.20",
+    "monaco-editor": "^0.55.1"
   }
 }

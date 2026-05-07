@@ -42,15 +42,11 @@ jobs:
       - name: Build
         run: |
           npm run build
-      - name: Copy dist to examples
-        run: |
-          rm -rf examples/dist || true
-          cp -r pages/dist examples/dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './examples'
+          # Upload the portal dist directly
+          path: 'pages/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

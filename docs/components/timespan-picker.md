@@ -1,4 +1,3 @@
-````markdown
 # Time Span Picker (`<disco-timespan-picker>`)
 
 Fullscreen duration picker built on slider blades.
@@ -50,5 +49,3 @@ new DiscoTimeSpanPicker(title?, value?, options?)
 - `max` (`string`, format `HH:mm:ss`)
 - `step` (`{ m: number, s: number }`)
 - `showSeconds` (`boolean`)
-
-````

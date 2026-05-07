@@ -4,69 +4,133 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/assets/dui.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DiscoUI | The Lumia Portal</title>
+  <title>DiscoUI | Mobile Shell Portal</title>
   <link rel="stylesheet" href="./src/style.css" />
 </head>
 <body>
-  <div id="portal-root">
-    <!-- Lumia Device (Original Emulator Logic) -->
-    <div id="disco-device">
-      <button class="back-hit" aria-label="Back"></button>
-      <button class="home-hit" aria-label="Home"></button>
-      <iframe id="heroDemo" src="/demo.html" title="DiscoUI Live Demo" frameborder="0"></iframe>
-      <iframe id="sandboxFrame" title="DiscoUI Sandbox" frameborder="0"></iframe>
-    </div>
+  <main class="scroll-container">
+    <!-- Section 1: Hero (Minimalist) -->
+    <section class="hero-section">
+      <div class="metro-start-screen">
+        <header class="metro-header">
+          <h1 class="metro-page-title">Meet DiscoUI</h1>
+          <p class="metro-page-subtitle">NEXT-GEN MOBILE SHELL</p>
+        </header>
+        
+        <div class="metro-grid">
+          <!-- Documentation Tile -->
+          <a href="./docs/getting-started.html" class="metro-tile tile-wide tile-accent-green animate-stagger-1">
+            <div class="tile-content">
+              <div class="tile-icon mif-file-text"></div>
+              <div class="tile-label">Getting Started</div>
+              <p class="tile-desc">Explore the full SDK documentation and guides.</p>
+            </div>
+          </a>
 
-    <!-- Windows 8 Style Charm Bar (Right) -->
-    <div class="charms-bar">
-      <div class="charms-item" id="toggleFullscreen">
-        <div class="charms-icon mif-enlarge"></div>
-        <div class="charms-label">Fullscreen</div>
-      </div>
-      <div class="charms-item" id="openSandbox">
-        <div class="charms-icon mif-code"></div>
-        <div class="charms-label">Sandbox</div>
-      </div>
-      <a href="./docs/index.md" class="charms-item">
-        <div class="charms-icon mif-file-text"></div>
-        <div class="charms-label">Docs</div>
-      </a>
-    </div>
+          <!-- Components Tile -->
+          <a href="./docs/components/index.html" class="metro-tile tile-square tile-accent-blue animate-stagger-2">
+             <div class="tile-content">
+               <div class="tile-icon mif-apps"></div>
+               <div class="tile-label">Components</div>
+             </div>
+          </a>
+          
+          <!-- Sandbox Tile -->
+          <div id="sandboxTile" class="metro-tile tile-square tile-accent-purple animate-stagger-3">
+             <div class="tile-content">
+               <div class="tile-icon mif-terminal"></div>
+               <div class="tile-label">Sandbox</div>
+             </div>
+          </div>
 
-    <!-- Windows 8 Style Time Panel (Bottom Left) -->
-    <div class="charms-time-panel">
-      <div class="time-content">
-        <h1 class="disco-title">DiscoUI</h1>
-        <p class="disco-subtitle">Mobile Shell SDK</p>
-      </div>
-    </div>
+          <!-- Navigation Tile -->
+          <a href="./docs/api/index.html" class="metro-tile tile-medium tile-accent-magenta animate-stagger-4">
+             <div class="tile-content">
+               <div class="tile-icon mif-directions"></div>
+               <div class="tile-label">API Reference</div>
+             </div>
+          </a>
 
-    <!-- Sandbox Side Bar (Dual-Tab) -->
-    <aside id="sandboxBar" class="sandbox-bar">
-      <div class="sandbox-header">
-        <h2>Live Sandbox</h2>
-        <button class="close-sandbox" id="closeSandbox">&times;</button>
-      </div>
-
-      <div class="sandbox-tabs">
-        <button class="tab-btn active" data-tab="html">HTML</button>
-        <button class="tab-btn" data-tab="js">JavaScript</button>
-      </div>
-
-      <div class="editor-wrapper">
-        <div id="htmlTab" class="tab-content active">
-          <div id="htmlEditorContainer" class="monaco-editor-container"></div>
+          <!-- Theming Tile -->
+          <a href="./docs/theming.html" class="metro-tile tile-square tile-accent-orange animate-stagger-5">
+             <div class="tile-content">
+               <div class="tile-icon mif-palette"></div>
+               <div class="tile-label">Theming</div>
+             </div>
+          </a>
         </div>
-        <div id="jsTab" class="tab-content">
-          <div id="jsEditorContainer" class="monaco-editor-container"></div>
+
+        <div class="scroll-hint">
+          <span>Scroll to explore the emulator</span>
+          <div class="mif-chevron-down animate-bounce"></div>
         </div>
       </div>
+    </section>
 
-      <div class="sandbox-actions">
-        <button class="btn-primary" id="runSandbox">Run Code</button>
+    <!-- Section 2: The Portal -->
+    <section class="portal-section">
+      <div id="portal-root">
+        <!-- Virtual Device Logic -->
+        <div id="disco-device">
+          <button class="back-hit" aria-label="Back"></button>
+          <button class="home-hit" aria-label="Home"></button>
+          <iframe id="heroDemo" src="/demo.html" title="DiscoUI Live Demo" frameborder="0"></iframe>
+          <iframe id="sandboxFrame" title="DiscoUI Sandbox" frameborder="0"></iframe>
+        </div>
       </div>
-    </aside>
+    </section>
+  </main>
+
+  <!-- Global Fixed UI Components -->
+  <!-- Windows 8 Style Charm Bar (Right) -->
+  <div class="charms-bar">
+    <div class="charms-item" id="toggleFullscreen">
+      <div class="charms-icon mif-enlarge"></div>
+      <div class="charms-label">Fullscreen</div>
+    </div>
+    <div class="charms-item" id="openSandbox">
+      <div class="charms-icon mif-code"></div>
+      <div class="charms-label">Sandbox</div>
+    </div>
+    <a href="./docs/index.html" class="charms-item">
+      <div class="charms-icon mif-file-text"></div>
+      <div class="charms-label">Docs</div>
+    </a>
   </div>
+
+  <!-- Windows 8 Style Time Panel (Bottom Left) -->
+  <div class="charms-time-panel">
+    <div class="time-content">
+      <h1 class="disco-title">DiscoUI</h1>
+      <p class="disco-subtitle">Mobile Shell SDK</p>
+    </div>
+  </div>
+
+  <!-- Sandbox Side Bar (Dual-Tab) -->
+  <aside id="sandboxBar" class="sandbox-bar">
+    <div class="sandbox-header">
+      <h2>Live Sandbox</h2>
+      <button class="close-sandbox" id="closeSandbox">&times;</button>
+    </div>
+
+    <div class="sandbox-tabs">
+      <button class="tab-btn active" data-tab="html">HTML</button>
+      <button class="tab-btn" data-tab="js">JavaScript</button>
+    </div>
+
+    <div class="editor-wrapper">
+      <div id="htmlTab" class="tab-content active">
+        <div id="htmlEditorContainer" class="monaco-editor-container"></div>
+      </div>
+      <div id="jsTab" class="tab-content">
+        <div id="jsEditorContainer" class="monaco-editor-container"></div>
+      </div>
+    </div>
+
+    <div class="sandbox-actions">
+      <button class="btn-primary" id="runSandbox">Run Code</button>
+    </div>
+  </aside>
 
   <script type="module" src="/src/main.ts"></script>
 </body>

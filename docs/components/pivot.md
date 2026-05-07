@@ -1,8 +1,8 @@
-# DiscoPivotPage (`<disco-pivot-page>`)
+# PivotPage (`<disco-pivot-page>`)
 
 A complex page type that implements the "Pivot" navigation pattern (horizontally swipeable sections with a header menu).
 
-<img src="../../assets/components/pivot.png" alt="DiscoPivotPage" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/pivot.png" alt="DiscoPivotPage" style="max-width: 480px; " />
 
 ## Usage
 

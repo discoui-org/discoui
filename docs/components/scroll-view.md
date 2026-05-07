@@ -1,4 +1,4 @@
-# DiscoScrollView (`<disco-scroll-view>`)
+# ScrollView (`<disco-scroll-view>`)
 
 A general-purpose container that implements custom touch/mouse momentum scrolling, bouncing (overscroll), and snap points.
 

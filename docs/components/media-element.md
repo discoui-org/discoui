@@ -1,4 +1,4 @@
-# DiscoMediaElement (`<disco-media-element>`)
+# MediaElement (`<disco-media-element>`)
 
 Audio/video media control with custom Metro-style circular play/pause button, timeline, loading state, and volume flyout.
 

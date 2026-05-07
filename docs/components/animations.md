@@ -1,4 +1,4 @@
-# DiscoAnimations
+# Animations
 
 Provides common animation helpers and predefined animation sets used across DiscoUI.
 

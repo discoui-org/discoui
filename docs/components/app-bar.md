@@ -2,7 +2,7 @@
 
 The app bar provides a compact, fixed footer with icon buttons, labels, and menu items.
 
-<img src="../../assets/components/app-bar.gif" alt="App Bar" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/app-bar.gif" alt="App Bar" style="max-width: 480px; " />
 
 ## Template-Based Usage
 

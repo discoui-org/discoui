@@ -1,4 +1,4 @@
-# DiscoAppDelegate
+# AppDelegate
 
 Read-only delegate for app-level layout and theme values. This is useful in low-level modules (like animations) where you want access to layout metrics without holding a `DiscoApp` instance.
 

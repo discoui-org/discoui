@@ -1,4 +1,3 @@
-````markdown
 # Date Picker (`<disco-date-picker>`)
 
 Fullscreen date picker built on slider blades.
@@ -41,5 +40,3 @@ new DiscoDatePicker(title?, initialDate?, options?)
 
 - `open(): Promise<Date | null>`: Opens picker and resolves selected date or `null` when cancelled.
 - `close(): Promise<void>`: Closes picker.
-
-````

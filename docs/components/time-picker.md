@@ -1,4 +1,3 @@
-````markdown
 # Time Picker (`<disco-time-picker>`)
 
 Fullscreen time picker built on slider blades.
@@ -46,5 +45,3 @@ new DiscoTimePicker(title?, value?, options?)
 - `minuteIncrement` (`number`): Get/set minute step.
 - `locale` (`string`): Get/set locale.
 - `format` (`string`): Get/set format.
-
-````

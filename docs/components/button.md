@@ -1,8 +1,8 @@
-# DiscoButton (`<disco-button>`)
+# Button (`<disco-button>`)
 
 A standard push button with the Disco UI visual style and tilt effect.
 
-<img src="../../assets/components/button.webp" alt="DiscoButton" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/button.webp" alt="DiscoButton" style="max-width: 480px; " />
 
 ## Usage
 

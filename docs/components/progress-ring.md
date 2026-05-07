@@ -1,8 +1,8 @@
-# DiscoProgressRing (`<disco-progress-ring>`)
+# ProgressRing (`<disco-progress-ring>`)
 
 Displays the progress of a task in a circular ring.
 
-<img src="../../assets/components/progress-ring.gif" alt="DiscoProgressRing" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/progress-ring.gif" alt="DiscoProgressRing" style="max-width: 480px; " />
 
 ## Usage
 

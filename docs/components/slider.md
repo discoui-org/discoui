@@ -1,8 +1,8 @@
-# DiscoSlider (`<disco-slider>`)
+# Slider (`<disco-slider>`)
 
 A Metro-style range slider with DiscoUI theme tokens.
 
-<img src="../../assets/components/slider.webp" alt="DiscoSlider" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/slider.webp" alt="DiscoSlider" style="max-width: 480px; " />
 
 ## Usage
 

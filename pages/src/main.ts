@@ -255,4 +255,31 @@ const runCode = async () => {
   }
 };
 
+// --- Scroll Interaction ---
+const portalSection = document.querySelector('.portal-section');
+if (portalSection) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.body.classList.add('portal-in-view');
+      } else {
+        document.body.classList.remove('portal-in-view');
+      }
+    });
+  }, { threshold: 0.4 });
+  observer.observe(portalSection);
+}
+
+// --- Sandbox Tile Interaction ---
+const sandboxTile = document.getElementById('sandboxTile');
+sandboxTile?.addEventListener('click', () => {
+  const portal = document.querySelector('.portal-section');
+  portal?.scrollIntoView({ behavior: 'smooth' });
+  
+  // Wait for scroll to complete then open sandbox
+  setTimeout(() => {
+    sandboxBar?.classList.add('open');
+  }, 600);
+});
+
 runSandboxBtn?.addEventListener('click', runCode);

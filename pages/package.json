@@ -4,16 +4,22 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/generate-docs.js",
     "dev": "vite",
+    "prebuild": "node scripts/generate-docs.js",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.5",
+    "@types/marked": "^5.0.2",
     "typescript": "~6.0.2",
     "vite": "^8.0.10"
   },
   "dependencies": {
     "@olton/metroui": "^5.1.20",
+    "dompurify": "^3.2.7",
+    "marked": "^14.0.0",
     "monaco-editor": "^0.55.1"
   }
 }

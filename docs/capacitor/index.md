@@ -1,4 +1,4 @@
-# DiscoUI Capacitor Docs
+# UI Capacitor Docs
 
 Welcome to the DiscoUI Capacitor documentation.
 

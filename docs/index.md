@@ -1,4 +1,4 @@
-# DiscoUI Documentation
+# UI Documentation
 
 Welcome to the technical documentation for the **DiscoUI Mobile Shell SDK Ecosystem**.
 

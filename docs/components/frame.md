@@ -1,4 +1,4 @@
-# DiscoFrame (`<disco-frame>`)
+# Frame (`<disco-frame>`)
 
 The root container for the application. It manages navigation history, caching, and transitions between pages.
 

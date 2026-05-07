@@ -1,8 +1,8 @@
-# DiscoCheckbox (`<disco-checkbox>`)
+# Checkbox (`<disco-checkbox>`)
 
 A binary option toggle.
 
-<img src="../../assets/components/checkbox.webp" alt="DiscoCheckbox" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/checkbox.webp" alt="DiscoCheckbox" style="max-width: 480px; " />
 
 ## Usage
 

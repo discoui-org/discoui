@@ -1,8 +1,8 @@
-# DiscoToggleSwitch (`<disco-toggle-switch>`)
+# ToggleSwitch (`<disco-toggle-switch>`)
 
 A Metro-style on/off switch with tap, drag, and keyboard support.
 
-<img src="../../assets/components/toggle-switch.webp" alt="DiscoToggleSwitch" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/toggle-switch.webp" alt="DiscoToggleSwitch" style="max-width: 480px; " />
 
 ## Usage
 

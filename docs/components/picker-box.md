@@ -2,7 +2,7 @@
 
 Fullscreen modal surface for picker flows with optional flip or slide animations.
 
-<img src="../../assets/components/flyout.gif" alt="Flyout" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/flyout.gif" alt="Flyout" style="max-width: 480px; " />
 
 ## Usage
 

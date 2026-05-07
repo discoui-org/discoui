@@ -1,4 +1,4 @@
-# DiscoMessageDialog (`<disco-message-dialog>`)
+# MessageDialog (`<disco-message-dialog>`)
 
 Programmatic message dialog with body text and action buttons.
 

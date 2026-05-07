@@ -1,4 +1,4 @@
-# DiscoImage (`<disco-image>`)
+# Image (`<disco-image>`)
 
 Image surface with secondary background, top indeterminate loading bar, and fade transitions.
 

@@ -1,8 +1,8 @@
-# DiscoSplash (`<disco-splash>`)
+# Splash (`<disco-splash>`)
 
 An overlay shown during application startup.
 
-<img src="../../assets/components/splash.gif" alt="DiscoSplash" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/splash.gif" alt="DiscoSplash" style="max-width: 480px; " />
 
 ## Usage
 

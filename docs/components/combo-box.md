@@ -1,8 +1,8 @@
-# DiscoComboBox (`<disco-combo-box>`)
+# ComboBox (`<disco-combo-box>`)
 
 A Metro-style combo box for picking from a short list of options.
 
-<img src="../../assets/components/combo-box.gif" alt="DiscoComboBox" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/combo-box.gif" alt="DiscoComboBox" style="max-width: 480px; " />
 
 ## Usage
 

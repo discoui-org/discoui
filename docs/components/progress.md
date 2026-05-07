@@ -1,8 +1,8 @@
-# DiscoProgressBar (`<disco-progress-bar>`)
+# ProgressBar (`<disco-progress-bar>`)
 
 Displays the progress of a task.
 
-<img src="../../assets/components/progress.gif" alt="DiscoProgressBar" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/progress.gif" alt="DiscoProgressBar" style="max-width: 480px; " />
 
 ## Usage
 

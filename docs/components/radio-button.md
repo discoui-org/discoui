@@ -1,4 +1,4 @@
-# DiscoRadioButton (`<disco-radio-button>`)
+# RadioButton (`<disco-radio-button>`)
 
 Single-choice option control for grouped selections.
 

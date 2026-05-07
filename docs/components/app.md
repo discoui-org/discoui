@@ -1,4 +1,4 @@
-# DiscoApp
+# App
 
 App-level orchestrator for themes, splash flow, and navigation startup.
 

@@ -1,4 +1,4 @@
-# DiscoUIElement
+# UIElement
 
 Base class for all DiscoUI custom elements. It includes common utilities like style injection and tilt effects.
 

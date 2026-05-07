@@ -1,4 +1,4 @@
-# DiscoLongListSelector (`<disco-long-list-selector>`)
+# LongListSelector (`<disco-long-list-selector>`)
 
 Displays a jump list for grouped list views.
 

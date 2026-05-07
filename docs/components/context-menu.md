@@ -1,4 +1,4 @@
-# DiscoContextMenu (`<disco-context-menu>`)
+# ContextMenu (`<disco-context-menu>`)
 
 Programmatic context menu for list items and arbitrary targets.
 

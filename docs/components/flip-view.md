@@ -1,8 +1,8 @@
-# DiscoFlipView (`<disco-flip-view>`)
+# FlipView (`<disco-flip-view>`)
 
 A specialized scroll view designed for paging content (one item per screen/view), often used for image carousels or tab content.
 
-<img src="../../assets/components/flip-view.gif" alt="DiscoFlipView" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/flip-view.gif" alt="DiscoFlipView" style="max-width: 480px; " />
 
 ## Usage
 

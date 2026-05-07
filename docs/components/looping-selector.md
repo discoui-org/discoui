@@ -1,4 +1,3 @@
-````markdown
 # Looping Selector (`DiscoLoopingSelector`)
 
 Base class for wheel/column picker modals (used by date/time/duration pickers).
@@ -45,5 +44,3 @@ view.setAttribute('direction', 'vertical');
 view.setAttribute('overscroll-mode', 'loop');
 view.setAttribute('css-prefix', 'time-picker');
 ```
-
-````

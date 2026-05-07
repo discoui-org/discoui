@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DiscoUI Docs | Time Span Picker</title>
+  <link rel="stylesheet" href="../src/style.css">
+  <style>
+    :root {
+      --accent-color: #008a00;
+      --bg-color: #000;
+      --sidebar-width: 300px;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: #fff;
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .docs-sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background: #111;
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 40px 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 0 40px 40px 40px;
+    }
+
+    .sidebar-brand {
+      font-size: 24px;
+      font-weight: 200;
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .nav-group-title {
+      padding: 24px 40px 8px 40px;
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.3;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: default;
+    }
+
+    /* Collapsible Group Styling */
+    .nav-group-details {
+      border: none;
+    }
+    .nav-group-details summary {
+      list-style: none;
+      outline: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .nav-group-details summary::-webkit-details-marker {
+      display: none;
+    }
+    .nav-group-details summary:hover {
+      opacity: 0.8;
+    }
+    .nav-group-details summary .nav-group-title {
+      padding-bottom: 12px;
+    }
+    .nav-group-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-link {
+      padding: 12px 40px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 300;
+      opacity: 0.6;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .nav-link.active {
+      opacity: 1;
+      color: var(--accent-color);
+      border-left: 4px solid var(--accent-color);
+      padding-left: 36px;
+      background: rgba(0, 138, 0, 0.05);
+    }
+
+    /* Main Content Area */
+    .docs-main {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      padding: 80px 120px;
+      max-width: 1000px;
+    }
+
+    .markdown-content {
+      line-height: 1.7;
+      font-size: 17px;
+      font-weight: 300;
+    }
+
+    .markdown-content h1 {
+      font-weight: 100;
+      font-size: 64px;
+      margin: 0 0 40px 0;
+      color: #fff;
+    }
+
+    .markdown-content h2 {
+      font-weight: 200;
+      font-size: 32px;
+      margin: 60px 0 24px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 12px;
+    }
+
+    .markdown-content h3 {
+      font-weight: 300;
+      font-size: 22px;
+      margin: 40px 0 16px 0;
+      color: var(--accent-color);
+    }
+
+    .markdown-content code {
+      background: rgba(255, 255, 255, 0.07);
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #00ff00;
+    }
+
+    .markdown-content pre {
+      background: #0a0a0a;
+      padding: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      overflow-x: auto;
+      margin: 32px 0;
+      border-radius: 4px;
+    }
+
+    .markdown-content pre code {
+      background: none;
+      padding: 0;
+      color: #eee;
+      font-size: 14px;
+    }
+
+    .markdown-content p {
+      margin-bottom: 24px;
+      opacity: 0.7;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+      margin-bottom: 32px;
+      padding-left: 24px;
+    }
+
+    .markdown-content li {
+      margin-bottom: 12px;
+      opacity: 0.7;
+    }
+
+    .markdown-content strong {
+      font-weight: 600;
+      opacity: 1;
+      color: #fff;
+    }
+
+    /* Home Button */
+    .back-home {
+      position: fixed;
+      top: 40px;
+      right: 40px;
+      z-index: 100;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.3;
+      transition: opacity 0.2s;
+    }
+
+    .back-home:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 1000px) {
+      .docs-sidebar {
+        display: none;
+      }
+
+      .docs-main {
+        margin-left: 0;
+        padding: 40px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="docs-sidebar">
+    <div class="sidebar-header"><a href="/" class="sidebar-brand">DiscoUI</a></div><div class="nav-group-title">GETTING STARTED</div><a href="/docs/getting-started.html" class="nav-link">Getting Started</a><a href="/docs/theming.html" class="nav-link">Theming</a><a href="/docs/index.html" class="nav-link">UI Documentation</a><div class="nav-group-title">API</div><a href="/docs/api/index.html" class="nav-link">API Reference</a><div class="nav-group-title">CAPACITOR</div><a href="/docs/capacitor/api.html" class="nav-link">API</a><a href="/docs/capacitor/configuration.html" class="nav-link">Configuration</a><a href="/docs/capacitor/getting-started.html" class="nav-link">Getting Started</a><a href="/docs/capacitor/index.html" class="nav-link">UI Capacitor Docs</a>
+      <details class="nav-group-details" open>
+        <summary class="nav-group-title">COMPONENTS (37)</summary>
+        <div class="nav-group-content">
+          <a href="/docs/components/animations.html" class="nav-link">Animations</a><a href="/docs/components/app.html" class="nav-link">App</a><a href="/docs/components/app-bar.html" class="nav-link">App Bar</a><a href="/docs/components/app-delegate.html" class="nav-link">AppDelegate</a><a href="/docs/components/button.html" class="nav-link">Button</a><a href="/docs/components/checkbox.html" class="nav-link">Checkbox</a><a href="/docs/components/combo-box.html" class="nav-link">ComboBox</a><a href="/docs/components/index.html" class="nav-link">Components</a><a href="/docs/components/context-menu.html" class="nav-link">ContextMenu</a><a href="/docs/components/date-picker.html" class="nav-link">Date Picker</a><a href="/docs/components/dialog.html" class="nav-link">Dialog</a><a href="/docs/components/flip-view.html" class="nav-link">FlipView</a><a href="/docs/components/flyout.html" class="nav-link">Flyout</a><a href="/docs/components/picker-box.html" class="nav-link">Flyout</a><a href="/docs/components/frame.html" class="nav-link">Frame</a><a href="/docs/components/hub.html" class="nav-link">Hub</a><a href="/docs/components/image.html" class="nav-link">Image</a><a href="/docs/components/list-view.html" class="nav-link">ListView</a><a href="/docs/components/long-list-selector.html" class="nav-link">LongListSelector</a><a href="/docs/components/looping-selector.html" class="nav-link">Looping Selector</a><a href="/docs/components/media-element.html" class="nav-link">MediaElement</a><a href="/docs/components/message-dialog.html" class="nav-link">MessageDialog</a><a href="/docs/components/page.html" class="nav-link">Page</a><a href="/docs/components/password-box.html" class="nav-link">Password Box</a><a href="/docs/components/pivot.html" class="nav-link">PivotPage</a><a href="/docs/components/progress.html" class="nav-link">ProgressBar</a><a href="/docs/components/progress-ring.html" class="nav-link">ProgressRing</a><a href="/docs/components/radio-button.html" class="nav-link">RadioButton</a><a href="/docs/components/scroll-view.html" class="nav-link">ScrollView</a><a href="/docs/components/slider.html" class="nav-link">Slider</a><a href="/docs/components/splash.html" class="nav-link">Splash</a><a href="/docs/components/text-box.html" class="nav-link">Text Box</a><a href="/docs/components/time-picker.html" class="nav-link">Time Picker</a><a href="/docs/components/timespan-picker.html" class="nav-link active">Time Span Picker</a><a href="/docs/components/toggle-button.html" class="nav-link">ToggleButton</a><a href="/docs/components/toggle-switch.html" class="nav-link">ToggleSwitch</a><a href="/docs/components/ui-element.html" class="nav-link">UIElement</a>
+        </div>
+      </details>
+  </nav>
+
+  <main class="docs-main">
+    <a href="/" class="back-home">Close Docs</a>
+    <article class="markdown-content">
+      <pre><code class="language-markdown"># Time Span Picker (`&lt;disco-timespan-picker&gt;`)
+
+Fullscreen duration picker built on slider blades.
+
+## Usage
+
+```javascript
+import { DiscoTimeSpanPicker } from &#39;discoui&#39;;
+
+const picker = new DiscoTimeSpanPicker(&#39;DURATION&#39;, &#39;01:30:00&#39;, {
+  min: &#39;00:00:00&#39;,
+  max: &#39;23:59:59&#39;,
+  step: { m: 5, s: 10 },
+  showSeconds: true
+});
+
+const selected = await picker.open();
+if (selected) {
+  console.log(selected); // HH:mm:ss
+}
+```
+
+## Constructor
+
+```javascript
+new DiscoTimeSpanPicker(title?, value?, options?)
+```
+
+- `title` (`string`, default: `&#39;DURATION&#39;`): Modal header text.
+- `value` (`string`, default: `&#39;00:00:00&#39;`): Initial duration, format `HH:mm:ss`.
+
+## Options
+
+- `max` (`string`, default: `&#39;23:59:59&#39;`): Maximum selectable duration.
+- `min` (`string`, default: `&#39;00:00:00&#39;`): Minimum selectable duration.
+- `step` (`{ m?: number, s?: number }`, default: `{ m: 1, s: 1 }`): Minute/second blade increments.
+- `showSeconds` (`boolean`, default: `false`): Shows or hides the seconds blade.
+
+## Methods
+
+- `open(): Promise&lt;string | null&gt;`: Opens picker and resolves selected duration or `null` when cancelled.
+- `close(): Promise&lt;void&gt;`: Closes picker.
+
+## Properties
+
+- `title` (`string`)
+- `value` (`string`, format `HH:mm:ss`)
+- `min` (`string`, format `HH:mm:ss`)
+- `max` (`string`, format `HH:mm:ss`)
+- `step` (`{ m: number, s: number }`)
+- `showSeconds` (`boolean`)
+</code></pre>
+
+    </article>
+  </main>
+</body>
+
+</html>

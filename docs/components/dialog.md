@@ -1,4 +1,4 @@
-# DiscoDialog (`<disco-dialog>`)
+# Dialog (`<disco-dialog>`)
 
 Programmatic dialog with backdrop and a flipped panel title.
 

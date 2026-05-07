@@ -1,4 +1,4 @@
-# DiscoPage (`<disco-page>`)
+# Page (`<disco-page>`)
 
 The base class for all pages presented in a `DiscoFrame`. It handles the common entrance and exit animations (opacity fade).
 

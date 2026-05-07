@@ -1,8 +1,8 @@
-# DiscoHub (`<disco-hub>`)
+# Hub (`<disco-hub>`)
 
 A container for "Hub" experiences, featuring a large panoramic background, a large header title, and horizontally scrolling sections.
 
-<img src="../../assets/components/hub.png" alt="DiscoHub" style="max-width: 480px; width: 100%;" />
+<img src="../../assets/components/hub.png" alt="DiscoHub" style="max-width: 480px; " />
 
 ## Usage
 

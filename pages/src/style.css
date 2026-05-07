@@ -10,10 +10,40 @@
   --font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-  user-select: none;
-  -webkit-user-drag: none;
+/* --- Background Decorations --- */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wallpaper-square {
+  width: 140vmax;
+  height: 140vmax;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.bg-decoration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
+  opacity: 1;
+  /* Procedural positioning handled via JS transforms */
+  will-change: transform;
+}
+
+.bg-decoration svg {
+  width: 100%;
+  height: 100%;
 }
 
 body {
@@ -31,6 +61,7 @@ body {
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 section {
@@ -39,19 +70,20 @@ section {
   scroll-snap-align: start;
   position: relative;
   overflow: hidden;
+  overflow-x: auto;
 }
 
 /* --- Hero Section (Metro Start Screen) --- */
 .hero-section {
   display: flex;
   flex-direction: column;
-  background: #000;
-  padding: 80px 120px;
   justify-content: flex-start;
   align-items: flex-start;
 }
 
 .metro-start-screen {
+  padding: 80px 120px;
+
   width: 100%;
   max-width: 1200px;
 }
@@ -127,7 +159,8 @@ section {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 48px;
-  opacity: 0.2;
+  color: #fff;
+  opacity: 1;
 }
 
 .tile-label {
@@ -181,6 +214,10 @@ section {
   background: #fa6800;
 }
 
+.tile-accent-dark {
+  background: #252525;
+}
+
 /* Staggered Animations */
 @keyframes metro-entrance {
   from {
@@ -196,6 +233,26 @@ section {
 
 .animate-stagger-1 {
   animation: metro-entrance 0.8s 0.1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+.animate-stagger-2 {
+  animation: metro-entrance 0.8s 0.2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+.animate-stagger-3 {
+  animation: metro-entrance 0.8s 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+.animate-stagger-4 {
+  animation: metro-entrance 0.8s 0.4s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+.animate-stagger-5 {
+  animation: metro-entrance 0.8s 0.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+.animate-stagger-6 {
+  animation: metro-entrance 0.8s 0.6s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
 }
 
 .animate-stagger-2 {

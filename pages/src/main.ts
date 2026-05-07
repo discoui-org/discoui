@@ -211,7 +211,106 @@ const runCode = async () => {
   }
 };
 
-// --- Scroll Interaction ---
+// --- Background Procedural Animation ---
+const flowers = document.querySelectorAll('.bg-decoration');
+const scrollContainer = document.querySelector('.scroll-container');
+
+// Generate initial procedural states
+const generateBalancedStates = () => {
+  const scaleSum = 2.0; // Target total scale for density
+  const s1 = 0.7 + Math.random() * 0.6; // 0.7 to 1.3
+  const s2 = scaleSum - s1;
+  const scales = [s1, s2];
+
+  return Array.from(flowers).map((_, i) => {
+    const isFirst = i === 0;
+    const p1 = {
+      x: isFirst ? -12 - Math.random() * 18 : 12 + Math.random() * 18,
+      y: isFirst ? -12 - Math.random() * 18 : 12 + Math.random() * 18,
+      scale: scales[i],
+      rotationSpeed: (0.05 + Math.random() * 0.1) * (isFirst ? 1 : -1)
+    };
+    
+    // Page 2 State (Independent but balanced)
+    const s2_1 = 0.7 + Math.random() * 0.6;
+    const s2_2 = scaleSum - s2_1;
+    const scales2 = [s2_1, s2_2];
+    
+    const p2 = {
+      x: isFirst ? -12 - Math.random() * 18 : 12 + Math.random() * 18,
+      y: isFirst ? -12 - Math.random() * 18 : 12 + Math.random() * 18,
+      scale: scales2[i],
+      rotationSpeed: (0.05 + Math.random() * 0.1) * (isFirst ? -1 : 1)
+    };
+    return { p1, p2 };
+  });
+};
+
+let flowerStates = generateBalancedStates();
+
+const updateFlowers = () => {
+  if (!scrollContainer) return;
+  const scrollTop = (scrollContainer as HTMLElement).scrollTop;
+  const vh = window.innerHeight;
+  const progress = Math.min(Math.max(scrollTop / vh, 0), 1);
+
+  flowers.forEach((flower, i) => {
+    const state = flowerStates[i];
+    const x = state.p1.x + (state.p2.x - state.p1.x) * progress;
+    const y = state.p1.y + (state.p2.y - state.p1.y) * progress;
+    const scale = state.p1.scale + (state.p2.scale - state.p1.scale) * progress;
+    const rotation = scrollTop * state.p1.rotationSpeed;
+
+    (flower as HTMLElement).style.transform = `translate(calc(-50% + ${x}vmax), calc(-50% + ${y}vmax)) scale(${scale}) rotate(${rotation}deg)`;
+  });
+};
+
+let scrollTimeout: any;
+
+const randomizeState = (isFirst: boolean) => {
+  const scaleSum = 2.0;
+  const s1 = 0.7 + Math.random() * 0.6;
+  const s2 = scaleSum - s1;
+  const scales = [s1, s2];
+
+  flowers.forEach((_, i) => {
+    const flowerFirst = i === 0;
+    const newState = {
+      x: flowerFirst ? -12 - Math.random() * 18 : 12 + Math.random() * 18,
+      y: flowerFirst ? -12 - Math.random() * 18 : 12 + Math.random() * 18,
+      scale: scales[i],
+      rotationSpeed: (0.05 + Math.random() * 0.1) * (flowerFirst ? 1 : -1)
+    };
+    if (isFirst) {
+      flowerStates[i].p1 = newState;
+    } else {
+      flowerStates[i].p2 = newState;
+    }
+  });
+};
+
+scrollContainer?.addEventListener('scroll', () => {
+  updateFlowers();
+  
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    const scrollTop = (scrollContainer as HTMLElement).scrollTop;
+    const vh = window.innerHeight;
+    
+    // If at bottom, randomize P1 for next scroll up
+    if (scrollTop >= vh - 10) {
+      randomizeState(true);
+    } 
+    // If at top, randomize P2 for next scroll down
+    else if (scrollTop <= 10) {
+      randomizeState(false);
+    }
+  }, 200);
+});
+
+window.addEventListener('resize', updateFlowers);
+updateFlowers(); // Initial call
+
 const portalSection = document.querySelector('.portal-section');
 if (portalSection) {
   const observer = new IntersectionObserver((entries) => {

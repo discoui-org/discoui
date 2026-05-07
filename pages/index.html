@@ -9,6 +9,25 @@
 </head>
 <body>
   <main class="scroll-container">
+    <!-- Background Decorations (Wallpaper Layer) -->
+    <div class="bg-layer">
+      <div class="wallpaper-square">
+        <div class="bg-decoration flower-1">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="20" fill="white" fill-opacity="0.1"/>
+            <path d="M100 20 C120 60 180 60 180 100 C180 140 120 140 100 180 C80 140 20 140 20 100 C20 60 80 60 100 20 Z" fill="white" fill-opacity="0.05"/>
+            <path d="M20 100 C60 80 60 20 100 20 C140 20 140 80 180 100 C140 120 140 180 100 180 C60 180 60 120 20 100 Z" fill="white" fill-opacity="0.05"/>
+          </svg>
+        </div>
+        <div class="bg-decoration flower-2">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="20" fill="white" fill-opacity="0.1"/>
+            <path d="M100 20 C120 60 180 60 180 100 C180 140 120 140 100 180 C80 140 20 140 20 100 C20 60 80 60 100 20 Z" fill="white" fill-opacity="0.05"/>
+            <path d="M20 100 C60 80 60 20 100 20 C140 20 140 80 180 100 C140 120 140 180 100 180 C60 180 60 120 20 100 Z" fill="white" fill-opacity="0.05"/>
+          </svg>
+        </div>
+      </div>
+    </div>
     <!-- Section 1: Hero (Minimalist) -->
     <section class="hero-section">
       <div class="metro-start-screen">
@@ -46,7 +65,7 @@
           <!-- Navigation Tile -->
           <a href="./docs/api/index.html" class="metro-tile tile-medium tile-accent-magenta animate-stagger-4">
              <div class="tile-content">
-               <div class="tile-icon mif-directions"></div>
+               <div class="tile-icon mif-books"></div>
                <div class="tile-label">API Reference</div>
              </div>
           </a>
@@ -56,6 +75,14 @@
              <div class="tile-content">
                <div class="tile-icon mif-palette"></div>
                <div class="tile-label">Theming</div>
+             </div>
+          </a>
+
+          <!-- GitHub Tile -->
+          <a href="https://github.com/discoui-org/discoui" target="_blank" class="metro-tile tile-square tile-accent-dark animate-stagger-6">
+             <div class="tile-content">
+               <div class="tile-icon mif-github"></div>
+               <div class="tile-label">GitHub</div>
              </div>
           </a>
         </div>

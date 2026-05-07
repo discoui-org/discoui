@@ -4,17 +4,16 @@
 </div>
 
 <p align="center">
-  A framework-agnostic UI library built with Vanilla JavaScript, Shadow DOM, and SCSS. This monorepo provides a high-performance implementation of Metro UI design principles for modern web and mobile applications.
+  A high-performance, framework-agnostic UI library built with Vanilla JavaScript, Shadow DOM, and SCSS. This monorepo provides a production-ready implementation of Metro UI design principles for web and mobile applications.
 </p>
 
-Technical details regarding cross-framework synchronization, layout management, and animation orchestration can be found in the [ARCHITECTURE.md](./ARCHITECTURE.md) documentation.
+Technical details regarding cross-framework synchronization and animation orchestration can be found in [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 ## Packages
 
-- **[@discoui/core](./packages/core)**: The engine of everything. Web Components with zero dependencies.
-- **[@discoui/capacitor](./packages/capacitor)**: Native bridge for Android/iOS apps.
-- **[@discoui/react](./packages/react)**: Official React wrappers for better DX in React apps.
-- **[@discoui/vue](./packages/vue)**: Official Vue 3 integration and composables.
+- **[@discoui/core](./packages/core)**: Core Web Components with zero dependencies.
+- **[@discoui/capacitor](./packages/capacitor)**: Native bridge for Android and mobile platforms.
+- **[@discoui/vue](./packages/vue)**: Official Vue 3 integration, composables, and type definitions.
 
 ## Monorepo Structure
 

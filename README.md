@@ -4,7 +4,7 @@
 </div>
 
 <p align="center">
-  A high-performance <b>Mobile Shell SDK</b> built with Vanilla JavaScript, Shadow DOM, and SCSS. This monorepo provides a production-ready ecosystem of Metro UI design principles, seamless framework integrations, and native mobile bridges.
+  A high-performance <b>Mobile Metro UI Suite</b> built with Vanilla JavaScript, Shadow DOM, and SCSS. This monorepo provides a suite of mobile design components for creating native-looking mobile websites and applications. Includes official integration for Vue.
 </p>
 
 Technical details regarding cross-framework synchronization and animation orchestration can be found in [ARCHITECTURE.md](./ARCHITECTURE.md).
@@ -22,10 +22,10 @@ Technical details regarding cross-framework synchronization and animation orches
 ├── packages/
 │   ├── core/       # Vanilla Web Components
 │   ├── capacitor/  # Capacitor Plugin
-│   ├── react/      # React Wrappers (@lit/react)
 │   └── vue/        # Vue 3 Integration
 ├── examples/
-│   ├── react-demo/ # React demo application
+│   ├── core-demo/  # Vanilla JS demo
+│   ├── emulator/   # Portal/Emulator source
 │   └── vue-demo/   # Vue 3 demo application
 └── package.json    # Workspace configuration
 ```
@@ -42,7 +42,7 @@ npm install
 npm run build --workspaces
 
 # Run a specific demo
-npm run dev -w react-demo
+npm run dev -w core-demo
 ```
 
 ## License

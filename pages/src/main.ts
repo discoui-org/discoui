@@ -236,4 +236,10 @@ sandboxTile?.addEventListener('click', () => {
   }, 600);
 });
 
+const scrollToDocs = document.getElementById('scrollToDocs');
+scrollToDocs?.addEventListener('click', () => {
+  const portal = document.querySelector('.portal-section');
+  portal?.scrollIntoView({ behavior: 'smooth' });
+});
+
 runSandboxBtn?.addEventListener('click', runCode);

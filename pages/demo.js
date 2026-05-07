@@ -7,7 +7,7 @@ import '@discoui/core/dist/discoui.css';
 const launchDemo = async () => {
   const app = new DiscoApp({
     theme: document.documentElement.getAttribute('disco-theme') || 'dark',
-    accent: document.documentElement.getAttribute('disco-accent') || '#008a00',
+    accent: '#008a00',
     font: document.documentElement.getAttribute('disco-font') || null
   });
   app.scale = 1.025;

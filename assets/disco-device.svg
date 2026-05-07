@@ -3,10 +3,10 @@
   <defs>
     <bx:grid x="0" y="0" width="50" height="50"/>
     <linearGradient gradientUnits="userSpaceOnUse" x1="299.998" y1="0" x2="299.998" y2="1100" id="gradient-0" gradientTransform="matrix(0, -0.545717, 0.545717, 0, -0.000043, 613.714239)">
-      <stop offset="0" style="stop-color: var(--device-color, #d80073);"/>
-      <stop offset="0.05" style="stop-color: color-mix(in srgb, var(--device-color, #d80073), white 30%);"/>
-      <stop offset="0.95" style="stop-color: color-mix(in srgb, var(--device-color, #d80073), white 30%);"/>
-      <stop offset="1" style="stop-color: var(--device-color, #d80073);"/>
+      <stop offset="0" style="stop-color: var(--device-color, #008a00);"/>
+      <stop offset="0.05" style="stop-color: color-mix(in srgb, var(--device-color, #008a00), white 30%);"/>
+      <stop offset="0.95" style="stop-color: color-mix(in srgb, var(--device-color, #008a00), white 30%);"/>
+      <stop offset="1" style="stop-color: var(--device-color, #008a00);"/>
     </linearGradient>
     <linearGradient gradientUnits="userSpaceOnUse" x1="300" y1="26.43" x2="300" y2="1073.57" id="gradient-1">
       <stop offset="0" style="stop-color: rgb(64, 64, 64);"/>
